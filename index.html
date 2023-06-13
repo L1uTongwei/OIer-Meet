@@ -55,7 +55,7 @@ const katex_config = {
 const about = "### 简介\n\n" +
     "OIer-Meet 是一套前端、后端集合的程序套装，基于[GNU通用公共许可证 v3.0](https://www.gnu.org/licenses/gpl-3.0.zh-cn.html)开源。\n\n" +
     "欢迎加入我们的团队。您若有此意向，请联系 QQ：819433558 / 1347277058。\n\n" +
-    "使用本软件意味着你已经同意[OIer-Meet最终用户许可协议](https://gitsr.cn/oier-meet/omweb/src/branch/master/eula.md)。\n\n" +
+    "使用本软件意味着你已经同意[OIer-Meet最终用户许可协议](https://gitee.com/organizations/oier-meet-dev-team/cla/eula)。\n\n" +
     "项目地址：https://gitsr.cn/oier-meet。\n\n" +
     "本站为前后端分离，建议将本站下载下来，以防 Netlify 服务出现问题。\n\n" +
     "OIer-Meet Web Frontend ©2022 OIer-Meet Dev \n\n";
@@ -1173,7 +1173,7 @@ class Body{ //标签 <body>
                             for(var i = 0; i < res.data.length; i++){
                                 if(!res.data[i].province) res.data[i].province = "";
                                 if(!res.data[i].school) res.data[i].school = "";
-                                if(!res.data[i].avatar) res.data[i].avatar = "https://gitsr.cn/oier-meet/omweb/raw/branch/master/avatar.png";
+                                if(!res.data[i].avatar) res.data[i].avatar = "https://gitee.com/oier-meet-dev-team/oier-meet/raw/master/avatar.png";
                                 $('#userlist_body')[0].appendChild(((data) => {
                                     return Make.element('tr', [],
                                         Make.element('td', [], data._id).outerHTML
@@ -1909,7 +1909,7 @@ var build = new class launch{
                 backend.call("/get_user", {
                     uid: window.localStorage.getItem("uid")
                 }, (res) => {
-                    if(!res.data.avatar) avatar.src = "https://gitsr.cn/oier-meet/omweb/raw/branch/master/avatar.png";
+                    if(!res.data.avatar) avatar.src = "https://gitee.com/oier-meet-dev-team/oier-meet/raw/master/avatar.png";
                     else avatar.src = res.data.avatar;
                 });
                 $('#user-avatar')[0].onclick = () => {
