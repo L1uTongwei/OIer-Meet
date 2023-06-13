@@ -1,0 +1,14 @@
+[Unit]
+Description=OIer-Meet Server
+Documentation=https://gitsr.cn/oier-meet/omsrv
+After=network-online.target firewalld.service mongodb.service
+Wants=network-online.target
+
+[Service]
+ExecStart=%s
+Restart=always
+RestartSec=5
+WorkingDirectory=%s
+
+[Install]
+WantedBy=multi-user.target

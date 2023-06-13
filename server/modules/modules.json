@@ -1,0 +1,254 @@
+{
+    "/login": {
+        "code": "LogIO.login(database, token, post);",
+        "post": [
+            "username",
+            "password",
+            "verify"
+        ],
+        "captcha_required": true,
+        "login_required": false,
+        "operator_required": false
+    },
+    "/register": {
+        "code": "LogIO.register(database, token, post);",
+        "post": [
+            "username",
+            "password",
+            "link",
+            "verify"
+        ],
+        "captcha_required": true,
+        "login_required": false,
+        "operator_required": false
+    },
+    "/logout": {
+        "code": "LogIO.logout(database, token, post);",
+        "post": [],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": false
+    },
+    "/get_user": {
+        "code": "Users.getUser(database, token, post);",
+        "post": [
+            "uid"
+        ],
+        "captcha_required": false,
+        "login_required": false,
+        "operator_required": false
+    },
+    "/get_userlist": {
+        "code": "Users.getUserList(database, token, post);",
+        "post": [
+            "page"
+        ],
+        "captcha_required": false,
+        "login_required": false,
+        "operator_required": false
+    },
+    "/user_setting": {
+        "code": "Users.userSetting(database, token, post);",
+        "post": [
+            "username",
+            "province",
+            "school",
+            "avatar",
+            "homepage"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": false
+    },
+    "/ban_user": {
+        "code": "Operator.banUser(database, token, post);",
+        "post": [
+            "uid"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": true
+    },
+    "/get_judgelist": {
+        "code": "Operator.getJudgeList(database, token, post);",
+        "post": [
+            "page"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": true
+    },
+    "/log": {
+        "code": "Operator.log(database, token, post);",
+        "post": [
+            "type",
+            "content",
+            "note"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": true
+    },
+    "/delete_judge": {
+        "code": "Operator.deleteJudge(database, token, post);",
+        "post": [
+            "id"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": true
+    },
+    "/set_user": {
+        "code": "Operator.deleteJudge(database, token, post);",
+        "post": [],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": true
+    },
+    "/report": {
+        "code": "Contents.report(database, token, post);",
+        "post": [
+            "type",
+            "bid",
+            "note"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": false
+    },
+    "/search": {
+        "code": "Users.search(database, token, post);",
+        "post": [
+            "type",
+            "content"
+        ],
+        "captcha_required": false,
+        "login_required": false,
+        "operator_required": false
+    },
+    "/send_contents": {
+        "code": "Contents.sendContents(database, token, post);",
+        "post": [
+            "type",
+            "content"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": false
+    },
+    "/get_contents": {
+        "code": "Contents.getContents(database, token, post);",
+        "post": [
+            "id"
+        ],
+        "captcha_required": false,
+        "login_required": false,
+        "operator_required": false
+    },
+    "/get_contentslist": {
+        "code": "Contents.getContentslist(database, token, post);",
+        "post": [
+            "page"
+        ],
+        "captcha_required": false,
+        "login_required": false,
+        "operator_required": false
+    },
+    "/delete_contents": {
+        "code": "Contents.deleteContents(database, token, post);",
+        "post": [
+            "id"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": false
+    },
+    "/reply_contents": {
+        "code": "Reply.replyContents(database, token, post);",
+        "post": [
+            "father",
+            "message"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": false
+    },
+    "/get_replieslist": {
+        "code": "Reply.getReplieslist(database, token, post);",
+        "post": [
+            "father",
+            "page"
+        ],
+        "captcha_required": false,
+        "login_required": false,
+        "operator_required": false
+    },
+    "/delete_replies": {
+        "code": "Reply.deleteReplies(database, token, post);",
+        "post": [
+            "id"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": false
+    },
+    "/get_loglist": {
+        "code": "Contents.getLoglist(database, token, post);",
+        "post": [
+            "page"
+        ],
+        "captcha_required": false,
+        "login_required": false,
+        "operator_required": false
+    },
+    "/reply_replies": {
+        "code": "Replyson.replyReplies(database, token, post);",
+        "post": [
+            "father",
+            "message"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": false
+    },
+    "/delete_reply": {
+        "code": "Replyson.deleteReply(database, token, post);",
+        "post": [
+            "father"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": false
+    },
+    "/get_repliesonlist": {
+        "code": "Replyson.getRepliesonlist(database, token, post);",
+        "post": [
+            "father",
+            "page"
+        ],
+        "captcha_required": false,
+        "login_required": false,
+        "operator_required": false
+    },
+    "/intro": {
+        "code": "Connect.intro(database, token, post);",
+        "post": [],
+        "captcha_required": false,
+        "login_required": false,
+        "operator_required": false
+    },
+    "/generate_key": {
+        "code": "Connect.generateKey(database, token, post);",
+        "post": [],
+        "captcha_required": false,
+        "login_required": false,
+        "operator_required": false
+    },
+    "/captcha": {
+        "code": "Connect.captcha(database, token, post);",
+        "post": [],
+        "captcha_required": false,
+        "login_required": false,
+        "operator_required": false
+    }
+}

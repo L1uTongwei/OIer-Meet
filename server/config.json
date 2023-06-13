@@ -1,0 +1,21 @@
+{
+    "database": {
+        "url": "mongodb://127.0.0.1:27017/",
+        "db": "oiermeet"
+    },
+    "server": {
+        "port": 8080
+    },
+    "time": {
+        "lang": "zh-CN",
+        "timezone": "Asia/Shanghai"
+    },
+    "operator": {
+        "super": false
+    },
+    "length": {
+        "userlist_length": 20,
+        "post_length": 20
+    },
+    "luogu_proxy": "https://liutianyou.site/"
+}
