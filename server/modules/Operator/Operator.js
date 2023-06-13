@@ -11,7 +11,7 @@ exports.banUser = (database, token, post) => {
 exports.getJudgeList = (database, token, post) => {
     var page = post.page;
     var start = (page - 1) * config.length.post_length;
-    return database.collection("reports").find({}).limit(config.page_length).skip(start).sort("times").toArray().then((res) => {
+    return database.collection("reports").find({}).limit(config.length.post_length).skip(start).sort("times").toArray().then((res) => {
         res.forEach(element => {
             element.data = "";
         });
