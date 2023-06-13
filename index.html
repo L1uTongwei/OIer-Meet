@@ -1233,6 +1233,9 @@
                         build() {
                             this.#element = Make.element()
                         }
+                        bind() {
+                            console.log("Practice");
+                        }
                     }(this.#element);
                 }
                 initDiscuss() {
@@ -1603,13 +1606,15 @@
                         note;
                         setUser;
                         constructor(fa) {
+                            console.log(fa);
                             this.#father = fa;
                             this.build();
                         }
                         build() {
                             this.#element = Make.element('div', [
                                 { "key": "id", "value": "management" },
-                                { "key": "class", "value": "mdui-p-a-5" }
+                                { "key": "class", "value": "mdui-p-a-5" },
+                                { "key": "style", "value": "display:none;" }
                             ]);
                             this.#father.appendChild(this.#element);
                         }
@@ -1619,7 +1624,7 @@
                                 { "key": "onclick", "value": "body.management.setUser.object.open();" }
                             ], "设置用户权限"));
                             this.#element.appendChild(Make.element('div', [
-                                { "key": "class", "value": "mdui-table-fluid" }
+                                { "key": "class", "value": "mdui-table-fluid" }, { "key": "display", "val": "none;" }
                             ], Make.element('table', [
                                 { "key": "class", "value": "mdui-table" }
                             ], Make.element('thead', [],
@@ -1639,7 +1644,7 @@
                             this.#element.appendChild(Make.element('div', [
                                 { "key": "id", "value": "judge-page" }
                             ]));
-                            $('#log-page').jqPaginator(Make.pageConfig(20, this.updateJudge));
+                            // $('#log-page').jqPaginator(Make.pageConfig(20, this.updateJudge));
                         }
                         updateJudge(page) {
                             backend.call("/get_judgelist", { page: page }, (res) => {
@@ -1748,7 +1753,7 @@
                                     bind();
                                 }
                                 build() {
-                                    this.#element = Make.dialog(
+                                    this.#element = Make.element(
                                         "SetUser-dialog",
                                         "设置用户权限",
                                         Make.element('div', [
@@ -1899,7 +1904,7 @@
                     this.homepage.bind();
                     this.userlist.bind();
                     this.discuss.bind();
-                    //this.practice.bind();
+                    this.practice.bind();
                     this.log.bind();
                     this.management.bind();
                 }
