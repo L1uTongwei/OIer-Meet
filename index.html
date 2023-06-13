@@ -921,6 +921,8 @@ class Body{ //标签 <body>
                         this.build();
                     }
                     build(){
+                        var op = "";
+                        if(window.localStorage.getItem('operator')) op = Make.tabButton('#management', "account_balance", "管理后台").outerHTML;
                         this.#element = Make.element('div', [
                             {"key": "class", "value": "mdui-tab mdui-color-light-blue-300"},
                             {"key": "style", "value": "opacity: 0.9"},
@@ -930,7 +932,8 @@ class Body{ //标签 <body>
                           + Make.tabButton("#practice", "book", "Codeforces 练习").outerHTML
                           + Make.tabButton("#discuss", "forum", "社区").outerHTML
                           + Make.tabButton("#hole", "streetview", "无人树洞").outerHTML
-                          + Make.tabButton('#management', "account_balance", "管理后台").outerHTML
+                          + Make.tabButton('#log', "content_paste", "管理日志").outerHTML
+                          + op
                           + Make.tabButton("#about", "info", "关于").outerHTML);
                         this.#father.appendChild(this.#element);
                         this.object = new mdui.Tab(this.#element);
@@ -974,6 +977,7 @@ class Body{ //标签 <body>
             hole;
             userlist;
             discuss;
+            log;
             management;
             practice;
             constructor(fa){
@@ -984,6 +988,7 @@ class Body{ //标签 <body>
                 this.initPractice();
                 this.initDiscuss();
                 this.initHole();
+                this.initLog();
                 this.initManagement();
                 this.initAbout();
             }
@@ -1225,7 +1230,7 @@ class Body{ //标签 <body>
                         this.build();
                     }
                     build(){
-
+                        this.#element = Make.element()
                     }
                 }(this.#element);
             }
@@ -1508,8 +1513,8 @@ class Body{ //标签 <body>
                     };
                 }(this.#element);
             }
-            initManagement(){
-                this.management = new class{
+            initLog(){
+                this.log = new class{
                     #father;
                     #element;
                     note;
@@ -1520,16 +1525,12 @@ class Body{ //标签 <body>
                     }
                     build(){
                         this.#element = Make.element('div', [
-                            {"key": "id", "value": "management"},
+                            {"key": "id", "value": "log"},
                             {"key": "class", "value": "mdui-p-a-5"}
                         ]);
                         this.#father.appendChild(this.#element);
                     }
                     bind(){
-                        this.bindNormal();
-                        if(window.localStorage.getItem('operator') == true) this.bindOperator();
-                    }
-                    bindNormal(){
                         this.#element.appendChild(Make.element('div', [
                             {"key": "class", "value": "mdui-table-fluid"}
                         ],  Make.element('table', [
@@ -1570,7 +1571,26 @@ class Body{ //标签 <body>
                             });
                         });
                     }
-                    bindOperator(){
+                }(this.#element);
+            }
+            initManagement(){
+                this.management = new class{
+                    #father;
+                    #element;
+                    note;
+                    setUser;
+                    constructor(fa){
+                        this.#father = fa;
+                        this.build();
+                    }
+                    build(){
+                        this.#element = Make.element('div', [
+                            {"key": "id", "value": "management"},
+                            {"key": "class", "value": "mdui-p-a-5"}
+                        ]);
+                        this.#father.appendChild(this.#element);
+                    }
+                    bind(){
                         this.#element.appendChild(Make.element('button', [
                             {"key": "class", "value": "mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"},
                             {"key": "onclick", "value": "body.management.setUser.object.open();"}
@@ -1857,6 +1877,7 @@ class Body{ //标签 <body>
                 this.userlist.bind();
                 this.discuss.bind();
                 //this.practice.bind();
+                this.log.bind();
                 this.management.bind();
             }
         }(this.#element);
