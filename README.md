@@ -2,16 +2,22 @@
 
 ### 简介
 
-这是 OIer Meet 的服务器端，部署于官方服务器， 使用 GPL-v3.0 开源许可证。
+这是 OIer Meet 的代码，部署于官方服务器， 使用 GPL-v3.0 开源许可证。
 
 其使用 Node.js 实现，依赖 MongoDB 数据库运行。
 
 请确定安装的 Node.js V8 引擎在版本 9.1 以上，并配置好 MongoDB 服务。
 
-### 部署
+### 前端使用
+
+可以打开 https://oier-meet.cn 来使用前端应用。
+
+也可以下载仓库前端代码 [index.html](/index.html) 来使用前端。
+
+### 服务部署
 
 ```bash
-$ npm install git+https://gitsr.cn/oier-meet/omsrv.git
+$ npm install git+https://gitee.com/oier-meet-dev-team/oier-meet.git
 $ cd node_modules/oiermeet
 # 修改目录下 config.json 来配置数据库和其他设置
 $ node initDatabase.js # 初始化数据库
@@ -72,3 +78,5 @@ $ node addOperator.js <用户名>
 模块必须返回 Promise 类型对象，并且最后的返回值即为响应。
 
 服务器并没有一些请求过滤、SSL 特性，请使用 nginx 等服务器反向代理。
+
+值得注意的是，服务器会自动获取真实 IP，请妥善配置 X-Forwarded-For 请求头。
