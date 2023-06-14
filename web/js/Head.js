@@ -13,7 +13,8 @@ class Head { //标签 <head>
         "js/css_style.js",
         "js/Backend.js",
         "js/body/body_main.js",
-        "js/body/build_editor.js"
+        "js/body/build_editor.js",
+        "js/body/build_ui.js"
     ];
     #styleList = [ //需要加载的 CSS 文件
         "../node_modules/mdui/dist/css/mdui.min.css",
