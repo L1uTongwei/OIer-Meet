@@ -1,4 +1,3 @@
-
 const katex_config = {
     delimiters: [
         { left: "$$", right: "$$", display: true },
