@@ -1,8 +1,6 @@
 class Backend { //后端设置
     url;
-    constructor() {
-        this.url = window.localStorage.getItem("API_URL");
-    }
+    constructor() { this.url = window.localStorage.getItem("API_URL"); }
     static tips(res) { //消息提示
         var msg = res.msg;
         if (!msg) msg = res.data.msg;
