@@ -1,3 +1,4 @@
+var head, backend, body;
 class Body { //标签 <body>
     #element;
     UI;
@@ -15,6 +16,7 @@ class Body { //标签 <body>
         this.#element.className = "mdui-theme-primary-light-blue mdui-theme-accent-orange";
         this.refreshBackground();
         this.build();
+        this.build_editor();
     }
     refreshBackground() {
         if (!window.localStorage.getItem('background')) { //初始化背景图片
@@ -1068,7 +1070,7 @@ class Body { //标签 <body>
                         {
                             "key": "class",
                             "value": "mdui-p-a-5"
-                        }
+                        }, { "key": "style", "val": "{display:none;}" }
                         ], Make.element('textarea', [{
                             "key": "class",
                             "value": "mdui-textfield-input"
@@ -1131,7 +1133,11 @@ class Body { //标签 <body>
                         {
                             "key": "id",
                             "value": "userlist"
-                        }
+                        },
+                        {
+                            "key": "style",
+                            "val": "display:none;"
+                        },
                         ], Make.element('label', [{
                             "key": "class",
                             "value": "mdui-radio"
@@ -1362,7 +1368,7 @@ class Body { //标签 <body>
                         },
                         {
                             "key": "style",
-                            "value": "padding: 40px;"
+                            "value": "padding: 40px;display:none;"
                         }
                         ], Make.element('br').outerHTML +
                         Make.element('div', [{
@@ -1373,6 +1379,7 @@ class Body { //标签 <body>
                             "key": "id",
                             "value": "discuss_body"
                         },
+                        { "key": "style", "val": "display:none;" },
                         ]).outerHTML +
                         Make.element('br').outerHTML +
                         Make.element('div', [{
