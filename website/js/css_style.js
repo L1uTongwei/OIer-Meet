@@ -1,28 +1,4 @@
-const page = `
-    margin-right: .5em;
-    padding: 0;
-    cursor: pointer;
-    width: 1.7em;
-    min-width: 1.7em;
-    height: 1.7em;
-    background: #fff;
-    border: 1px solid #bfbfbf;
-    border-radius: 6px;`; //CSS 页码样式
-const page_img = `
-    overflow-clip-margin: content-box;
-    overflow: clip;
-    border-style: none;
-    display: block;
-    margin: auto;`; //CSS 页码图片样式
-const avatar_css = `
-    vertical-align:middle;
-    margin-left: .4em;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;`; //CSS 头像样式
-const editor_css = `
-    height: 0px;
-    `;
+
 const katex_config = {
     delimiters: [
         { left: "$$", right: "$$", display: true },
