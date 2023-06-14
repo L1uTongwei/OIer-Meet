@@ -39,8 +39,8 @@
                     body.servers.object.open();
                     throw new Error('用户没有加入服务器，终止加载。');
                 }
-                // backend.call();
-                backend.call("/generate_key", {}, //获取 token
+                // window.call();
+                windows.call("/generate_key", {}, //获取 token
                     (dat) => {
                         $('#luogu-verify-id-display')[0].innerText = dat.data.key;
                         if (!window.localStorage.getItem("token") || window.localStorage.getItem(
@@ -68,7 +68,7 @@
                     avatar.style =
                         "vertical-align:middle; margin-left: .4em; width: 35px; height: 35px; border-radius: 50%;";
                     $("#user-avatar")[0].appendChild(avatar);
-                    backend.call("/get_user", {
+                    window.call("/get_user", {
                         uid: window.localStorage.getItem("uid")
                     }, (res) => {
                         if (!res.data.avatar) avatar.src =
@@ -76,7 +76,7 @@
                         else avatar.src = res.data.avatar;
                     });
                     $('#user-avatar')[0].onclick = () => {
-                        backend.call("/get_user", {
+                        window.call("/get_user", {
                             uid: window.localStorage.getItem("uid")
                         }, (res) => {
                             if (!res.data.province) res.data.province = "";
