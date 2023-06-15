@@ -12,9 +12,9 @@
 
 可以打开 https://oier-meet.cn 来使用前端应用。
 
-也可以克隆仓库并打开 [index.html](/index.html) 来使用前端。
+也可以克隆仓库并打开 [index.html](index.html) 来使用前端。
 
-如果要部署免费的前端 + 后端，请查看 [Render 服务部署教程](/doc/Render 服务部署教程.md)。
+如果没有服务器，想要部署免费的前端 + 后端，请查看 [Render 服务部署教程](doc/Render 服务部署教程.md)。
 
 以下是在 Linux 服务器下部署的过程：
 
