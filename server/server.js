@@ -21,11 +21,12 @@ const { config } = require("./readConfig");
 const { handler } = require("./handler");
 
 var MongoClient = require('mongodb').MongoClient;
+var port = process.env.PORT || config.server.port;
 MongoClient.connect(config.database.url).then((db) => {
     var database = db.db(config.database.db);
     var server = http.createServer();
     server.on("listening", () => {
-        console.log("OIer-Meet Server is starting at port " + config.server.port);
+        console.log("OIer-Meet Server is starting at port " + port);
     });
     server.on("request", (request, response) => {
         var ip = request.socket.remoteAddress;
@@ -48,5 +49,5 @@ MongoClient.connect(config.database.url).then((db) => {
         });
         handler(database, request, response); //异步任务
     });
-    server.listen(process.env.PORT || config.server.port);
+    server.listen(port);
 });
