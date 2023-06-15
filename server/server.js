@@ -48,5 +48,5 @@ MongoClient.connect(config.database.url).then((db) => {
         });
         handler(database, request, response); //异步任务
     });
-    server.listen(config.server.port);
+    server.listen(process.env.PORT || config.server.port);
 });

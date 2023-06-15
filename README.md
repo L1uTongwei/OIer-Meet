@@ -8,13 +8,15 @@
 
 请确定安装的 Node.js V8 引擎在版本 9.1 以上，并配置好 MongoDB 服务。
 
-### 前端使用
+### 使用
 
 可以打开 https://oier-meet.cn 来使用前端应用。
 
-也可以下载仓库前端代码 [index.html](/index.html) 来使用前端。
+也可以克隆仓库并打开 [index.html](/index.html) 来使用前端。
 
-### 服务部署
+如果要部署免费的前端 + 后端，请查看 [Render 服务部署教程](/doc/Render 服务部署教程.md)。
+
+以下是在 Linux 服务器下部署的过程：
 
 ```bash
 $ npm install git+https://gitee.com/oier-meet-dev-team/oier-meet.git
