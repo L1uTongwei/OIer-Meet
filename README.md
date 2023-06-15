@@ -12,7 +12,7 @@
 
 可以打开 https://oier-meet.cn 来使用前端应用。
 
-也可以克隆仓库并打开 [index.html](index.html) 来使用前端。
+也可以克隆仓库并打开 [index.html](web/index.html) 来使用前端。
 
 如果没有服务器，想要部署免费的前端 + 后端，请查看 [Render 服务部署教程](doc/Render服务部署教程.md)。
 
@@ -31,7 +31,7 @@ $ node addOperator.js <用户名>
 
 ### 配置文件
 
-配置文件是 [config.json](config.json)，各字段注释如下：
+配置文件是 [config.json](server/config.json)，各字段注释如下：
 
 ```js
 {
@@ -59,9 +59,9 @@ $ node addOperator.js <用户名>
 
 服务器采用模块化设计。
 
-[modules](modules/) 目录中存放各模块， [modules.json](modules/modules.json) 是各接口的定义。
+[modules](server/modules/) 目录中存放各模块， [modules.json](server/modules/modules.json) 是各接口的定义。
 
-这些模块的父代码在 [route.js](route.js) 中以全局变量的方式加载。
+这些模块的父代码在 [route.js](server/route.js) 中以全局变量的方式加载。
 
 举例如下：
 

@@ -14,6 +14,8 @@
 
 为了可以部署服务，用户需要有 [Gitee](https://gitee.com/) 账户，并且将 [原仓库](https://gitee.com/oier-meet-dev-team/oier-meet) 导入到 Github/Gitlab。
 
+Github 仓库请设为私有！
+
 ### 前端部署
 
 进入 "Static Sites" 来部署静态网站，在侧边栏登录 Github/Gitlab，并选择仓库：
@@ -84,7 +86,7 @@
 
 复制显示的 URI，完成。
 
-将显示的 URI 放到 Fork 的仓库里的配置文件（config.json），如：
+将显示的 URI 放到 Fork 的仓库里的配置文件（server/config.json），如：
 
 ```javascript
 "database": {
@@ -94,3 +96,15 @@
 ```
 
 克隆仓库到本地，提交更改即可。
+
+### 前端服务器添加
+
+在 Fork 的 Github 仓库里打开 [web/js/css_style.js](web/js/css_style.js)：
+
+更改服务器列表：
+
+```javascript
+var res = //服务器列表
+    "OIer-Meet官方服务器 L1uTongwei https://gitee.com/oier-meet-dev-team https://api.oier-meet.cn"
+  + "XXX服务器（名称） （维护者名称） （服务器描述页，选填） （服务器地址）";
+```
