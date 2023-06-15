@@ -1,24 +1,14 @@
 {
   "name": "oiermeet",
   "version": "1.0.0",
-  "description": "OIer-Meet Web & Backend",
+  "description": "OIer-Meet Server",
   "main": "server.js",
-  "repository": {
-    "type": "git",
-    "url": "https://gitsr.cn/oier-meet/omsrv.git"
-  },
   "author": "OIer-Meet Dev Team",
   "license": "GPL-3.0",
   "dependencies": {
     "crypto": "^1.0.1",
     "http": "^0.0.1-security",
     "https": "^1.0.0",
-    "jqPaginator": "^1.2.0",
-    "jquery": "^3.7.0",
-    "katex": "^0.16.7",
-    "markdown-it": "^13.0.1",
-    "markdown-palettes": "^0.4.13",
-    "mdui": "^1.0.2",
     "mongoclient": "^1.0.3",
     "mongodb": "^5.6.0",
     "querystring": "^0.2.1",

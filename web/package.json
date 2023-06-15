@@ -1,0 +1,16 @@
+{
+    "name": "oiermeet",
+    "version": "1.0.0",
+    "description": "OIer-Meet Web",
+    "author": "OIer-Meet Dev Team",
+    "license": "GPL-3.0",
+    "dependencies": {
+        "jqPaginator": "^1.2.0",
+        "jquery": "^3.7.0",
+        "katex": "^0.16.7",
+        "markdown-it": "^13.0.1",
+        "markdown-palettes": "^0.4.13",
+        "mdui": "^1.0.2"
+    }
+}
+      
