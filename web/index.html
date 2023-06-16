@@ -17,8 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <html lang="zh-cn">
-<script src="web/js/Make.js"> </script>
-<script src="web/js/Head.js"> </script>
+<script src="js/Make.js"> </script>
+<script src="js/Head.js"> </script>
 <script>
     var build = new class launch {
         lastRefresh = 0;
@@ -32,15 +32,14 @@
                 md = new window.markdownit({
                     html: true
                 }); //初始化 md
-                body = window.body = new Body;
                 backend = window.backend = new Backend;
+                body = window.body = new Body;
                 body.toolbar.tab.object.show(0);
                 if (!backend.url) {
                     body.servers.object.open();
                     throw new Error('用户没有加入服务器，终止加载。');
                 }
-                // window.call();
-                windows.call("/generate_key", {}, //获取 token
+                backend.call("/generate_key", {}, //获取 token
                     (dat) => {
                         $('#luogu-verify-id-display')[0].innerText = dat.data.key;
                         if (!window.localStorage.getItem("token") || window.localStorage.getItem(
@@ -68,7 +67,7 @@
                     avatar.style =
                         "vertical-align:middle; margin-left: .4em; width: 35px; height: 35px; border-radius: 50%;";
                     $("#user-avatar")[0].appendChild(avatar);
-                    window.call("/get_user", {
+                    backend.call("/get_user", {
                         uid: window.localStorage.getItem("uid")
                     }, (res) => {
                         if (!res.data.avatar) avatar.src =
@@ -76,7 +75,7 @@
                         else avatar.src = res.data.avatar;
                     });
                     $('#user-avatar')[0].onclick = () => {
-                        window.call("/get_user", {
+                        backend.call("/get_user", {
                             uid: window.localStorage.getItem("uid")
                         }, (res) => {
                             if (!res.data.province) res.data.province = "";

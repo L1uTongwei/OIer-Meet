@@ -1,4 +1,4 @@
-Body.build_ui() = function () {
+Body.build_ui = function () {
     this.UI = new class {
         #father;
         #element;

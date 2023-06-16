@@ -1,4 +1,3 @@
-var head, backend, body;
 class Body { //标签 <body>
     #element;
     UI;
@@ -556,13 +555,13 @@ class Body { //标签 <body>
                         });
                     };
                     if (!this.#flgRegister) {
-                        window.call("/login", {
+                        backend.call("/login", {
                             username: $('#in-username')[0].value,
                             password: $('#in-password')[0].value,
                             verify: $('#in-captcha')[0].value
                         }, action);
                     } else {
-                        window.call("/register", {
+                        backend.call("/register", {
                             username: $('#in-r-username')[0].value,
                             password: $('#in-r-password')[0].value,
                             verify: $('#in-r-captcha')[0].value,
@@ -600,7 +599,7 @@ class Body { //标签 <body>
                 this.object = new mdui.Dialog(this.#element);
             }
             draw(uid) { //渲染个人主页
-                window.call("/get_user", {
+                backend.call("/get_user", {
                     uid: uid
                 }, (res) => {
                     if (!res.data.homepage) res.data.homepage = "该用户未填写主页内容";
@@ -725,14 +724,14 @@ class Body { //标签 <body>
             bind() {
                 this.editor = new MarkdownPalettes("#setting-editor-container");
                 $('#mylogout')[0].onclick = () => {
-                    window.call("/logout");
+                    backend.call("/logout");
                     backend.logout();
                     Backend.tips({
                         "msg": "操作成功"
                     });
                 };
                 $('#setting-submit')[0].onclick = () => {
-                    window.call("/user_setting", {
+                    backend.call("/user_setting", {
                         province: $('#setting-province')[0].value,
                         school: $('#setting-school')[0].value,
                         avatar: $('#setting-avatar')[0].value,
@@ -865,7 +864,7 @@ class Body { //标签 <body>
             }
             bind() {
                 $('#report-submit')[0].onclick = () => {
-                    window.call("/report", {
+                    backend.call("/report", {
                         "type": $("#radioDiv input[name='report-type']:checked").val(),
                         "bid": $('#report-id')[0].value,
                         "note": $('#report-note')[0].value
@@ -1272,7 +1271,7 @@ class Body { //标签 <body>
                     }
                     updateUserlist(page) { //用户列表
                         $('#userlist_body')[0].innerHTML = "";
-                        window.call("/get_userlist", {
+                        backend.call("/get_userlist", {
                             "page": page
                         }, (res) => {
                             for (var i = 0; i < res.data.length; i++) {
@@ -1318,7 +1317,7 @@ class Body { //标签 <body>
                         $('#userlist-page').jqPaginator(Make.pageConfig(20, this.updateUserlist));
                     }
                     search() {
-                        window.call("/search", {
+                        backend.call("/search", {
                             "type": $("#radioDiv input[name='search-radio']:checked").val(),
                             "content": $('#search-content')[0].value
                         }, (res) => {
@@ -1428,7 +1427,7 @@ class Body { //标签 <body>
                                 var topic = $("#topic")[0].value;
                                 var content = body.editor.editor.content;
                                 if (!content) content = "（未填写帖子内容）";
-                                window.call("/send_contents", {
+                                backend.call("/send_contents", {
                                     topic: topic,
                                     message: content
                                 }, Backend.tips);
@@ -1504,7 +1503,7 @@ class Body { //标签 <body>
                                 "key": "onclick",
                                 "value": "(" + ((id) => {
                                     $("#editor-submit")[0].onclick = () => {
-                                        window.window.call(
+                                        window.backend.call(
                                             '/reply_replies', {
                                             "father": id,
                                             "message": window
@@ -1523,7 +1522,7 @@ class Body { //标签 <body>
                             {
                                 "key": "onclick",
                                 "value": "(" + ((id) => {
-                                    window.window.call('/delete_replies', {
+                                    window.backend.call('/delete_replies', {
                                         "id": id,
                                     }, Backend.tips);
                                 }).toString() + ")('" + myid + "')"
@@ -1542,7 +1541,7 @@ class Body { //标签 <body>
                                 "key": "onclick",
                                 "value": "(" + ((id, username) => {
                                     $("#editor-submit")[0].onclick = () => {
-                                        window.window.call(
+                                        window.backend.call(
                                             '/reply_replies', {
                                             "father": id,
                                             "message": window
@@ -1564,7 +1563,7 @@ class Body { //标签 <body>
                             {
                                 "key": "onclick",
                                 "value": "(" + ((id) => {
-                                    window.window.call('/delete_reply', {
+                                    window.backend.call('/delete_reply', {
                                         "id": id,
                                     }, Backend.tips);
                                 }).toString() + ")('" + myid + "')"
@@ -1597,7 +1596,7 @@ class Body { //标签 <body>
                         );
                     };
                     showReply(fid, id, page) { //渲染二层回复
-                        window.call("/get_repliesonlist", {
+                        backend.call("/get_repliesonlist", {
                             father: fid,
                             page: page
                         }, ((fid, id) => {
@@ -1618,7 +1617,7 @@ class Body { //标签 <body>
                         })(fid, id));
                     }
                     showPost(id, page) { //渲染帖子
-                        window.call("/get_contents", {
+                        backend.call("/get_contents", {
                             id: id
                         }, ((id) => {
                             return (res) => { //加载主内容
@@ -1631,7 +1630,7 @@ class Body { //标签 <body>
                                         res.data[0].send_time, true
                                     )
                                 );
-                                window.call("/get_replieslist", {
+                                backend.call("/get_replieslist", {
                                     father: id,
                                     page: page
                                 }, ((id) => {
@@ -1826,7 +1825,7 @@ class Body { //标签 <body>
                         })(id));
                     };
                     updateDiscuss = (page) => { //社区
-                        window.call("/get_contentslist", {
+                        backend.call("/get_contentslist", {
                             page: page
                         }, (res) => {
                             for (var i = 0; i < res.data.length; i++) {
@@ -1931,7 +1930,7 @@ class Body { //标签 <body>
                         $('#log-page').jqPaginator(Make.pageConfig(20, this.updateLog));
                     }
                     updateLog(page = 1) {
-                        window.call("/get_loglist", {
+                        backend.call("/get_loglist", {
                             page: page
                         }, (res) => {
                             for (var i = 0; i < res.data.length; i++) {
@@ -2016,7 +2015,7 @@ class Body { //标签 <body>
                         $('#log-page').jqPaginator(Make.pageConfig(20, this.updateJudge));
                     }
                     updateJudge(page) {
-                        window.call("/get_judgelist", {
+                        backend.call("/get_judgelist", {
                             page: page
                         }, (res) => {
                             for (var i = 0; i < res.data.length; i++) {
@@ -2072,12 +2071,12 @@ class Body { //标签 <body>
                         var note = $('#note')[0].value;
                         $('#note')[0].value = "";
                         if (type == "用户举报") {
-                            window.call('/ban_user', {
+                            backend.call('/ban_user', {
                                 "uid": bid
                             }, (res) => {
                                 Backend.tips(res);
                                 if (res.status == 200) {
-                                    window.call('/log', {
+                                    backend.call('/log', {
                                         "type": "用户权限调整",
                                         "content": "将用户 " + bid + "  设置为封禁用户",
                                         "note": (!note ? "管理员应用户举报而调整权限" : note)
@@ -2085,12 +2084,12 @@ class Body { //标签 <body>
                                 }
                             });
                         } else if (type == "帖子举报") {
-                            window.call('/delete_contents', {
+                            backend.call('/delete_contents', {
                                 "id": bid
                             }, (res) => {
                                 Backend.tips(res);
                                 if (res.status == 200) {
-                                    window.call('/log', {
+                                    backend.call('/log', {
                                         "type": "删除帖子",
                                         "content": "将帖子 " + bid + " 删除",
                                         "note": (!note ? "管理员应用户举报而删除帖子" : note)
@@ -2100,7 +2099,7 @@ class Body { //标签 <body>
                         }
                     }
                     reject(id) {
-                        window.call('/delete_judge', {
+                        backend.call('/delete_judge', {
                             "id": id
                         }, Backend.tips);
                     }
@@ -2300,7 +2299,7 @@ class Body { //标签 <body>
                                         .operator = $('#operator-check')[0].checked;
                                     if ($('#tag-check').checked) args.tag = $(
                                         '#SetUser-tag')[0].value;
-                                    window.call('/set_user', args, (res) => {
+                                    backend.call('/set_user', args, (res) => {
                                         var note = $('#note')[0].value;
                                         $('#note')[0].value = "";
                                         Backend.tips(res);
@@ -2309,7 +2308,7 @@ class Body { //标签 <body>
                                                 .indeterminate) {
                                                 if ($('#ban-check')[0]
                                                     .checked) {
-                                                    window.call('/log', {
+                                                    backend.call('/log', {
                                                         "type": "用户权限调整",
                                                         "content": "将用户 " +
                                                             args
@@ -2320,7 +2319,7 @@ class Body { //标签 <body>
                                                             note)
                                                     });
                                                 } else {
-                                                    window.call('/log', {
+                                                    backend.call('/log', {
                                                         "type": "用户权限调整",
                                                         "content": "将用户 " +
                                                             args
@@ -2336,7 +2335,7 @@ class Body { //标签 <body>
                                                 .indeterminate) {
                                                 if ($('#operator-check')[0]
                                                     .checked) {
-                                                    window.call('/log', {
+                                                    backend.call('/log', {
                                                         "type": "用户权限调整",
                                                         "content": "将用户 " +
                                                             args
@@ -2347,7 +2346,7 @@ class Body { //标签 <body>
                                                             note)
                                                     });
                                                 } else {
-                                                    window.call('/log', {
+                                                    backend.call('/log', {
                                                         "type": "用户权限调整",
                                                         "content": "将用户 " +
                                                             args
@@ -2360,7 +2359,7 @@ class Body { //标签 <body>
                                                 }
                                             }
                                             if ($('#tag-check')[0].checked) {
-                                                window.call('/log', {
+                                                backend.call('/log', {
                                                     "type": "用户权限调整",
                                                     "content": "将用户 " +
                                                         args.username +

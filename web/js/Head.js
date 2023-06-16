@@ -2,24 +2,24 @@ class Head { //标签 <head>
     #element;
     #moduleList = [ //需要加载的 JS 文件
         //引入 CDN
-        "node_modules/mdui/dist/js/mdui.min.js",
-        "node_modules/markdown-it/dist/markdown-it.min.js",
-        "node_modules/jquery/dist/jquery.min.js",
-        "node_modules/markdown-palettes/dist/markdown-palettes.min.js",
-        "node_modules/katex/dist/katex.min.js",
-        "node_modules/katex/dist/contrib/auto-render.js",
-        "node_modules/jqPaginator/dist/1.2.0/jqPaginator.min.js",
+        "../node_modules/mdui/dist/js/mdui.min.js",
+        "../node_modules/markdown-it/dist/markdown-it.min.js",
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/markdown-palettes/dist/markdown-palettes.min.js",
+        "../node_modules/katex/dist/katex.min.js",
+        "../node_modules/katex/dist/contrib/auto-render.js",
+        "../node_modules/jqPaginator/dist/1.2.0/jqPaginator.min.js",
         //本项目模块
-        "web/js/css_style.js",
-        "web/js/Backend.js",
-        "web/js/body/body_main.js",
-        "web/js/body/build_editor.js",
-        "web/js/body/build_ui.js"
+        "js/css_style.js",
+        "js/Backend.js",
+        "js/body/body_main.js",
+        "js/body/build_editor.js",
+        "js/body/build_ui.js"
     ];
     #styleList = [ //需要加载的 CSS 文件
-        "node_modules/mdui/dist/css/mdui.min.css",
-        "node_modules/markdown-palettes/dist/markdown-palettes.css",
-        "node_modules/katex/dist/katex.min.css"
+        "../node_modules/mdui/dist/css/mdui.min.css",
+        "../node_modules/markdown-palettes/dist/markdown-palettes.css",
+        "../node_modules/katex/dist/katex.min.css"
     ];
     loadJS(url, doc) { //加载 JS 文件
         return new Promise((resolve) => {
