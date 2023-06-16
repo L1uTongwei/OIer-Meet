@@ -34,7 +34,7 @@ exports.report = (database, token, post) => {
     });
 };
 
-exports.sendContents = (database, token, post) => {
+exports.sendPost = (database, token, post) => {
     return sessionRead(database, token).then((res) => {
         return database.collection("users").find({"_id": new ObjectId(res.get("uid"))}).toArray().then((res2) => {
             return database.collection("posts").insertOne({
@@ -55,13 +55,13 @@ exports.sendContents = (database, token, post) => {
     });
 };
 
-exports.getContents = (database, token, post) => {
+exports.getPost = (database, token, post) => {
     return database.collection("posts").find({"_id": new ObjectId(post.id)}).toArray().then((res) => {
         return show(200, res);
     });
 };
 
-exports.deleteContents = (database, token, post) => {
+exports.deletePost = (database, token, post) => {
     return sessionRead(database, token).then((res) => {
         return ((this_uid, operator) => {return database.collection("posts").find({"_id": new ObjectId(post.id)}).toArray().then((res) => {
             if(this_uid != res[0].sender && !operator){
@@ -74,7 +74,7 @@ exports.deleteContents = (database, token, post) => {
     });
 };
 
-exports.getContentslist = (database, token, post) => {
+exports.getPostlist = (database, token, post) => {
     var page = post.page;
     var start = (page - 1) * config.length.post_length;
     return database.collection("posts").find({}).limit(config.length.post_length).skip(start).sort({"stamp": 1}).toArray().then((res) => {

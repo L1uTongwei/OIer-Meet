@@ -20,6 +20,7 @@
 <script src="js/Make.js"> </script>
 <script src="js/Head.js"> </script>
 <script>
+    console.log("Start deploying...");
     var build = new class launch {
         lastRefresh = 0;
         constructor() { //构建网页
@@ -93,15 +94,11 @@
                 }
                 body.container.loadBackend();
                 mdui.mutation();
+                console.log("This app was loaded.");
             });
         }
     };
 </script>
-
-<head>
-    <meta charset="utf-8">
-</head>
-
+<head><meta charset="utf-8"></head>
 <body></body>
-
 </html>

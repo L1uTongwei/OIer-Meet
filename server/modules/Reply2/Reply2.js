@@ -2,7 +2,7 @@ const { sessionRead, show } = require("../../functions");
 const { config } = require("../../readConfig");
 const ObjectId = require('mongodb').ObjectId;
 
-exports.replyReplies = (database, token, post) => {
+exports.replyReply2 = (database, token, post) => {
     return sessionRead(database, token).then((res) => {
         return database.collection("users").find({"_id": new ObjectId(res.get("uid"))}).toArray().then((res2) => {
             return database.collection("repliesons").insertOne({
@@ -23,7 +23,7 @@ exports.replyReplies = (database, token, post) => {
     });
 };
 
-exports.getRepliesonlist = (database, token, post) => {
+exports.getReply2list = (database, token, post) => {
     var page = post.page;
     var start = (page - 1) * config.length.post_length;
     return database.collection("repliesons").find({"father": new ObjectId(post.father)}).limit(config.length.post_length).skip(start).sort({"stamp": 1}).toArray().then((res) => {
@@ -31,7 +31,7 @@ exports.getRepliesonlist = (database, token, post) => {
     });
 };
 
-exports.deleteReply = (database, token, post) => {
+exports.deleteReply2 = (database, token, post) => {
     return sessionRead(database, token).then((res) => {
         return ((this_uid, operator) => {return database.collection("repliesons").find({"_id": new ObjectId(post.id)}).toArray().then((res) => {
             if(this_uid != res[0].sender._id && !operator){

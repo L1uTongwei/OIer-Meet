@@ -5,9 +5,9 @@ Connect = require("./modules/Connect/Connect");
 LogIO = require("./modules/LogIO/LogIO");
 Users = require("./modules/Users/Users");
 Operator = require("./modules/Operator/Operator");
-Contents = require("./modules/Contents/Contents");
+Post = require("./modules/Post/Post");
 Reply = require("./modules/Reply/Reply");
-Replyson = require("./modules/Replyson/Replyson");
+Reply2 = require("./modules/Reply2/Reply2");
 
 exports.route = (database, url, token, post) => {
     if(modules[url] == undefined) return Promise.resolve(show(404, {"msg": "找不到请求的接口"}));

@@ -5,6 +5,7 @@
     "author": "OIer-Meet Dev Team",
     "license": "GPL-3.0",
     "dependencies": {
+        "anywhere": "^1.6.0",
         "jqPaginator": "^1.2.0",
         "jquery": "^3.7.0",
         "katex": "^0.16.7",
@@ -13,4 +14,3 @@
         "mdui": "^1.0.2"
     }
 }
-      

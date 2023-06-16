@@ -1,0 +1,37 @@
+{
+    "js/css_style.js": {},
+    "js/Backend.js": {},
+    "js/body/body.js": {
+        "js/body/editor.js": {},
+        "js/body/home.js": {},
+        "js/body/login_register.js": {},
+        "js/body/report.js": {},
+        "js/body/servers.js": {},
+        "js/body/setting.js": {},
+        "js/body/UI.js": {},
+        "js/body/toolbar/toolbar.js": {
+            "js/body/toolbar/tab.js": {}
+        },
+        "js/body/container/container.js": {
+            "js/body/container/discuss/discuss.js": {
+                "js/body/container/discuss/renderPost.js": {},
+                "js/body/container/discuss/renderPostCode.js": {},
+                "js/body/container/discuss/renderReply.js": {},
+                "js/body/container/discuss/renderReply2.js": {}
+            },
+            "js/body/container/management/management.js": {
+                "js/body/container/management/judge.js": {},
+                "js/body/container/management/note.js": {},
+                "js/body/container/management/setUser.js": {}
+            },
+            "js/body/container/userlist/userlist.js": {
+                "js/body/container/userlist/build.js": {}
+            },
+            "js/body/container/practice/practice.js": {},
+            "js/body/container/about.js": {},
+            "js/body/container/hole.js": {},
+            "js/body/container/homepage.js": {},
+            "js/body/container/log.js": {}
+        }
+    }
+}
