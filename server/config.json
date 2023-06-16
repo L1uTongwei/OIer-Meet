@@ -1,6 +1,6 @@
 {
     "database": {
-        "url": "mongodb://127.0.0.1:27017/",
+        "url": "mongodb+srv://dataBase-user:<>@cluster0.hn2yjnk.mongodb.net/?retryWrites=true&w=majority",
         "db": "oiermeet"
     },
     "server": {
