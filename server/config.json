@@ -1,7 +1,7 @@
 {
     "database": {
         "url": "mongodb+srv://dataBase-user:<ryh2007316>@cluster0.hn2yjnk.mongodb.net/?retryWrites=true&w=majority",
-        "db": "oiermeet"
+        "db": "oier-meet-database"
     },
     "server": {
         "port": 8080
