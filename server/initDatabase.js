@@ -50,4 +50,5 @@ MongoClient.connect(config.database.url).then((db) => {
     process.exit(0);
 }).catch((err) => {
     console.error(err);
+    process.exit(0);
 });

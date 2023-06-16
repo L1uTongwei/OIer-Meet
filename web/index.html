@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<!-- 
+    OIer-Meet Offical Frontend Code
+    Copyright (C) 2023 OIer-Meet Dev Team
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+</head>
+<script>
+const page = `
+    margin-right: .5em;
+    padding: 0;
+    cursor: pointer;
+    width: 1.7em;
+    min-width: 1.7em;
+    height: 1.7em;
+    background: #fff;
+    border: 1px solid #bfbfbf;
+    border-radius: 6px;`; //CSS 页码样式
+const page_img = `
+    overflow-clip-margin: content-box;
+    overflow: clip;
+    border-style: none;
+    display: block;
+    margin: auto;`; //CSS 页码图片样式
+const avatar_css = `
+    vertical-align:middle;
+    margin-left: .4em;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;`; //CSS 头像样式
+const editor_css = `
+    height: 0px;
+`;
+const katex_config = {
+    delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "$", right: "$", display: false}
+    ]
+}; //KaTeX 配置
+const about = "### 简介\n\n" +
+    "OIer-Meet 是一套前端、后端集合的程序套装，基于[GNU通用公共许可证 v3.0](https://www.gnu.org/licenses/gpl-3.0.zh-cn.html)开源。\n\n" +
+    "欢迎加入我们的团队。您若有此意向，请联系 QQ：819433558 / 1347277058。\n\n" +
+    "使用本软件意味着你已经同意[OIer-Meet最终用户许可协议](https://gitee.com/organizations/oier-meet-dev-team/cla/eula)。\n\n" +
+    "项目地址：https://gitee.com/oier-meet-dev-team/oier-meet。\n\n" +
+    "本站为前后端分离，建议将本站下载下来，以防 Netlify 服务出现问题。\n\n" +
+    "OIer-Meet Web Frontend ©2022 OIer-Meet Dev \n\n";
+const words = [
+    '如果感到累的话，不努力也是可以的。', 
+    '不要想着说对自己狠一点。自我冲突，自我对抗只能使情形越来越糟糕。',
+    '够了，你做的够多了。不用那么努力地想要好起来也没问题。',
+    '这不是你的错。这不是你的错。这不是你的错。', 
+    '但是啊，会好起来的，你也会的。',
+    '找些事情做，转移注意力，例如散步、下棋、骑脚踏车、阅读等。',
+    '凡事只求尽力，不要完美主义，因为很多结果的呈现，并非自己可以决定。',
+    '你还是原来的那个你，只是需要一段时间重整旗鼓而已。',
+    '希望你更爱自己，更爱世界。',
+    '没什么的，天总会亮的，总有一天你又会精神奕奕的。',
+    '没事，我在的。没关系，我陪着你。',
+    '一定也要照顾好自己',
+    '不谈未来，现在的你才最珍贵啊。',
+    '没有不可治愈的伤痛，没有不能结束的沉沦，所有失去的，会以另一种方式归来。',
+    '万物皆有罅隙，那是光透过来的地方。',
+    '一切都会好起来的，真的。'
+];
+var res = //服务器列表
+    "OIer-Meet官方服务器 L1uTongwei https://gitee.com/oier-meet-dev-team https://api.oier-meet.cn";
+var md; //Markdown
+class Make{ //构造器
+    static element(tag, data = [], text = ''){ //创建一个元素
+        var x = document.createElement(tag);
+        for (var k of data) {
+            x.setAttribute(k["key"], k["value"]);
+        }
+        x.innerHTML = text;
+        return x;
+    }
+    static dialog(id, title, content, actions){ //构建对话框
+        var dialog = this.element('div', [
+            {"key": "id", "value": id},
+            {"key": "class", "value": "mdui-dialog"}
+        ]);
+        dialog.appendChild(this.element('div', [
+            {"key": "id", "value": id + "-title"},
+            {"key": "class", "value": "mdui-dialog-title"},
+        ], title));
+        dialog.appendChild(this.element('div', [
+            {"key": "id", "value": id + "-content"},
+            {"key": "class", "value": "mdui-dialog-content"},
+        ], content));
+        dialog.appendChild(this.element('div', [
+            {"key": "id", "value": id + "-actions"},
+            {"key": "class", "value": "mdui-dialog-actions"},
+        ], actions));
+        return dialog;
+    };
+    static toolbarButton(href, icon, tool = "", id = ""){ //增加 toolbar
+        var button = this.element('a', [
+            {"key": "id", "value": id},
+            {"key": "href", "value": href},
+            {"key": "class", "value": "mdui-ripple"}
+        ]);
+        button.appendChild(this.element('i', [
+            {"key": "class", "value": "mdui-icon material-icons"}
+        ], icon));
+        if(tool != "") button.setAttribute('mdui-tooltip', "{content: '" + tool + "'}");
+        return button;
+    }
+    static tabButton(href, icon, label){ //增加 Tab 
+        var button = this.element('a', [
+            {"key": "href", "value": href},
+            {"key": "class", "value": "mdui-ripple"}
+        ]);
+        button.appendChild(this.element('i', [
+            {"key": "class", "value": "mdui-icon material-icons"}
+        ], icon));
+        button.appendChild(this.element('label', [], label));
+        return button;
+    }
+    static name(uid, username, avatar, tag){ //渲染名字
+        var Name = this.element('div');
+        if(!avatar) avatar = "https://gitsr.cn/oier-meet/omweb/raw/branch/master/avatar.png";
+        Name.appendChild(this.element('img', [
+            {"key": "src", "value": avatar},
+            {"key": "alt", "value": ""},
+            {"key": "style", "value": avatar_css}
+        ]));
+        Name.appendChild(this.element('a', [
+            {"key": "href", "value": "javascript:body.home.draw('" + uid + "'); body.home.object.open();"}
+        ], username));
+        if(tag) Name.appendChild(this.element('span', [
+            {"key": "style", "value": tag}
+        ], tag));
+        return Name;
+    };
+    static pageConfig(size, func){
+        return {
+            totalCounts: 10,
+            visiblePages: 10,
+            currentPage: 1,
+            pageSize: size,
+
+            first: '<button style="' + page + '"><a href="javascript:void(0);"><img style="' + page_img + '" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDE0IDE0Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiBub25lOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6IHJnYmEoMCwwLDAsMC42NSk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxnIGlkPSJpY29uX3ZlcnRpY2FsX2xlZnQiIGRhdGEtbmFtZT0iaWNvbi92ZXJ0aWNhbCBsZWZ0IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIC0xKSI+CiAgICA8cmVjdCBpZD0i55+p5b2iXzM5IiBkYXRhLW5hbWU9IuefqeW9oiAzOSIgY2xhc3M9ImNscy0xIiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgMSkiLz4KICAgIDxwYXRoIGlkPSLot6/lvoRfMjgiIGRhdGEtbmFtZT0i6Lev5b6EIDI4IiBjbGFzcz0iY2xzLTIiIGQ9Ik0yNTQuMTI0LDE1Ni4xaC45OTJhLjExOS4xMTksMCwwLDEsLjEyNC4xMTJ2OS42NjNhLjExOS4xMTksMCwwLDEtLjEyNC4xMTJoLS45OTJhLjExOS4xMTksMCwwLDEtLjEyNC0uMTEydi05LjY2M0EuMTE5LjExOSwwLDAsMSwyNTQuMTI0LDE1Ni4xWm03Ljg3NiwwdjEuMDE3YS40MzQuNDM0LDAsMCwxLS4xNzcuMzQ0bC00LjYzOSwzLjUyNyw0LjYzOSwzLjUyN2EuNDM0LjQzNCwwLDAsMSwuMTc3LjM0NHYxLjAxN2EuMTI1LjEyNSwwLDAsMS0uMi4wODZsLTYuNTQxLTQuOTczLDYuNTQxLTQuOTczQS4xMjUuMTI1LDAsMCwxLDI2MiwxNTYuMVoiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yNTEgLTE1Mi45OTIpIi8+CiAgPC9nPgo8L3N2Zz4="></a></li>',
+            prev: '<button style="' + page + '"><a href="javascript:void(0);"><img style="' + page_img + '" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDE0IDE0Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiBub25lOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6IHJnYmEoMCwwLDAsMC42NSk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxnIGlkPSJpY29uX2xlZnQiIGRhdGEtbmFtZT0iaWNvbi9sZWZ0IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIC0xKSI+CiAgICA8cmVjdCBpZD0i55+p5b2iXzM5IiBkYXRhLW5hbWU9IuefqeW9oiAzOSIgY2xhc3M9ImNscy0xIiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgMSkiLz4KICAgIDxwYXRoIGlkPSLot6/lvoRfMjciIGRhdGEtbmFtZT0i6Lev5b6EIDI3IiBjbGFzcz0iY2xzLTIiIGQ9Ik0yNTQsMTQxLjg1OHYxLjAyYS4xLjEsMCwwLDEtLjE2My4wODNsLTUuNjgyLTQuNjQ2YS40MzMuNDMzLDAsMCwxLDAtLjY2NGw1LjY4Mi00LjY0NmEuMS4xLDAsMCwxLC4xNjMuMDgzdjEuMDJhLjIxNy4yMTcsMCwwLDEtLjA3Ny4xNjZsLTQuNTM4LDMuNzA3LDQuNTM4LDMuNzA5QS4yMTcuMjE3LDAsMCwxLDI1NCwxNDEuODU4WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTI0NCAtMTI5Ljk4NCkiLz4KICA8L2c+Cjwvc3ZnPg=="></a></li>',
+            next: '<button style="' + page + '"><a href="javascript:void(0);"><img style="' + page_img + '" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDE0IDE0Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiBub25lOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6IHJnYmEoMCwwLDAsMC42NSk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxnIGlkPSJpY29uX3JpZ2h0IiBkYXRhLW5hbWU9Imljb24vcmlnaHQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTEpIj4KICAgIDxyZWN0IGlkPSLnn6nlvaJfMzkiIGRhdGEtbmFtZT0i55+p5b2iIDM5IiBjbGFzcz0iY2xzLTEiIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAxKSIvPgogICAgPHBhdGggaWQ9Iui3r+W+hF8yNyIgZGF0YS1uYW1lPSLot6/lvoQgMjciIGNsYXNzPSJjbHMtMiIgZD0iTTI0OCwxNDEuODU4djEuMDJhLjEuMSwwLDAsMCwuMTYzLjA4M2w1LjY4Mi00LjY0NWEuNDMzLjQzMywwLDAsMCwwLS42NjRsLTUuNjgyLTQuNjQ2YS4xLjEsMCwwLDAtLjE2My4wODN2MS4wMmEuMjE3LjIxNywwLDAsMCwuMDc3LjE2Nmw0LjUzOCwzLjcwNy00LjUzOCwzLjcwOUEuMjE3LjIxNywwLDAsMCwyNDgsMTQxLjg1OFoiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yNDQgLTEyOS45ODQpIi8+CiAgPC9nPgo8L3N2Zz4="></a></li>',
+            last: '<button style="' + page + '"><a href="javascript:void(0);"><img style="' + page_img + '" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDE0IDE0Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiBub25lOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6IHJnYmEoMCwwLDAsMC42NSk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxnIGlkPSJpY29uX3ZlcnRpY2FsX3JpZ2h0IiBkYXRhLW5hbWU9Imljb24vdmVydGljYWwgcmlnaHQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTEpIj4KICAgIDxyZWN0IGlkPSLnn6nlvaJfMzkiIGRhdGEtbmFtZT0i55+p5b2iIDM5IiBjbGFzcz0iY2xzLTEiIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAxKSIvPgogICAgPHBhdGggaWQ9Iui3r+W+hF8yOCIgZGF0YS1uYW1lPSLot6/lvoQgMjgiIGNsYXNzPSJjbHMtMiIgZD0iTTI2MS44NzYsMTU2LjFoLS45OTJhLjExOS4xMTksMCwwLDAtLjEyNC4xMTJ2OS42NjNhLjExOS4xMTksMCwwLDAsLjEyNC4xMTJoLjk5MmEuMTE5LjExOSwwLDAsMCwuMTI0LS4xMTJ2LTkuNjYzQS4xMTkuMTE5LDAsMCwwLDI2MS44NzYsMTU2LjFabS03Ljg3NiwwdjEuMDE3YS40MzQuNDM0LDAsMCwwLC4xNzcuMzQ0bDQuNjM5LDMuNTI3LTQuNjM5LDMuNTI3YS40MzQuNDM0LDAsMCwwLS4xNzcuMzQ0djEuMDE3YS4xMjUuMTI1LDAsMCwwLC4yLjA4Nmw2LjU0MS00Ljk3My02LjU0MS00Ljk3M0EuMTI1LjEyNSwwLDAsMCwyNTQsMTU2LjFaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjUxIC0xNTIuOTkyKSIvPgogIDwvZz4KPC9zdmc+"></a></li>',
+            page: '<button style="' + page + '"><a href="javascript:void(0);"><span style="line-height: 1.2;">{{page}}</span></a></li>',
+            onPageChange: func
+        };
+    }
+};
+class Backend{ //后端设置
+    url;
+    constructor(){
+        this.url = window.localStorage.getItem("API_URL");
+    }
+    static tips(res){ //消息提示
+        var msg = res.msg;
+        if(!msg) msg = res.data.msg;
+        mdui.snackbar({
+            message: msg,
+            timeout: 500,
+            onClosed: () => {
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
+            }
+        });
+    }
+    logout(){
+        window.localStorage.removeItem("token");
+        window.localStorage.removeItem("uid");
+        window.localStorage.removeItem("operator");
+    }
+    changeAPI(u){ //更改API地址
+        if(this.url){
+            this.logout();
+            this.call("/logout");
+        }
+        this.url = u;
+        window.localStorage.setItem("API_URL", u);
+        mdui.snackbar({
+            message: "加入成功",
+            timeout: 500,
+            onClosed: () => {
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
+            }
+        });
+    }
+    call(inter, data = {}, onsuccess = ()=>{}, onerror = ()=>{}){
+        var extra = "";
+        if(window.localStorage.getItem('token') != ""){
+            extra = "?token=" + window.localStorage.getItem('token')
+        }
+        $.post({
+            url: this.url + inter + extra,
+            data: data,
+            dataType: "json",
+            crossDomain: true,
+            success: onsuccess,
+            error: onerror
+        });
+    }
+    refreshCaptcha(obj){ //刷新验证码
+        var cap = $(obj)[0];
+        $.get({
+            url: this.url + "/captcha",
+            data: {
+                "token": window.localStorage.getItem('token'),
+                "time": new Date().getTime()
+            },
+            crossDomain: true,
+            success: (res) => {
+                cap.innerHTML = res;
+            }
+        });
+    };
+};
+class Head{ //标签 <head>
+    #element;
+    #moduleList = [ //需要加载的 JS 文件
+        "https://cdn.bootcdn.net/ajax/libs/mdui/1.0.2/js/mdui.js",
+        "https://cdn.bootcdn.net/ajax/libs/markdown-it/13.0.1/markdown-it.js",
+        "https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.js",
+        "https://unpkg.com/markdown-palettes@0.4.13/dist/markdown-palettes.js",
+        "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/katex.js",
+        "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/contrib/auto-render.js",
+        "https://unpkg.com/jqPaginator@1.2.0/dist/1.2.0/jqPaginator.min.js"
+    ];
+    #styleList = [ //需要加载的 CSS 文件
+        "https://cdn.bootcdn.net/ajax/libs/mdui/1.0.2/css/mdui.css",
+        "https://unpkg.com/markdown-palettes@0.4.13/dist/MarkdownPalettes.css",
+        "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/katex.css"
+    ];
+    loadJS(url, doc){ //加载 JS 文件
+        return new Promise((resolve) => {
+            var script = Make.element('script', [
+                {"key": "type", "value": "text/javascript"},
+                {"key": "src", "value": url}
+            ]);
+            script.onload = () => {
+                console.log("Loaded: " + url);
+                resolve();
+            };
+            doc.appendChild(script);
+        });
+    }
+    loadCSS(url, doc){
+        return new Promise((resolve) => {
+            var style = Make.element('link', [
+                {"key": "href", "value": url},
+                {"key": "rel", "value": "stylesheet"}
+            ]);
+            style.onload = () => {
+                console.log("Loaded: " + url);
+                resolve();
+            };
+            doc.appendChild(style);
+        });
+    }
+    async loadFiles(){ //加载需要的文件
+        for(var i = 0; i < this.#moduleList.length; i++){
+            await this.loadJS(this.#moduleList[i], this.#element);
+        }
+        for(var i = 0; i < this.#styleList.length; i++){
+            await this.loadCSS(this.#styleList[i], this.#element);
+        }
+    }
+    build(){ //构建 <head> 标签
+        this.#element = document.getElementsByTagName('head')[0];
+        this.#element.appendChild(Make.element('title', [], 'OIer Meet!')); //网站标题
+        this.#element.appendChild(Make.element('meta', [ //IE 兼容设置
+            {"key": "http-equiv", "value": "X-UA-Compatible"},
+            {"key": "content", "value": "IE=edge,chrome=1"}
+        ]));
+        this.#element.appendChild(Make.element('meta', [ //解除同源限制
+            {"key": "http-equiv", "value": "Access-Control-Allow-Origin"},
+            {"key": "content", "value": "*"}
+        ]));
+        this.#element.appendChild(Make.element('link', [ //加载 favicon.ico
+            {"key": "rel", "value": "icon"},
+            {"key": "type", "value": "image/x-icon"},
+            {"key": "href", "value": "https://gitsr.cn/oier-meet/omweb/raw/branch/master/favicon.ico"}
+        ]));
+        return this.loadFiles();
+    }
+};
+class Body{ //标签 <body>
+    #element;
+    UI;
+    servers;
+    login_register;
+    home;
+    setting;
+    toolbar;
+    search;
+    report;
+    editor;
+    container;
+    constructor(){
+        this.#element = document.getElementsByTagName('body')[0];
+        this.#element.className = "mdui-theme-primary-light-blue mdui-theme-accent-orange";
+        this.refreshBackground();
+        this.build();
+    }
+    refreshBackground(){
+        if(!window.localStorage.getItem('background')){ //初始化背景图片
+            window.localStorage.setItem('background', "https://cdn.luogu.com.cn/upload/image_hosting/x5084f5q.png");
+        }
+        document.body.style = "background-image:url('" + window.localStorage.getItem('background') + "'); background-attachment: fixed; background-size: cover;";
+    }
+    build(){
+        //编辑器对话框
+        this.editor = new class{
+            #father;
+            #element;
+            object;
+            editor;
+            constructor(fa){
+                this.#father = fa;
+                this.build();
+            }
+            build(){
+                this.#element = Make.dialog(
+                    "editor-dialog",
+                    "编辑",
+                    Make.element('div', [
+                        {"key": "style", "value": "height: 500px;"}
+                    ],  Make.element('div', [
+                            {"key": "style", "value": "height: 500px;"},
+                            {"key": "id", "value": "editor-container"}
+                        ]).outerHTML
+                    ).outerHTML,
+                    Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "mdui-dialog-cancel", "value": ""}
+                    ], '关闭').outerHTML +
+                    Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "mdui-dialog-confirm", "value": ""},
+                        {"key": "id", "value": "editor-submit"}
+                    ], '提交').outerHTML
+                );
+                this.#father.appendChild(this.#element);
+                this.object = new mdui.Dialog(this.#element);
+                this.editor = new MarkdownPalettes("#editor-container");
+            }
+        }(this.#element);
+        //UI 设置对话框
+        this.UI = new class{
+            #father;
+            #element;
+            object;
+            constructor(fa){
+                this.#father = fa;
+                this.build();
+                this.bind();
+            }
+            build(){
+                this.#element = Make.dialog(
+                    "ui-dialog",
+                    "UI 设置",
+                    Make.element('div', [
+                        {"key": "class", "value": "mdui-textfield"}
+                    ],  Make.element('label', [
+                            {"key": "class", "value": "mdui-textfield-label"}
+                        ], "背景图片 URL（默认留空）").outerHTML 
+                    + Make.element('input', [
+                            {"key": "class", "value": "mdui-textfield-input"},
+                            {"key": "id", "value": "background-url"}
+                        ]).outerHTML
+                    ).outerHTML,
+                    Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "mdui-dialog-cancel", "value": ""}
+                    ], '关闭').outerHTML +
+                    Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "mdui-dialog-confirm", "value": ""},
+                        {"key": "id", "value": "ui-submit"}
+                    ], '提交').outerHTML
+                );
+                this.#father.appendChild(this.#element);
+                this.object = new mdui.Dialog(this.#element);
+            }
+            bind(){
+                $('#ui-submit')[0].onclick = () => {
+                    var url = $('#background-url')[0].value;
+                    if(!url) url = "https://cdn.luogu.com.cn/upload/image_hosting/x5084f5q.png";
+                    window.localStorage.setItem('background', url);
+                    Backend.tips({"msg": "操作成功"});
+                };
+            }
+        }(this.#element);
+        //社区服务器浏览器对话框
+        this.servers = new class{ 
+            #father;
+            #element;
+            object;
+            constructor(fa){
+                this.#father = fa;
+                this.build();
+                this.bind();
+            }
+            build(){
+                this.#element = Make.dialog(
+                    "server-dialog",
+                    "社区服务器浏览器",
+                    Make.element('div', [
+                        {"key": "class", "value": "mdui-table-fluid"}
+                    ],  Make.element('table', [
+                            {"key": "class", "value": "mdui-table"}
+                        ],  Make.element('thead', [],
+                                Make.element('tr', [], 
+                                    Make.element('th', [], '服务器描述').outerHTML
+                                +   Make.element('th', [], '服务器维护者').outerHTML
+                                +   Make.element('th', [], '操作').outerHTML
+                                ).outerHTML
+                            ).outerHTML
+                            + Make.element('tbody', [
+                                {"key": "id", "value": "servers_body"}
+                            ]).outerHTML
+                        ).outerHTML
+                    ).outerHTML
+                + Make.element('div', [
+                        {"key": "class", "value": "mdui-textfield"}
+                    ],  Make.element('input', [
+                        {"key": "class", "value": "mdui-textfield-input"},
+                        {"key": "type", "value": "text"},
+                        {"key": "placeholder", "value": "自定义API地址"},
+                        {"key": "id", "value": "input-API"}
+                    ]).outerHTML
+                ).outerHTML
+                + Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"},
+                        {"key": "id", "value": "join"}
+                ], "加入服务器").outerHTML,
+                    Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "mdui-dialog-cancel", "value": ""}
+                    ]).outerHTML
+                );
+                this.#father.appendChild(this.#element);
+                this.object = new mdui.Dialog(this.#element);
+            }
+            bind(){
+                var servers = res.split('\n');
+                for(var i = 0; i < servers.length; i++){
+                    var server = servers[i].split(' ');
+                    var tr = Make.element('tr', [],
+                        Make.element('td', [], server[0]).outerHTML
+                    + Make.element('td', [], server[1]).outerHTML
+                    + Make.element('td', [],
+                                Make.element('a', [
+                                    {"key": "class", "value": "mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"},
+                                    {"key": "href", "value": server[2]}
+                                ], "查看详情").outerHTML + " "
+                            + Make.element('button', [
+                                    {"key": "class", "value": "mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"},
+                                    {"key": "onclick", "value": "backend.changeAPI('" + server[3] + "');"},
+                                    {"key": "mdui-dialog-cancel", "value": ""}
+                                ], "加入服务器").outerHTML
+                            ).outerHTML
+                    );
+                    $('#servers_body')[0].appendChild(tr);
+                }
+                $('#join')[0].onclick = () => {
+                    backend.changeAPI($('#input-API')[0].value);
+                };
+            }
+        }(this.#element);
+        //注册与登录对话框
+        this.login_register = new class{
+            #father;
+            #element;
+            object;
+            objectTAB;
+            #flgRegister = false;
+            constructor(fa){
+                this.#father = fa;
+                this.build();
+                this.bind();
+            }
+            build(){
+                this.#element = Make.dialog(
+                    'lr-dialog',
+                    Make.element('span', [
+                        {"key": "id", "value": "dialog-title-action"}
+                    ], "登录 OIer Meet!").outerHTML
+                    + Make.element('div', [
+                        {"key": "class", "value": "mdui-tab mdui-tab-centered mdui-tab-active"},
+                        {"key": "id", "value": "dialog-tab"},
+                        {"key": "mdui-tab", "value": ""}
+                    ],  Make.element('a', [
+                            {"key": "id", "value": "dia-tab-l"},
+                            {"key": "class", "value": "mdui-ripple"}
+                        ], "登录").outerHTML
+                        + Make.element('a', [
+                            {"key": "id", "value": "dia-tab-r"},
+                            {"key": "class", "value": "mdui-ripple"}
+                        ], "注册").outerHTML
+                    ).outerHTML,
+                    Make.element('div', [
+                        {"key": "class", "value": "mdui-container"},
+                        {"key": "id", "value": "dialog-login-register-page-login"}
+                    ],  Make.element('div', [
+                            {"key": "class", "value": "mdui-textfield mdui-textfield-floating-label"}
+                        ],  Make.element('label', [
+                                {"key": "class", "value": "mdui-textfield-label"},
+                                {"key": "id", "value": "lab-username"}
+                            ], "用户名").outerHTML
+                        + Make.element('input', [
+                                {"key": "class", "value": "mdui-textfield-input"},
+                                {"key": "id", "value": "in-username"}
+                            ]).outerHTML
+                        ).outerHTML
+                    + Make.element('div', [
+                            {"key": "class", "value": "mdui-textfield mdui-textfield-floating-label"}
+                        ],  Make.element('label', [
+                                {"key": "class", "value": "mdui-textfield-label"},
+                                {"key": "id", "value": "lab-password"}
+                            ], "密码").outerHTML
+                        + Make.element('input', [
+                                {"key": "class", "value": "mdui-textfield-input"},
+                                {"key": "id", "value": "in-password"},
+                                {"key": "type", "value": "password"}
+                            ]).outerHTML
+                        ).outerHTML
+                    + Make.element('div', [
+                            {"key": "class", "value": "mdui-textfield mdui-textfield-floating-label"}
+                        ],  Make.element('label', [
+                                {"key": "class", "value": "mdui-textfield-label"},
+                                {"key": "id", "value": "lab-captcha"}
+                            ], "验证码").outerHTML
+                        + Make.element('input', [
+                                {"key": "class", "value": "mdui-textfield-input"},
+                                {"key": "id", "value": "in-captcha"},
+                            ]).outerHTML
+                        ).outerHTML
+                    + Make.element('div', [
+                            {"key": "class", "value": "mdui-img-fluid"},
+                            {"key": "id", "value": "login-captcha-img"}
+                        ]).outerHTML
+                    + Make.element('a', [
+                            {"key": "onclick", "value": "backend.refreshCaptcha('#login-captcha-img');"},
+                        ], "看不清？换一张").outerHTML
+                    ).outerHTML
+                + Make.element('div', [
+                        {"key": "class", "value": "mdui-container"},
+                        {"key": "id", "value": "dialog-login-register-page-register"}
+                    ],  Make.element('div', [
+                            {"key": "class", "value": "mdui-textfield mdui-textfield-floating-label"}
+                        ],  Make.element('label', [
+                                {"key": "class", "value": "mdui-textfield-label"},
+                                {"key": "id", "value": "lab-r-username"}
+                            ], "用户名").outerHTML
+                        + Make.element('input', [
+                                {"key": "class", "value": "mdui-textfield-input"},
+                                {"key": "id", "value": "in-r-username"}
+                            ]).outerHTML
+                        ).outerHTML
+                    + Make.element('div', [
+                            {"key": "class", "value": "mdui-textfield mdui-textfield-floating-label"}
+                        ],  Make.element('label', [
+                                {"key": "class", "value": "mdui-textfield-label"},
+                                {"key": "id", "value": "lab-r-password"}
+                            ], "密码").outerHTML
+                        + Make.element('input', [
+                                {"key": "class", "value": "mdui-textfield-input"},
+                                {"key": "id", "value": "in-r-password"},
+                                {"key": "type", "value": "password"}
+                            ]).outerHTML
+                        ).outerHTML
+                    + Make.element('div', [
+                            {"key": "class", "value": "mdui-textfield mdui-textfield-floating-label"}
+                        ],  Make.element('label', [
+                                {"key": "class", "value": "mdui-textfield-label"},
+                                {"key": "id", "value": "lab-r-lgverify"}
+                            ], "洛谷验证剪贴板").outerHTML
+                        + Make.element('input', [
+                                {"key": "class", "value": "mdui-textfield-input"},
+                                {"key": "id", "value": "in-r-lgverify"},
+                            ]).outerHTML
+                        ).outerHTML
+                    + Make.element('label', [
+                            {"key": "class", "value": "mdui-textfield-label"},
+                            {"key": "id", "value": "lab-r-lgverify-info"}
+                        ], "请用您需要绑定的洛谷账号创建一个公开的云剪贴板，内容为"
+                        + Make.element('br').outerHTML
+                        + Make.element('span', [
+                                {"key": "style", "value": "font-weight:800;"},
+                                {"key": "id", "value": "luogu-verify-id-display"}
+                        ]).outerHTML
+                        + Make.element('br').outerHTML
+                        + "并将云剪贴板地址后 8 个字符填入上方的文本框"
+                        ).outerHTML
+                    + Make.element('div', [
+                            {"key": "class", "value": "mdui-textfield mdui-textfield-floating-label"}
+                        ],  Make.element('label', [
+                                {"key": "class", "value": "mdui-textfield-label"},
+                                {"key": "id", "value": "lab-r-captcha"}
+                            ], "验证码").outerHTML
+                        + Make.element('input', [
+                                {"key": "class", "value": "mdui-textfield-input"},
+                                {"key": "id", "value": "in-r-captcha"},
+                            ]).outerHTML
+                        ).outerHTML
+                    + Make.element('div', [
+                            {"key": "class", "value": "mdui-img-fluid"},
+                            {"key": "id", "value": "register-captcha-img"}
+                        ]).outerHTML
+                    + Make.element('a', [
+                            {"key": "onclick", "value": "backend.refreshCaptcha('#register-captcha-img');"},
+                        ], "看不清？换一张").outerHTML
+                    ).outerHTML,
+                    Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "id", "value": "dialog-btn-cancel"},
+                        {"key": "mdui-dialog-cancel", "value": ""}
+                    ], '取消').outerHTML +
+                    Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "mdui-dialog-confirm", "value": ""},
+                        {"key": "id", "value": "dialog-btn-ok"}
+                    ], '提交').outerHTML
+                );
+                this.#father.appendChild(this.#element);
+                this.object = new mdui.Dialog(this.#element);
+                this.objectTAB = new mdui.Tab("#dialog-tab");
+            }
+            bind(){
+                this.#flgRegister = false;
+                $('#dia-tab-l')[0].onclick = () => {
+                    $('#dialog-title-action')[0].innerText = "登录 OIer-Meet!";
+                    $('#dialog-login-register-page-login')[0].style.display = "block";
+                    $('#dialog-login-register-page-register')[0].style.display = "none";
+                    this.#flgRegister = false;
+                    $('#dialog-btn-ok')[0].innerText = "登录";
+                    backend.refreshCaptcha("#login-captcha-img");
+                };
+                $('#dia-tab-r')[0].onclick = () => {
+                    $('#dialog-title-action')[0].innerText = "注册 OIer-Meet!";
+                    $('#dialog-login-register-page-login')[0].style.display = "none";
+                    $('#dialog-login-register-page-register')[0].style.display = "block";
+                    this.#flgRegister = true;
+                    $('#dialog-btn-ok')[0].innerText = "注册";
+                    backend.refreshCaptcha("#register-captcha-img");
+                };
+                $('#dialog-btn-ok')[0].onclick = () => {
+                    var action = (res) => {
+                        if(res.status == 200){
+                            window.localStorage.setItem("uid", res.data.uid);
+                            window.localStorage.setItem("operator", res.data.operator);
+                            window.localStorage.setItem("time", (new Date).getTime());
+                        }
+                        var msg = res.msg;
+                        if(!msg) msg = res.data.msg;
+                        mdui.snackbar({
+                            message: msg,
+                            timeout: 500,
+                            onClosed: () => {
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 500);
+                            }
+                        });
+                    };
+                    if(!this.#flgRegister){
+                        backend.call("/login", {
+                            username: $('#in-username')[0].value,
+                            password: $('#in-password')[0].value,
+                            verify: $('#in-captcha')[0].value
+                        }, action);
+                    }else{
+                        backend.call("/register", {
+                            username: $('#in-r-username')[0].value,
+                            password: $('#in-r-password')[0].value,
+                            verify: $('#in-r-captcha')[0].value,
+                            link: $('#in-r-lgverify')[0].value
+                        }, action);
+                    }
+                };
+            }
+        }(this.#element);
+        //用户主页对话框
+        this.home = new class{
+            #father;
+            #element;
+            object;
+            constructor(fa){
+                this.#father = fa;
+                this.build();
+            }
+            build(){
+                this.#element = Make.dialog(
+                    "home-dialog",
+                    "用户主页",
+                    "",
+                    Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "mdui-dialog-cancel", "value": ""}
+                    ], "关闭").outerHTML
+                );
+                this.#father.appendChild(this.#element);
+                this.object = new mdui.Dialog(this.#element);
+            }
+            draw(uid){ //渲染个人主页
+                backend.call("/get_user", {uid: uid}, (res) => {
+                    if(!res.data.homepage) res.data.homepage = "该用户未填写主页内容";
+                    $("#home-dialog-content")[0].innerHTML = md.render(res.data.homepage);
+                    renderMathInElement($("#home-dialog-content")[0], katex_config);
+                    this.object.handleUpdate();
+                });
+            }
+        }(this.#element);
+        //用户设置对话框
+        this.setting = new class{
+            #father;
+            #element;
+            object;
+            editor;
+            constructor(fa){
+                this.#father = fa;
+                this.build();
+                this.bind();
+            }
+            build(){
+                this.#element = Make.dialog(
+                    "setting-dialog",
+                    "用户设置",
+                    Make.element('div', [
+                        {"key": "class", "value": "mdui-textfield"}
+                    ],  Make.element('label', [
+                            {"key": "class", "value": "mdui-textfield-label"}
+                        ], "省份（匿名留空）").outerHTML
+                    + Make.element('input', [
+                            {"key": "class", "value": "mdui-textfield-input"},
+                            {"key": "id", "value": "setting-province"}
+                        ]).outerHTML
+                    ).outerHTML
+                + Make.element('div', [
+                        {"key": "class", "value": "mdui-textfield"}
+                    ],  Make.element('label', [
+                            {"key": "class", "value": "mdui-textfield-label"}
+                        ], "学校（匿名留空）").outerHTML
+                    + Make.element('input', [
+                            {"key": "class", "value": "mdui-textfield-input"},
+                            {"key": "id", "value": "setting-school"}
+                        ]).outerHTML
+                    ).outerHTML
+                + Make.element('div', [
+                        {"key": "class", "value": "mdui-textfield"}
+                    ],  Make.element('label', [
+                            {"key": "class", "value": "mdui-textfield-label"}
+                        ], "头像URL地址").outerHTML
+                    + Make.element('input', [
+                            {"key": "class", "value": "mdui-textfield-input"},
+                            {"key": "id", "value": "setting-avatar"}
+                        ]).outerHTML
+                    ).outerHTML
+                + Make.element('label', [
+                        {"key": "class", "value": "mdui-textfield-label"}
+                    ], "主页Markdown").outerHTML
+                + Make.element('div', [
+                        {"key": "style", "value": editor_css}
+                    ],  Make.element('div', [
+                            {"key": "id", "value": "setting-editor-container"},
+                        ]).outerHTML
+                    ).outerHTML,
+                    Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "mdui-dialog-cancel", "value": ""}
+                    ], "关闭").outerHTML
+                + Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "id", "value": "mylogout"}
+                    ], "注销").outerHTML
+                + Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "id", "value": "setting-submit"},
+                        {"key": "mdui-dialog-confirm", "value": ""}
+                    ], "提交").outerHTML
+                );
+                this.#father.appendChild(this.#element);
+                this.object = new mdui.Dialog(this.#element);
+            }
+            bind(){
+                this.editor = new MarkdownPalettes("#setting-editor-container");
+                $('#mylogout')[0].onclick = () => {
+                    backend.call("/logout");
+                    backend.logout();
+                    Backend.tips({"msg": "操作成功"});
+                };
+                $('#setting-submit')[0].onclick = () => {
+                    backend.call("/user_setting", {
+                        province: $('#setting-province')[0].value,
+                        school: $('#setting-school')[0].value,
+                        avatar: $('#setting-avatar')[0].value,
+                        homepage: this.editor.content
+                    }, Backend.tips);
+                };
+            }
+        }(this.#element);
+        //举报
+        this.report = new class{
+            #element;
+            #father;
+            object;
+            constructor(fa){
+                this.#father = fa;
+                this.build();
+                this.bind();
+            }
+            build(){
+                this.#element = Make.dialog(
+                    "report-dialog",
+                    "举报",
+                    Make.element('label', [
+                        {"key": "class", "value": "mdui-radio"}
+                    ],  Make.element('input', [
+                            {"key": "type", "value": "radio"},
+                            {"key": "name", "value": "report-type"},
+                            {"key": "value", "value": "用户举报"},
+                            {"key": "checked", "value": ""}
+                        ]).outerHTML
+                    + Make.element('i', [
+                            {"key": "class", "value": "mdui-radio-icon"}
+                        ]).outerHTML
+                    + "用户举报"
+                    ).outerHTML
+                    + Make.element('label', [
+                        {"key": "class", "value": "mdui-radio"}
+                    ],  Make.element('input', [
+                            {"key": "type", "value": "radio"},
+                            {"key": "name", "value": "report-type"},
+                            {"key": "value", "value": "帖子举报"}
+                        ]).outerHTML
+                    + Make.element('i', [
+                            {"key": "class", "value": "mdui-radio-icon"}
+                        ]).outerHTML
+                    + "帖子举报"
+                    ).outerHTML
+                    + Make.element('div', [
+                        {"key": "class", "value": "mdui-textfield"}
+                    ],  Make.element('label', [
+                            {"key": "class", "value": "mdui-textfield-label"}
+                        ], "ID").outerHTML
+                    + Make.element('input', [
+                            {"key": "class", "value": "mdui-textfield-input"},
+                            {"key": "id", "value": "report-id"}
+                        ]).outerHTML
+                    ).outerHTML
+                    + Make.element('div', [
+                        {"key": "class", "value": "mdui-textfield"}
+                    ],  Make.element('label', [
+                            {"key": "class", "value": "mdui-textfield-label"}
+                        ], "举报理由").outerHTML
+                    + Make.element('input', [
+                            {"key": "class", "value": "mdui-textfield-input"},
+                            {"key": "id", "value": "report-note"}
+                        ]).outerHTML
+                    ).outerHTML,
+                    Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "mdui-dialog-cancel", "value": ""}
+                    ], "关闭").outerHTML
+                  + Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "id", "value": "report-submit"},
+                        {"key": "mdui-dialog-confirm", "value": ""}
+                    ], "提交").outerHTML
+                );
+                this.#father.appendChild(this.#element);
+                this.object = new mdui.Dialog(this.#element);
+            }
+            bind(){
+                $('#report-submit')[0].onclick = () => {
+                    backend.call("/report", {
+                        "type": $("#radioDiv input[name='report-type']:checked").val(),
+                        "bid": $('#report-id')[0].value,
+                        "note": $('#report-note')[0].value
+                    }, Backend.tips);
+                };
+            }
+        }(this.#element);
+        //顶部工具栏
+        this.toolbar = new class{
+            #father;
+            #element;
+            tab;
+            constructor(fa){
+                this.#father = fa;
+                this.build();
+                this.bind();
+                this.initTab();
+            }
+            initTab(){
+                //Tab 选项卡
+                this.tab = new class{
+                    #father;
+                    #element;
+                    object;
+                    constructor(fa){
+                        this.#father = fa;
+                        this.build();
+                    }
+                    build(){
+                        var op = "";
+                        if(window.localStorage.getItem('operator')) op = Make.tabButton('#management', "account_balance", "管理后台").outerHTML;
+                        this.#element = Make.element('div', [
+                            {"key": "class", "value": "mdui-tab mdui-color-light-blue-300"},
+                            {"key": "style", "value": "opacity: 0.9"},
+                            {"key": "mdui-tab", "value": ""}
+                        ],  Make.tabButton("#homepage", "home", "首页").outerHTML
+                          + Make.tabButton("#userlist", "list", "用户列表").outerHTML
+                          + Make.tabButton("#practice", "book", "Codeforces 练习").outerHTML
+                          + Make.tabButton("#discuss", "forum", "社区").outerHTML
+                          + Make.tabButton("#hole", "streetview", "无人树洞").outerHTML
+                          + Make.tabButton('#log', "content_paste", "管理日志").outerHTML
+                          + op
+                          + Make.tabButton("#about", "info", "关于").outerHTML);
+                        this.#father.appendChild(this.#element);
+                        this.object = new mdui.Tab(this.#element);
+                    }
+                }(this.#element);
+            }
+            build(){
+                this.#element = Make.element('div', [
+                    {"key": "id", "value": "bar"},
+                    {"key": "class", "value": "mdui-appbar"}
+                ],  Make.element('div', [
+                        {"key": "style", "value": "opacity: 0.9; z-index: 0;"},
+                        {"key": "class", "value": "mdui-toolbar mdui-color-light-blue-300"},
+                        {"key": "id", "value": "toolbar"}
+                    ],  Make.element('a', [
+                            {"key": "href", "value": "javascript:Backend.tips({\"msg\": \"刷新成功\"});"},
+                            {"key": "class", "value": "mdui-typo-title"}
+                        ], "OIer Meet!").outerHTML
+                    + Make.element('div', [
+                            {"key": "class", "value": "mdui-toolbar-spacer"}
+                        ]).outerHTML
+                    + Make.toolbarButton("javascript:Backend.tips({\"msg\": \"刷新成功\"});", "refresh", "刷新").outerHTML
+                    + Make.toolbarButton("javascript:body.report.object.open();", "report", "举报").outerHTML
+                    + Make.toolbarButton("javascript:body.UI.object.open();", "settings", "UI 设置").outerHTML
+                    + Make.toolbarButton("javascript:body.servers.object.open();", "dns", "社区服务器浏览器").outerHTML
+                    + Make.toolbarButton("javascript:;", "", "", "user-avatar").outerHTML
+                    ).outerHTML
+                );
+                this.#father.appendChild(this.#element);
+            }
+            bind(){
+                $('#user-avatar')[0].className = "mdui-btn mdui-btn-icon";
+            }
+        }(this.#element);
+        //container div
+        this.container = new class{
+            #element;
+            #father;
+            homepage;
+            about;
+            hole;
+            userlist;
+            discuss;
+            log;
+            management;
+            practice;
+            constructor(fa){
+                this.#father = fa;
+                this.build();
+                this.initHomepage();
+                this.initUserlist();
+                this.initPractice();
+                this.initDiscuss();
+                this.initHole();
+                this.initLog();
+                this.initManagement();
+                this.initAbout();
+            }
+            initHomepage(){
+                //首页
+                this.homepage = new class{
+                    #element;
+                    #father;
+                    constructor(fa){
+                        this.#father = fa;
+                        this.build();
+                    }
+                    build(){
+                        this.#element = Make.element('div', [
+                            {"key": "id", "value": "homepage"},
+                            {"key": "class", "value": "mdui-p-a-5"}
+                        ]);
+                        this.#father.appendChild(this.#element);
+                    }
+                    bind(){
+                        $.get(backend.url + "/intro", (res) =>{
+                            $("#homepage")[0].innerHTML = md.render(res);
+                        });
+                    }
+                }(this.#element);
+            }
+            initAbout(){
+                //关于页
+                this.about = new class{
+                    #element;
+                    #father;
+                    constructor(fa){
+                        this.#father = fa;
+                        this.build();
+                        this.bind();
+                    }
+                    build(){
+                        this.#element = Make.element('div', [
+                            {"key": "id", "value": "about"},
+                            {"key": "class", "value": "mdui-p-a-5"}
+                        ]);
+                        this.#father.appendChild(this.#element);
+                    }
+                    bind(){
+                        $("#about")[0].innerHTML = md.render(about);
+                    }
+                }(this.#element);
+            }
+            initHole(){
+                //无人树洞
+                this.hole = new class{
+                    #element;
+                    #father;
+                    constructor(fa){
+                        this.#father = fa;
+                        this.build();
+                        this.bind();
+                    }
+                    build(){
+                        this.#element = Make.element('div', [
+                            {"key": "id", "value": "hole"},
+                            {"key": "class", "value": "mdui-p-a-5"}
+                        ],  Make.element('textarea', [
+                                {"key": "class", "value": "mdui-textfield-input"},
+                                {"key": "type", "value": "text"},
+                                {"key": "placeholder", "value": "Say here~"},
+                                {"key": "id", "value": "word"}
+                            ]).outerHTML
+                        + Make.element('a', [
+                                {"key": "id", "value": "hole-go"},
+                                {"key": "class", "value": "mdui-btn mdui-btn-raised"}
+                            ], "Biu~").outerHTML
+                        );
+                        this.#father.appendChild(this.#element);
+                    }
+                    bind(){
+                        $('#hole-go')[0].onclick = () => {
+                            $('#word')[0].value = '';
+                            var rand = Math.floor(Math.random()*words.length);
+                            var rvalue = words[rand];
+                            mdui.dialog({
+                                title: 'hi，你收到了一条祝福',
+                                content: rvalue,
+                                buttons: [{ text: '确认'}]
+                            });
+                        };
+                    }
+                }(this.#element);
+            }
+            initUserlist(){
+                //用户列表
+                this.userlist = new class{
+                    #element;
+                    #father;
+                    constructor(fa){
+                        this.#father = fa;
+                        this.build();
+                    }
+                    build(){
+                        this.#element = Make.element('div', [
+                            {"key": "class", "value": "mdui-p-a-5"},
+                            {"key": "id", "value": "userlist"}
+                        ],  Make.element('label', [
+                                    {"key": "class", "value": "mdui-radio"}
+                                ],  Make.element('input', [
+                                        {"key": "type", "value": "radio"},
+                                        {"key": "name", "value": "search-radio"},
+                                        {"key": "value", "value": "uid"},
+                                        {"key": "checked", "value": ""}
+                                    ]).outerHTML
+                                  + Make.element('i', [
+                                        {"key": "class", "value": "mdui-radio-icon"}
+                                    ]).outerHTML
+                                  + "搜索 UID"
+                            ).outerHTML
+                          + Make.element('label', [
+                                    {"key": "class", "value": "mdui-radio"}
+                                ],  Make.element('input', [
+                                        {"key": "type", "value": "radio"},
+                                        {"key": "name", "value": "search-radio"},
+                                        {"key": "value", "value": "username"}
+                                    ]).outerHTML
+                                  + Make.element('i', [
+                                        {"key": "class", "value": "mdui-radio-icon"}
+                                    ]).outerHTML
+                                  + "搜索用户名"
+                            ).outerHTML
+                          + Make.element('label', [
+                                    {"key": "class", "value": "mdui-radio"}
+                                ],  Make.element('input', [
+                                        {"key": "type", "value": "radio"},
+                                        {"key": "name", "value": "search-radio"},
+                                        {"key": "value", "value": "lgusername"}
+                                    ]).outerHTML
+                                  + Make.element('i', [
+                                        {"key": "class", "value": "mdui-radio-icon"}
+                                    ]).outerHTML
+                                  + "搜索洛谷用户名"
+                            ).outerHTML
+                              + Make.element('div', [
+                                    {"key": "class", "value": "mdui-textfield"}
+                                ],  Make.element('label', [
+                                        {"key": "class", "value": "mdui-textfield-label"}
+                                    ], "请输入搜索内容").outerHTML
+                                + Make.element('input', [
+                                    {"key": "class", "value": "mdui-textfield-input"},
+                                    {"key": "id", "value": "search-content"}
+                                ]).outerHTML
+                            ).outerHTML
+                          + Make.element('a', [
+                                {"key": "id", "value": "search"},
+                                {"key": "class", "value": "mdui-btn mdui-btn-raised mdui-color-theme-accent"},
+                                {"key": "onclick", "value": "body.container.userlist.search()"}
+                            ], "搜索").outerHTML 
+                          + Make.element('br').outerHTML
+                          + Make.element('br').outerHTML
+                          + Make.element('div', [
+                                {"key": "class", "value": "mdui-table-fluid"}
+                            ],  Make.element('table', [
+                                    {"key": "class", "value": "mdui-table"}
+                                ],  Make.element('thead', [],
+                                        Make.element('tr', [],
+                                            Make.element('th', [], "UID").outerHTML
+                                            + Make.element('th', [], "用户名").outerHTML
+                                            + Make.element('th', [], "省份及学校").outerHTML
+                                            + Make.element('th', [], "洛谷用户名").outerHTML
+                                            + Make.element('th', [], "管理员").outerHTML
+                                            + Make.element('th', [], "是否被封禁").outerHTML
+                                            + Make.element('th', [], "注册时间").outerHTML
+                                        ).outerHTML
+                                    ).outerHTML
+                                + Make.element('tbody', [
+                                        {"key": "id", "value": "userlist_body"}
+                                    ]).outerHTML
+                                ).outerHTML
+                            ).outerHTML
+                        + Make.element('br').outerHTML
+                        + Make.element('div', [
+                                {"key": "id", "value": "userlist-page"}
+                            ]).outerHTML
+                        );
+                        this.#father.appendChild(this.#element);
+                    }
+                    updateUserlist(page){ //用户列表
+                        $('#userlist_body')[0].innerHTML = "";
+                        backend.call("/get_userlist", {"page": page}, (res) => {
+                            for(var i = 0; i < res.data.length; i++){
+                                if(!res.data[i].province) res.data[i].province = "";
+                                if(!res.data[i].school) res.data[i].school = "";
+                                if(!res.data[i].avatar) res.data[i].avatar = "https://gitee.com/oier-meet-dev-team/oier-meet/raw/master/avatar.png";
+                                $('#userlist_body')[0].appendChild(((data) => {
+                                    return Make.element('tr', [],
+                                        Make.element('td', [], data._id).outerHTML
+                                        + Make.element('td', [], Make.name(data._id, data.username, data.avatar, data.tag).outerHTML).outerHTML
+                                        + Make.element('td', [], data.province + ' ' + data.school).outerHTML
+                                        + Make.element('td', [],
+                                                Make.element('a', [
+                                                    {"key": "href", "value": "https://www.luogu.com.cn/user/" + data.luogu_uid}
+                                                ], data.luogu_username).outerHTML
+                                            ).outerHTML
+                                        + Make.element('td', [], data.operator).outerHTML
+                                        + Make.element('td', [], data.banned).outerHTML
+                                        + Make.element('td', [], data.register_time).outerHTML
+                                    );
+                                })(res.data[i]));
+                            }
+                            $('#userlist-page').jqPaginator('option', {
+                                totalCounts: res.count,
+                                currentPage: page
+                            });
+                        });
+                    }
+                    bind(){
+                        $('#userlist-page').jqPaginator(Make.pageConfig(20, this.updateUserlist));
+                    }
+                    search(){
+                        backend.call("/search", {
+                            "type": $("#radioDiv input[name='search-radio']:checked").val(),
+                            "content": $('#search-content')[0].value
+                        }, (res) => {
+                            if(res.status == 200){
+                                var searched = Make.element('a', [
+                                    {"key": "name", "value": "searched"}
+                                ], this.addUserlist(res.data));
+                                $('#userlist_body')[0].appendChild(searched);
+                                searched.scrollIntoView({behavior: 'smooth'});
+                            }
+                        });
+                    }
+                }(this.#element);
+            }
+            initPractice(){
+                this.practice = new class{
+                    #father;
+                    #element;
+                    object;
+                    constructor(fa){
+                        this.#father = fa;
+                        this.build();
+                    }
+                    build(){
+                        this.#element = Make.element()
+                    }
+                }(this.#element);
+            }
+            initDiscuss(){
+                this.discuss = new class{
+                    #father;
+                    #element;
+                    object;
+                    #pages = new Map();
+                    #panels = new Map();
+                    constructor(fa){
+                        this.#father = fa;
+                        this.build();
+                    }
+                    build(){
+                        this.#element = Make.element('div', [
+                            {"key": "id", "value": "discuss"},
+                            {"key": "style", "value": "padding: 40px;"}
+                        ],  Make.element('br').outerHTML
+                          + Make.element('div', [
+                                {"key": "class", "value": "mdui-panel"},
+                                {"key": "id", "value": "discuss_body"},
+                            ]).outerHTML
+                        + Make.element('br').outerHTML
+                        + Make.element('div', [
+                                {"key": "id", "value": "discuss-page"}
+                            ]).outerHTML
+                        + Make.element('div', [
+                                {"key": "class", "value": "mdui-textfield"}
+                            ],  Make.element('input', [
+                                    {"key": "class", "value": "mdui-textfield-input"},
+                                    {"key": "type", "value": "text"},
+                                    {"key": "placeholder", "value": "帖子标题"},
+                                    {"key": "id", "value": "topic"}
+                                ]).outerHTML
+                            ).outerHTML
+                        + Make.element('br').outerHTML
+                        + Make.element('button', [
+                                {"key": "class", "value": "mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"},
+                                {"key": "id", "value": "new-post"}
+                            ], "编辑内容并发表帖子").outerHTML
+                        + Make.element('br').outerHTML
+                        + Make.element('br').outerHTML
+                        );
+                        this.#father.appendChild(this.#element);
+                        this.object = new mdui.Panel("#discuss_body");
+                    }
+                    bind(){
+                        $('#new-post')[0].onclick = () => { //发帖
+                            $('#editor-submit')[0].onclick = () => {
+                                var topic = $("#topic")[0].value;
+                                var content = body.editor.editor.content;
+                                if(!content) content = "（未填写帖子内容）";
+                                backend.call("/send_contents", {topic: topic, message: content}, Backend.tips);
+                            }
+                            body.editor.object.open();
+                        };
+                        $('#discuss-page').jqPaginator(Make.pageConfig(20, this.updateDiscuss));
+                    }
+                    getSignlePost(id, myid, msg, avatar, username, tag, send_time, top = false, reply = false){ //渲染单个帖子
+                        var extra = Make.element('script').outerHTML, extra2 = "", extra3 = "";
+                        var img = "", notop = "";
+                        if(tag) 
+                            extra = Make.element('span', [
+                                {"key": "class", "value": "border-radius: 2px; background-color: #8e44ad;"}
+                            ], tag);
+                        if(avatar)
+                            img = Make.element('img', [
+                                {"key": "class", "value": "mdui-card-header-avatar"},
+                                {"key": "src", "value": avatar}
+                            ]).outerHTML;
+                        if(!top){
+                            extra3 = Make.element('div', [
+                                {"key": "class", "value": "mdui-panel"},
+                                {"key": "mdui-panel", "value": ""},
+                                {"key": "id", "value": "reply-panel-" + myid}
+                            ],  Make.element('div', [
+                                    {"key": "class", "value": "mdui-panel-item"}
+                                ],  Make.element('div', [
+                                        {"key": "class", "value": "mdui-panel-item-header"}
+                                    ], "点击展开回复").outerHTML
+                                    + Make.element('div', [
+                                            {"key": "class", "value": "mdui-panel-item-body"}
+                                        ],  Make.element('div', [
+                                                {"key": "id", "value": "reply-body-" + myid}
+                                            ]).outerHTML
+                                          + Make.element('div', [
+                                                {"key": "id", "value": "reply-page-" + myid}
+                                            ]).outerHTML
+                                        ).outerHTML
+                                    ).outerHTML
+                                ).outerHTML
+                            + Make.element('br').outerHTML;
+                            extra2 = Make.element('div', [
+                                {"key": "class", "value": "mdui-card-actions"}
+                            ], Make.element('button', [
+                                    {"key": "class", "value": "mdui-btn mdui-ripple mdui-btn-raised mdui-color-theme-accent"},
+                                    {"key": "onclick", "value": "(" + ((id) => {
+                                        $("#editor-submit")[0].onclick = () => {
+                                            window.backend.call('/reply_replies', {
+                                                "father": id,
+                                                "message": window.body.editor.editor.content
+                                            }, Backend.tips);
+                                        };
+                                        window.body.editor.object.open();
+                                    }).toString() + ")('" + id + "')"}
+                                ], "回复该评论").outerHTML
+                            + Make.element('button', [
+                                    {"key": "class", "value": "mdui-btn mdui-ripple mdui-btn-raised mdui-color-theme-accent"},
+                                    {"key": "onclick", "value": "(" +  ((id) => {
+                                        window.backend.call('/delete_replies', {
+                                            "id": id,
+                                        }, Backend.tips);
+                                    }).toString() + ")('" + myid + "')"}
+                                ], "删除回复").outerHTML
+                            ).outerHTML;
+                        }else if(reply){
+                            extra2 = Make.element('div', [
+                                    {"key": "class", "value": "mdui-card-actions"}
+                                ],  Make.element('button', [
+                                    {"key": "class", "value": "mdui-btn mdui-ripple mdui-btn-raised mdui-color-theme-accent"},
+                                    {"key": "onclick", "value": "(" + ((id, username) => {
+                                        $("#editor-submit")[0].onclick = () => {
+                                            window.backend.call('/reply_replies', {
+                                                "father": id,
+                                                "message": window.body.editor.editor.content
+                                            }, Backend.tips);
+                                        };
+                                        window.body.editor.editor.content = "回复 **@" + username + "**：";
+                                        window.body.editor.object.open();
+                                    }).toString() + ")('" + id + "', '" + username + "')"}
+                                ], "回复二层评论").outerHTML
+                                  + Make.element('button', [
+                                    {"key": "class", "value": "mdui-btn mdui-ripple mdui-btn-raised mdui-color-theme-accent"},
+                                    {"key": "onclick", "value": "(" + ((id) => {
+                                        window.backend.call('/delete_reply', {
+                                            "id": id,
+                                        }, Backend.tips);
+                                    }).toString() + ")('" + myid + "')"}
+                                ], "删除评论").outerHTML
+                            ).outerHTML;
+                        }
+                        var id_str = id ? "ID: " + id + " " : "";
+                        return Make.element('div', [
+                            {"key": "class", "value": "mdui-card"}
+                        ],  Make.element('div', [
+                                {"key": "class", "value": "mdui-card-header"}
+                            ],  img
+                            + Make.element('div', [
+                                    {"key": "class", "value": "mdui-card-header-title"},
+                                ], username + extra).outerHTML
+                            + Make.element('div', [
+                                    {"key": "class", "value": "mdui-card-header-subtitle"},
+                                ], send_time).outerHTML
+                            ).outerHTML
+                          + Make.element('div', [
+                                {"key": "class", "value": "mdui-card-content"}
+                            ], md.render(msg) + extra3).outerHTML
+                          + extra2
+                        );
+                    };
+                    showReply(fid, id, page){ //渲染二层回复
+                        backend.call("/get_repliesonlist", {father: fid, page: page}, ((fid, id) => {return (res) => {
+                            for(var i = 0; i < res.data.length; i++){
+                                $('#reply-body-' + id)[0].appendChild(
+                                    this.getSignlePost(
+                                        id, res.data[i]._id, res.data[i].message, res.data[i].sender.avatar, res.data[i].sender.username,
+                                        res.data[i].sender.tag, res.data[i].send_time, true, true
+                                    )
+                                );
+                                mdui.mutation();
+                            }
+                        };})(fid, id));
+                    }
+                    showPost(id, page){ //渲染帖子
+                        backend.call("/get_contents", {id: id}, ((id) => {return (res) => { //加载主内容
+                            $('#content-' + id)[0].appendChild(this.getSignlePost(
+                                    res.data[0]._id, res.data[0]._id, res.data[0].message, res.data[0].sender.avatar, res.data[0].sender.username, res.data[0].sender.tag,
+                                    res.data[0].send_time, true
+                                )
+                            );
+                            backend.call("/get_replieslist", {father: id, page: page}, ((id) => {return (res) => {
+                                if(res.data == undefined) return;
+                                for(var i = 0; i < res.data.length; i++){
+                                    $('#content-' + id)[0].appendChild(Make.element('br'));
+                                    $('#content-' + id)[0].appendChild(this.getSignlePost(
+                                            id, res.data[i]._id, res.data[i].message, res.data[i].sender.avatar, res.data[i].sender.username, 
+                                            res.data[i].sender.tag, res.data[i].send_time
+                                        )
+                                    );
+                                    this.#panels.set(res.data[i]._id, new mdui.Panel('#reply-panel-' + res.data[i]._id));
+                                    $('#reply-page-' + res.data[i]._id).jqPaginator(
+                                        Make.pageConfig(20, ((id, fid) => {return (num) => {
+                                            if(this.#pages.get(id) == num) return;
+                                            this.showReply(fid, id, num);
+                                            this.#pages.set(id, num);
+                                        }})(res.data[i]._id, id))
+                                    );
+                                }
+                                $('#content-' + id)[0].innerHTML += 
+                                    Make.element('br').outerHTML
+                                  + Make.element('div', [
+                                        {"key": "id", "value": "reply-" + id}
+                                    ]).outerHTML
+                                  + Make.element('br').outerHTML
+                                  + Make.element('div', [
+                                        {"key": "class", "value": "mdui-panel-item-actions"}
+                                    ],  Make.element('button', [
+                                            {"key": "class", "value": "mdui-btn mdui-ripple mdui-btn-raised mdui-color-theme-accent"},
+                                            {"key": "onclick", "value": "(" + ((id) => {
+                                                $("#editor-submit")[0].onclick = () => {
+                                                    window.backend.call("/reply_contents", {
+                                                        "father": id,
+                                                        "message": window.body.editor.editor.content
+                                                    }, Backend.tips);
+                                                };
+                                                window.body.editor.object.open();
+                                            }).toString() + ")('" + id + "')"}
+                                        ], "回复该贴").outerHTML
+                                    + Make.element('button', [
+                                            {"key": "class", "value": "mdui-btn mdui-ripple mdui-btn-raised mdui-color-theme-accent"},
+                                            {"key": "onclick", "value": "(" + ((id) => {
+                                                window.backend.call("/delete_contents", {
+                                                    "id": id
+                                                }, Backend.tips);
+                                            }).toString() + ")('" + id + "')"}
+                                        ], "删除").outerHTML
+                                    ).outerHTML
+                                + Make.element('br').outerHTML
+                                + Make.element('div', [
+                                        {"key": "id", "value": id + "-page"}
+                                    ]).outerHTML;
+                                this.#pages.set(id, 1);
+                                $('#' + id + '-page').jqPaginator(
+                                    Make.pageConfig(20, ((id) => {return (num) => {
+                                        if(this.#pages.get(id) == num) return;
+                                        this.showPost(id, num);
+                                        this.#pages.get(id) = num;
+                                    }})(id))
+                                );
+                            }})(id));
+                        }})(id));
+                    };
+                    updateDiscuss = (page) => { //社区
+                        backend.call("/get_contentslist", {page: page}, (res) => {
+                            for(var i = 0; i < res.data.length; i++){
+                                var panel = Make.element('div', [
+                                    {"key": "class", "value": "mdui-panel-item"}
+                                ],  Make.element('div', [
+                                        {"key": "class", "value": "mdui-panel-item-header"}
+                                    ],  Make.element('div', [
+                                            {"key": "class", "value": "mdui-panel-item-title"}
+                                        ], res.data[i].topic).outerHTML
+                                    + Make.element('div', [
+                                            {"key": "class", "value": "mdui-panel-item-summary"}
+                                        ], "ID：" + res.data[i]._id).outerHTML
+                                    + Make.element('div', [
+                                            {"key": "class", "value": "mdui-panel-item-summary"}
+                                        ], "发送者：" + Make.name(res.data[i].sender._id, res.data[i].sender.username, res.data[i].sender.avatar, res.data[i].sender.tag).outerHTML).outerHTML
+                                    + Make.element('div', [
+                                            {"key": "class", "value": "mdui-panel-item-summary"}
+                                        ], "发送时间：" + res.data[i].send_time).outerHTML
+                                    + Make.element('i', [
+                                            {"key": "class", "value": "mdui-panel-item-arrow mdui-icon material-icons"}
+                                        ], "keyboard_arrow_down").outerHTML
+                                    ).outerHTML
+                                + Make.element('div', [
+                                        {"key": "class", "value": "mdui-panel-item-body"},
+                                        {"key": "id", "value": "content-" + res.data[i]._id}
+                                    ]).outerHTML
+                                );
+                                $('#discuss_body')[0].appendChild(panel);
+                                this.showPost(res.data[i]._id, 1);
+                            }
+                            $('#discuss-page').jqPaginator('option', {
+                                totalCounts: res.data.count,
+                                currentPage: page
+                            });
+                        });
+                    };
+                }(this.#element);
+            }
+            initLog(){
+                this.log = new class{
+                    #father;
+                    #element;
+                    note;
+                    setUser;
+                    constructor(fa){
+                        this.#father = fa;
+                        this.build();
+                    }
+                    build(){
+                        this.#element = Make.element('div', [
+                            {"key": "id", "value": "log"},
+                            {"key": "class", "value": "mdui-p-a-5"}
+                        ]);
+                        this.#father.appendChild(this.#element);
+                    }
+                    bind(){
+                        this.#element.appendChild(Make.element('div', [
+                            {"key": "class", "value": "mdui-table-fluid"}
+                        ],  Make.element('table', [
+                                {"key": "class", "value": "mdui-table"}
+                            ],  Make.element('thead', [],
+                                Make.element('tr', [],
+                                    Make.element('th', [], "操作者").outerHTML
+                                    + Make.element('th', [], "操作类型").outerHTML
+                                    + Make.element('th', [], "操作详情").outerHTML
+                                    + Make.element('th', [], "备注").outerHTML
+                                    ).outerHTML
+                                ).outerHTML
+                            + Make.element('tbody', [
+                                    {"key": "id", "value": "log_body"}
+                                ]).outerHTML
+                            ).outerHTML
+                        ));
+                        this.#element.appendChild(Make.element('br'));
+                        this.#element.appendChild(Make.element('div', [
+                            {"key": "id", "value": "log-page"}
+                        ]));
+                        $('#log-page').jqPaginator(Make.pageConfig(20, this.updateLog));
+                    }
+                    updateLog(page = 1){
+                        backend.call("/get_loglist", {page: page}, (res) => {
+                            for(var i = 0; i < res.data.length; i++){
+                                var line = Make.element('tr', [],
+                                    Make.element('td', [], res.data[i].operator).outerHTML
+                                  + Make.element('td', [], res.data[i].type).outerHTML
+                                  + Make.element('td', [], res.data[i].content).outerHTML
+                                  + Make.element('td', [], res.data[i].note).outerHTML
+                                );
+                                $('#log_body')[0].appendChild(line);
+                            }
+                            $('#log-page').jqPaginator('option', {
+                                totalCounts: res.data.count,
+                                currentPage: page
+                            });
+                        });
+                    }
+                }(this.#element);
+            }
+            initManagement(){
+                this.management = new class{
+                    #father;
+                    #element;
+                    note;
+                    setUser;
+                    constructor(fa){
+                        this.#father = fa;
+                        this.build();
+                    }
+                    build(){
+                        this.#element = Make.element('div', [
+                            {"key": "id", "value": "management"},
+                            {"key": "class", "value": "mdui-p-a-5"}
+                        ]);
+                        this.#father.appendChild(this.#element);
+                    }
+                    bind(){
+                        this.#element.appendChild(Make.element('button', [
+                            {"key": "class", "value": "mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"},
+                            {"key": "onclick", "value": "body.management.setUser.object.open();"}
+                        ], "设置用户权限"));
+                        this.#element.appendChild(Make.element('div', [
+                            {"key": "class", "value": "mdui-table-fluid"}
+                        ],  Make.element('table', [
+                                {"key": "class", "value": "mdui-table"}
+                            ],  Make.element('thead', [],
+                                Make.element('tr', [],
+                                    Make.element('th', [], "举报类型").outerHTML
+                                    + Make.element('th', [], "举报详情").outerHTML
+                                    + Make.element('th', [], "备注").outerHTML
+                                    + Make.element('th', [], "被举报次数").outerHTML
+                                    + Make.element('th', [], '操作').outerHTML
+                                    ).outerHTML
+                                ).outerHTML
+                            + Make.element('tbody', [
+                                    {"key": "id", "value": "judge_body"}
+                                ]).outerHTML
+                            ).outerHTML
+                        ));
+                        this.#element.appendChild(Make.element('div', [
+                            {"key": "id", "value": "judge-page"}
+                        ]));
+                        $('#log-page').jqPaginator(Make.pageConfig(20, this.updateJudge));
+                    }
+                    updateJudge(page){
+                        backend.call("/get_judgelist", {page: page}, (res) => {
+                            for(var i = 0; i < res.data.length; i++){
+                                var line = Make.element('tr', [],
+                                  Make.element('td', [], res.data[i].type).outerHTML
+                                  + Make.element('td', [], res.data[i].content).outerHTML
+                                  + Make.element('td', [], res.data[i].note).outerHTML
+                                  + Make.element('td', [], res.data[i].times).outerHTML
+                                  + Make.element('td', [], 
+                                        Make.element('button', [
+                                            {"key": "class", "value": "mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"},
+                                            {"key": "onclick", "value": "body.management.judge(" + res.data[i].type + ", " + res.data[i].bid + ");"}
+                                        ], "同意").outerHTML
+                                      + Make.element('button', [
+                                            {"key": "class", "value": "mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"},
+                                            {"key": "onclick", "value": "body.management.reject(" + res.data[i]._id + ");"}
+                                        ], "拒绝").outerHTML
+                                      + Make.element('button', [
+                                            {"key": "class", "value": "mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"},
+                                            {"key": "onclick", "value": "body.management.note.object.open();"}
+                                        ], "备注").outerHTML
+                                    ).outerHTML
+                                );
+                                $('#log_body')[0].appendChild(line);
+                            }
+                            $('#judge-page').jqPaginator('option', {
+                                totalCounts: res.data.count,
+                                currentPage: page
+                            });
+                        });
+                    }
+                    judge(type, bid){
+                        var note = $('#note')[0].value;
+                        $('#note')[0].value = "";
+                        if(type == "用户举报"){
+                            backend.call('/ban_user', {
+                                "uid": bid
+                            }, (res) => {
+                                Backend.tips(res);
+                                if(res.status == 200){
+                                    backend.call('/log', {
+                                        "type": "用户权限调整",
+                                        "content": "将用户 " + bid + "  设置为封禁用户",
+                                        "note": (!note ? "管理员应用户举报而调整权限" : note)
+                                    });
+                                }
+                            });
+                        }else if(type == "帖子举报"){
+                            backend.call('/delete_contents', {
+                                "id": bid
+                            }, (res) => {
+                                Backend.tips(res);
+                                if(res.status == 200){
+                                    backend.call('/log', {
+                                        "type": "删除帖子",
+                                        "content": "将帖子 " + bid + " 删除",
+                                        "note": (!note ? "管理员应用户举报而删除帖子" : note)
+                                    });
+                                }
+                            });
+                        }
+                    }
+                    reject(id){
+                        backend.call('/delete_judge', {
+                            "id": id
+                        }, Backend.tips);
+                    }
+                    initNote(){
+                        this.note = new class{
+                            #element;
+                            #father;
+                            object;
+                            constructor(fa){
+                                this.#father = fa;
+                                build();
+                            }
+                            build(){
+                                this.#element = Make.dialog(
+                                    "note-dialog",
+                                    "添加备注",
+                                    Make.element('div', [
+                                        {"key": "class", "value": "mdui-textfield mdui-textfield-floating-label"}
+                                    ],  Make.element('label', [
+                                            {"key": "class", "value": "mdui-textfield-label"},
+                                        ], "备注").outerHTML
+                                    + Make.element('input', [
+                                            {"key": "class", "value": "mdui-textfield-input"},
+                                            {"key": "id", "value": "note"}
+                                        ]).outerHTML
+                                    ).outerHTML
+                                );
+                                this.#father.appendChild(this.#element);
+                                this.object = new mdui.Dialog(this.#element);
+                            }
+                        }(this.#element);
+                    }
+                    initSetUser(){
+                        this.setUser = new class{
+                            #element;
+                            #father;
+                            object;
+                            constructor(fa){
+                                this.#father = fa;
+                                build();
+                                bind();
+                            }
+                            build(){
+                                this.#element = Make.dialog(
+                                    "SetUser-dialog",
+                                    "设置用户权限",
+                                    Make.element('div', [
+                                        {"key": "class", "value": "mdui-textfield mdui-textfield-floating-label"}
+                                    ],  Make.element('label', [
+                                            {"key": "class", "value": "mdui-textfield-label"},
+                                        ], "请指定用户名").outerHTML
+                                    + Make.element('input', [
+                                            {"key": "class", "value": "mdui-textfield-input"},
+                                            {"key": "id", "value": "SetUser-username"}
+                                        ]).outerHTML
+                                    ).outerHTML
+                                  + Make.element('label', [
+                                        {"key": "class", "value": "mdui-checkbox"}
+                                    ], Make.element('input', [
+                                            {"key": "type", "value": "checkbox"},
+                                            {"key": "id", "value": "ban-check"}
+                                        ]).outerHTML
+                                      + Make.element('i', [
+                                            {"key": "class", "value": "mdui-checkbox-icon"}
+                                        ]).outerHTML
+                                      + "封禁用户"
+                                    ).outerHTML
+                                  + Make.element('label', [
+                                        {"key": "class", "value": "mdui-checkbox"}
+                                    ], Make.element('input', [
+                                            {"key": "type", "value": "checkbox"},
+                                            {"key": "id", "value": "operator-check"}
+                                        ]).outerHTML
+                                      + Make.element('i', [
+                                            {"key": "class", "value": "mdui-checkbox-icon"}
+                                        ]).outerHTML
+                                      + "管理员"
+                                    ).outerHTML
+                                  + Make.element('label', [
+                                        {"key": "class", "value": "mdui-checkbox"}
+                                    ], Make.element('input', [
+                                            {"key": "type", "value": "checkbox"},
+                                            {"key": "id", "value": "tag-check"}
+                                        ]).outerHTML
+                                      + Make.element('i', [
+                                            {"key": "class", "value": "mdui-checkbox-icon"}
+                                        ]).outerHTML
+                                      + "设置 Tag"
+                                    ).outerHTML
+                                  + Make.element('div', [
+                                        {"key": "class", "value": "mdui-textfield mdui-textfield-floating-label"}
+                                    ],  Make.element('label', [
+                                            {"key": "class", "value": "mdui-textfield-label"},
+                                        ], "Tag").outerHTML
+                                    + Make.element('input', [
+                                            {"key": "class", "value": "mdui-textfield-input"},
+                                            {"key": "disabled", "value": ""},
+                                            {"key": "id", "value": "SetUser-tag"}
+                                        ]).outerHTML
+                                    ).outerHTML,
+                                    Make.element('button', [
+                                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                                        {"key": "mdui-dialog-cancel", "value": ""}
+                                    ], '取消').outerHTML
+                                  + Make.element('button', [
+                                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                                        {"key": "mdui-dialog-confirm", "value": ""},
+                                        {"key": "id", "value": "SetUser-submit"}
+                                    ], '提交').outerHTML
+                                  + Make.element('button', [
+                                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                                        {"key": "onclick", "value": "body.management.note.object.open();"}
+                                    ], '添加备注').outerHTML
+                                );
+                            }
+                            bind(){
+                                $('#ban-check')[0].indeterminate = true;
+                                $('#operator-check')[0].indeterminate = true;
+                                $('#tag-check')[0].onchange = () => {
+                                    if($('#tag-check')[0].checked){
+                                        $('#SetUser-tag')[0].removeAttr("disabled");
+                                    }else{
+                                        $('#SetUser-tag')[0].setAttribute("disabled", "");
+                                        $('#SetUser-tag')[0].value = "";
+                                    }
+                                };
+                                $('#SetUser-submit')[0].onclick = () => {
+                                    var args = new Object();
+                                    args.username = $('#SetUser-username')[0].value;
+                                    if(!$('#ban-check')[0].indeterminate) args.ban = $('#ban-check')[0].checked;
+                                    if(!$('#operator-check')[0].indeterminate) args.operator = $('#operator-check')[0].checked;
+                                    if($('#tag-check').checked) args.tag = $('#SetUser-tag')[0].value;
+                                    backend.call('/set_user', args, (res) => {
+                                        var note = $('#note')[0].value;
+                                        $('#note')[0].value = "";
+                                        Backend.tips(res);
+                                        if(res.status == 200){
+                                            if(!$('#ban-check')[0].indeterminate){
+                                                if($('#ban-check')[0].checked){
+                                                    backend.call('/log', {
+                                                        "type": "用户权限调整",
+                                                        "content": "将用户 " + args.username + " 设为封禁用户",
+                                                        "note": (!note ? "管理员手动封禁" : note)
+                                                    });
+                                                }else{
+                                                    backend.call('/log', {
+                                                        "type": "用户权限调整",
+                                                        "content": "将用户 " + args.username + " 解封",
+                                                        "note": (!note ? "管理员手动解封" : note)
+                                                    });
+                                                }
+                                            }
+                                            if(!$('#operator-check')[0].indeterminate){
+                                                if($('#operator-check')[0].checked){
+                                                    backend.call('/log', {
+                                                        "type": "用户权限调整",
+                                                        "content": "将用户 " + args.username + " 设为管理员",
+                                                        "note": (!note ? "服主手动设置" : note)
+                                                    });
+                                                }else{
+                                                    backend.call('/log', {
+                                                        "type": "用户权限调整",
+                                                        "content": "将用户 " + args.username + " 取消管理员",
+                                                        "note": (!note ? "服主手动设置" : note)
+                                                    });
+                                                }
+                                            }
+                                            if($('#tag-check')[0].checked){
+                                                backend.call('/log', {
+                                                    "type": "用户权限调整",
+                                                    "content": "将用户 " + args.username + " 的 Tag 设为 " + args.tag,
+                                                    "note": (!note ? "管理员手动设置" : note)
+                                                });
+                                            }
+                                        }
+                                    });
+                                };
+                            }
+                        }(this.#element);
+                    }
+                }(this.#element);
+            }
+            build(){
+                this.#element = Make.element('div', [
+                    {"key": "id", "value": "container"},
+                    {"key": "class", "value": "mdui-container mdui-shadow-3"},
+                    {"key": "style", "value": "font-size: 18px; background-color: white; opacity: 0.9;"}
+                ]);
+                this.#father.appendChild(this.#element);
+            }
+            loadBackend(){ //需要单独加载
+                this.homepage.bind();
+                this.userlist.bind();
+                this.discuss.bind();
+                //this.practice.bind();
+                this.log.bind();
+                this.management.bind();
+            }
+        }(this.#element);
+    }
+};
+var head, backend, body;
+var build = new class launch{
+    lastRefresh = 0;
+    constructor(){ //构建网页
+        head = window.head = new Head; //构造 <head> 标签
+        head.build().catch((err) => {
+            console.error(err);
+            alert("文件加载错误：已停止加载，请检查网络连接。");
+            throw Error("文件加载错误：已停止加载");
+        }).then(() => {
+            md = new window.markdownit({html: true}); //初始化 md
+            body = window.body = new Body;
+            backend = window.backend = new Backend; //初始化后端
+            body.toolbar.tab.object.show(0);
+            if(!backend.url){
+                body.servers.object.open();
+                throw new Error('用户没有加入服务器，终止加载。');
+            }
+            backend.call("/generate_key", {}, //获取 token
+                (dat) => {
+                    $('#luogu-verify-id-display')[0].innerText = dat.data.key;
+                    if(!window.localStorage.getItem("token") || window.localStorage.getItem("token") == "null"){
+                        window.localStorage.setItem("token", dat.data.token);
+                    }
+                    $('#dia-tab-l')[0].onclick();
+                }
+            );
+            if(window.localStorage.getItem("time") + 7 * 24 * 60 * 60 * 1000 < (new Date).getTime()){
+                backend.logout();
+            }
+            if(!window.localStorage.getItem("uid")){
+                var login = document.createElement("i");
+                login.className = "mdui-icon material-icons";
+                login.innerText = "person";
+                $("#user-avatar")[0].appendChild(login);
+                $('#user-avatar')[0].onclick = () => {
+                    $('#dia-tab-l')[0].onclick();
+                    body.login_register.object.open();
+                };
+                $("#user-avatar")[0].setAttribute('mdui-tooltip', "{content: '" + "登录" + "'}");
+            }else{
+                var avatar = document.createElement("img");
+                avatar.style = "vertical-align:middle; margin-left: .4em; width: 35px; height: 35px; border-radius: 50%;";
+                $("#user-avatar")[0].appendChild(avatar);
+                backend.call("/get_user", {
+                    uid: window.localStorage.getItem("uid")
+                }, (res) => {
+                    if(!res.data.avatar) avatar.src = "https://gitee.com/oier-meet-dev-team/oier-meet/raw/master/avatar.png";
+                    else avatar.src = res.data.avatar;
+                });
+                $('#user-avatar')[0].onclick = () => {
+                    backend.call("/get_user", {uid: window.localStorage.getItem("uid")}, (res) => {
+                        if(!res.data.province) res.data.province = "";
+                        if(!res.data.school) res.data.school = "";
+                        if(!res.data.avatar) res.data.avatar = "";
+                        if(!res.data.homepage) res.data.homepage = "";
+                        $('#setting-province')[0].value = res.data.province;
+                        $('#setting-school')[0].value = res.data.school;
+                        $('#setting-avatar')[0].value = res.data.avatar;
+                        body.setting.editor.content = res.data.homepage;
+                    });
+                    body.setting.object.open();
+                };
+                $("#user-avatar")[0].setAttribute('mdui-tooltip', "{content: '" + "用户设置" + "'}");
+            }
+            body.container.loadBackend();
+            mdui.mutation();
+        });
+    }
+};
+</script>
+<body></body>
+</html>
