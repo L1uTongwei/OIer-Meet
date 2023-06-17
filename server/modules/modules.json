@@ -106,7 +106,7 @@
         "operator_required": true
     },
     "/report": {
-        "code": "Contents.report(database, token, post);",
+        "code": "Post.report(database, token, post);",
         "post": [
             "type",
             "bid",
@@ -126,8 +126,8 @@
         "login_required": false,
         "operator_required": false
     },
-    "/send_contents": {
-        "code": "Contents.sendContents(database, token, post);",
+    "/send_post": {
+        "code": "Post.sendPost(database, token, post);",
         "post": [
             "type",
             "content"
@@ -136,8 +136,8 @@
         "login_required": true,
         "operator_required": false
     },
-    "/get_contents": {
-        "code": "Contents.getContents(database, token, post);",
+    "/get_post": {
+        "code": "Post.getPost(database, token, post);",
         "post": [
             "id"
         ],
@@ -145,8 +145,8 @@
         "login_required": false,
         "operator_required": false
     },
-    "/get_contentslist": {
-        "code": "Contents.getContentslist(database, token, post);",
+    "/get_postlist": {
+        "code": "Post.getpostlist(database, token, post);",
         "post": [
             "page"
         ],
@@ -154,8 +154,8 @@
         "login_required": false,
         "operator_required": false
     },
-    "/delete_contents": {
-        "code": "Contents.deleteContents(database, token, post);",
+    "/delete_post": {
+        "code": "Post.deletePost(database, token, post);",
         "post": [
             "id"
         ],
@@ -163,8 +163,8 @@
         "login_required": true,
         "operator_required": false
     },
-    "/reply_contents": {
-        "code": "Reply.replyContents(database, token, post);",
+    "/reply_post": {
+        "code": "Reply.replyPost(database, token, post);",
         "post": [
             "father",
             "message"
@@ -193,7 +193,7 @@
         "operator_required": false
     },
     "/get_loglist": {
-        "code": "Contents.getLoglist(database, token, post);",
+        "code": "Post.getLoglist(database, token, post);",
         "post": [
             "page"
         ],
@@ -201,8 +201,8 @@
         "login_required": false,
         "operator_required": false
     },
-    "/reply_replies": {
-        "code": "Replyson.replyReplies(database, token, post);",
+    "/reply_reply2": {
+        "code": "Replyson.replyReply2(database, token, post);",
         "post": [
             "father",
             "message"
@@ -220,8 +220,8 @@
         "login_required": true,
         "operator_required": false
     },
-    "/get_repliesonlist": {
-        "code": "Replyson.getRepliesonlist(database, token, post);",
+    "/get_reply2list": {
+        "code": "Replyson.getReply2list(database, token, post);",
         "post": [
             "father",
             "page"

@@ -2,7 +2,7 @@ const { sessionRead, show } = require("../../functions");
 const { config } = require("../../readConfig");
 const ObjectId = require('mongodb').ObjectId;
 
-exports.replyContents = (database, token, post) => {
+exports.replyPost = (database, token, post) => {
     return sessionRead(database, token).then((res) => {
         return database.collection("users").find({"_id": new ObjectId(res.get("uid"))}).toArray().then((res2) => {
             return database.collection("replies").insertOne({

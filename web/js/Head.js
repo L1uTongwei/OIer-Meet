@@ -1,7 +1,6 @@
 class Head { //标签 <head>
-    #element;
+    element;
     #moduleList = [ //需要加载的 JS 文件
-        //引入 CDN
         "node_modules/mdui/dist/js/mdui.min.js",
         "node_modules/markdown-it/dist/markdown-it.min.js",
         "node_modules/jquery/dist/jquery.min.js",
@@ -9,12 +8,6 @@ class Head { //标签 <head>
         "node_modules/katex/dist/katex.min.js",
         "node_modules/katex/dist/contrib/auto-render.js",
         "node_modules/jqPaginator/dist/1.2.0/jqPaginator.min.js",
-        //本项目模块
-        "web/js/css_style.js",
-        "web/js/Backend.js",
-        "web/js/body/body_main.js",
-        "web/js/body/build_editor.js",
-        "web/js/body/build_ui.js"
     ];
     #styleList = [ //需要加载的 CSS 文件
         "node_modules/mdui/dist/css/mdui.min.css",
@@ -49,28 +42,41 @@ class Head { //标签 <head>
     }
     async loadFiles() { //加载需要的文件
         for (var i = 0; i < this.#moduleList.length; i++) {
-            await this.loadJS(this.#moduleList[i], this.#element);
+            await this.loadJS(this.#moduleList[i], this.element);
         }
         for (var i = 0; i < this.#styleList.length; i++) {
-            await this.loadCSS(this.#styleList[i], this.#element);
+            await this.loadCSS(this.#styleList[i], this.element);
+        }
+    }
+    async loadModules(data){
+        for(var i = 0; i < data.length(); i++){
+            if(typeof(data[i]) == "object"){
+                await this.loadModules(data[i]);
+            }else{
+                await this.loadJS(data[i], this.element);
+            }
         }
     }
     build() { //构建 <head> 标签
-        this.#element = document.getElementsByTagName('head')[0];
-        this.#element.appendChild(Make.element('title', [], 'OIer Meet!')); //网站标题
-        this.#element.appendChild(Make.element('meta', [ //IE 兼容设置
+        this.element = document.getElementsByTagName('head')[0];
+        this.element.appendChild(Make.element('title', [], 'OIer Meet!')); //网站标题
+        this.element.appendChild(Make.element('meta', [ //IE 兼容设置
             { "key": "http-equiv", "value": "X-UA-Compatible" },
             { "key": "content", "value": "IE=edge,chrome=1" }
         ]));
-        this.#element.appendChild(Make.element('meta', [ //解除同源限制
+        this.element.appendChild(Make.element('meta', [ //解除同源限制
             { "key": "http-equiv", "value": "Access-Control-Allow-Origin" },
             { "key": "content", "value": "*" }
         ]));
-        this.#element.appendChild(Make.element('link', [ //加载 favicon.ico
+        this.element.appendChild(Make.element('link', [ //加载 favicon.ico
             { "key": "rel", "value": "icon" },
             { "key": "type", "value": "image/x-icon" },
             { "key": "href", "value": "https://gitsr.cn/oier-meet/omweb/raw/branch/master/favicon.ico" }
         ]));
-        return this.loadFiles();
+        this.loadFiles().then(() => {
+            $.get("modulesList.json").then((data) => {
+                return this.loadModules(data);
+            });
+        });
     }
 };
