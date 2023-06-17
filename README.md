@@ -57,28 +57,4 @@ $ node addOperator.js <用户名>
 
 ### 开发文档
 
-服务器采用模块化设计。
-
-[modules](server/modules/) 目录中存放各模块， [modules.json](server/modules/modules.json) 是各接口的定义。
-
-这些模块的父代码在 [route.js](server/route.js) 中以全局变量的方式加载。
-
-举例如下：
-
-```js
-{
-    "/generate_key": { //接口名称
-        "code": "Connect.generateKey(database, token, post);", //运行的代码，需要提前引入模块（于 route.js）
-        "post": [], //POST 参数，运行前会检查
-        "captcha_required": false, //是否需要验证码
-        "login_required": false, //是否需要用户登录
-        "operator_required": false //是否需要用户有管理员权限
-    }
-}
-```
-
-模块必须返回 Promise 类型对象，并且最后的返回值即为响应。
-
-服务器并没有一些请求过滤、SSL 特性，请使用 nginx 等服务器反向代理。
-
-值得注意的是，服务器会自动获取真实 IP，请妥善配置 X-Forwarded-For 请求头。
+详见 [插件开发](doc/插件开发.md)

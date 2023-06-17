@@ -16,6 +16,10 @@ Body.container.homepage = new class {
     bind() {
         $.get(backend.url + "/intro", (res) => {
             $("#homepage")[0].innerHTML = md.render(res);
+        }, (err) => {
+            if(backend.url){
+                alert("服务器加载错误！请联系服务器管理员处理。");
+            }
         });
     }
 }(Body.container.element);
