@@ -8,7 +8,7 @@
 
 请确定安装的 Node.js V8 引擎在版本 9.1 以上，并配置好 MongoDB 服务。
 
-官方博客在 https://oier-meet-dev-team.gitee.io/oier-meet/，请从这里了解详细文档！
+官方博客在 [这里](https://oier-meet-dev-team.gitee.io/oier-meet/)，请从这里了解详细文档！
 
 ### 使用
 
