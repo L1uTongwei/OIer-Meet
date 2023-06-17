@@ -13,39 +13,20 @@ Body.editor = new class {
             "editor-dialog",
             "编辑",
             Make.element('div', [{
-                "key": "style",
-                "value": "height: 500px;"
-            }], Make.element('div', [{
-                "key": "style",
-                "value": "height: 500px;"
-            },
-            {
-                "key": "id",
-                "value": "editor-container"
-            }
-            ]).outerHTML).outerHTML,
-            Make.element('button', [{
-                "key": "class",
-                "value": "mdui-btn mdui-ripple"
-            },
-            {
-                "key": "mdui-dialog-cancel",
-                "value": ""
-            }
-            ], '关闭').outerHTML +
-            Make.element('button', [{
-                "key": "class",
-                "value": "mdui-btn mdui-ripple"
-            },
-            {
-                "key": "mdui-dialog-confirm",
-                "value": ""
-            },
-            {
-                "key": "id",
-                "value": "editor-submit"
-            }
-            ], '提交').outerHTML
+                "key": "style", "value": "height: 500px;"
+            }], Make.element('div', [
+                    {"key": "style", "value": "height: 500px;"},
+                    {"key": "id", "value": "editor-container"}
+                ]).outerHTML).outerHTML,
+                    Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "mdui-dialog-cancel", "value": ""}
+                    ], '关闭').outerHTML
+                  + Make.element('button', [
+                        {"key": "class", "value": "mdui-btn mdui-ripple"},
+                        {"key": "mdui-dialog-confirm", "value": ""},
+                        {"key": "id", "value": "editor-submit"}
+                    ], '提交').outerHTML
         );
         this.father.appendChild(this.element);
         this.object = new mdui.Dialog(this.element);

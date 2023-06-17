@@ -36,7 +36,7 @@ class Backend { //后端设置
             }
         });
     }
-    call(inter, data = {}, onsuccess = () => { }, onerror = () => { }) {
+    call(inter, data = {}, onsuccess = ()=>{}, onerror = ()=>{}) {
         var extra = "";
         if (window.localStorage.getItem('token') != "") {
             extra = "?token=" + window.localStorage.getItem('token')
