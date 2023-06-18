@@ -3,14 +3,14 @@ class Head { //标签 <head>
         "https://cdn.bootcdn.net/ajax/libs/mdui/1.0.2/js/mdui.js",
         "https://cdn.bootcdn.net/ajax/libs/markdown-it/13.0.1/markdown-it.js",
         "https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.js",
-        "https://unpkg.com/markdown-palettes@0.4.13/dist/markdown-palettes.js",
+        "markdown-palettes.js",
         "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/katex.js",
         "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/contrib/auto-render.js",
         "https://unpkg.com/jqPaginator@1.2.0/dist/1.2.0/jqPaginator.min.js"
     ];
     #styleList = [ //需要加载的 CSS 文件
         "https://cdn.bootcdn.net/ajax/libs/mdui/1.0.2/css/mdui.css",
-        "https://unpkg.com/markdown-palettes@0.4.13/dist/MarkdownPalettes.css",
+        "MarkdownPalettes.css",
         "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/katex.css"
     ];
     loadJS(url, doc) { //加载 JS 文件
