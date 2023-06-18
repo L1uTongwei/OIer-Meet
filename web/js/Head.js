@@ -65,11 +65,6 @@ class Head { //标签 <head>
             { "key": "http-equiv", "value": "Access-Control-Allow-Origin" },
             { "key": "content", "value": "*" }
         ]));
-        document.head.appendChild(Make.element('link', [ //加载 favicon.ico
-            { "key": "rel", "value": "icon" },
-            { "key": "type", "value": "image/x-icon" },
-            { "key": "href", "value": "https://gitsr.cn/oier-meet/omweb/raw/branch/master/favicon.ico" }
-        ]));
         return this.loadFiles().then(() => {
             return $.get("js/modulesList.json").then((data) => {
                 return this.loadModules(data);
