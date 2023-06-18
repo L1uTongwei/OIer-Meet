@@ -16,7 +16,7 @@ Body.container.homepage = new class {
     bind() {
         $.get(backend.url + "/intro", (data, status) => {
             if(status == "success"){
-                $("#homepage")[0].innerHTML = md.render(data);
+                $("#homepage")[0].innerHTML = window.md.render(data);
             }else{
                 if(backend.url){
                     alert("服务器加载错误！请联系服务器管理员处理。");

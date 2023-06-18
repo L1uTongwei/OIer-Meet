@@ -9,7 +9,7 @@ class Backend { //后端设置
             timeout: 500,
             onClosed: () => {
                 setTimeout(() => {
-                    location.reload();
+                    build.refresh();
                 }, 500);
             }
         });

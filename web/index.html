@@ -19,13 +19,12 @@
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <title>OIer Meet!</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <link href="https://cdn.bootcdn.net/ajax/libs/mdui/1.0.2/css/mdui.min.css" rel="stylesheet">
     <script src="https://cdn.bootcdn.net/ajax/libs/mdui/1.0.2/js/mdui.min.js"></script>
-    <script src="js/define.js" async> </script>
-    <script src="js/Make.js" async> </script>
     <script src="js/Head.js" async> </script>
-    <script src="js/Backend.js" async> </script>
     <div class="mdui-dialog" id="loading">
         <div class="mdui-dialog-title">正在加载中</div>
         <div class="mdui-dialog-content">
@@ -42,83 +41,109 @@
         loading.open();
         window.onload = () => {
             var md, head, body;
-            backend = window.backend = new Backend;
             console.log("Start deploying...");
-            var build = new class launch {
-                lastRefresh = 0;
+            build = new class launch {
+                lastRefresh = (new Date).getTime();
                 constructor() { //构建网页
                     head = window.head = new Head; //构造 <head> 标签
                     head.build().catch((err) => {
                         console.error(err);
                         alert("文件加载错误：已停止加载，请检查网络连接。");
                         throw Error("文件加载错误：已停止加载");
-                    }).then(() => {
-                        console.log("Start building...");
-                        md = new window.markdownit({
-                            html: true
-                        }); //初始化 md
-                        body = window.body = new Body;
-                        Body.toolbar.tab.object.show(0);
+                    }).then(this.launch);
+                }
+                launch(){
+                    console.log("Start building...");
+                    $("#load")[0].innerText = "正在生成页面";
+                    document.getElementById("load-progress").style = "width: 100%";
+                    window.md = new window.markdownit({
+                        html: true
+                    }); //初始化 md
+                    backend = window.backend = new Backend;
+                    body = window.body = new Body;
+                    Body.toolbar.tab.object.show(0);
+                    if (!backend.url) {
                         loading.close();
-                        if (!backend.url) {
-                            Body.servers.object.open();
-                            throw new Error('用户没有加入服务器，终止加载。');
-                        }
-                        backend.call("/generate_key", {}, //获取 token
-                            (dat) => {
-                                $('#luogu-verify-id-display')[0].innerText = dat.data.key;
-                                if (!window.localStorage.getItem("token") || window.localStorage.getItem("token") == "null") {
-                                    window.localStorage.setItem("token", dat.data.token);
-                                }
-                                $('#dia-tab-l')[0].onclick();
+                        Body.servers.object.open();
+                        throw new Error('用户没有加入服务器，终止加载。');
+                    }
+                    backend.call("/generate_key", {}, //获取 token
+                        (dat) => {
+                            $('#luogu-verify-id-display')[0].innerText = dat.data.key;
+                            if (!window.localStorage.getItem("token") || window.localStorage.getItem("token") == "null") {
+                                window.localStorage.setItem("token", dat.data.token);
                             }
-                        );
-                        if (window.localStorage.getItem("time") + 7 * 24 * 60 * 60 * 1000 < (new Date).getTime()) {
-                            backend.logout();
+                            $('#dia-tab-l')[0].onclick();
                         }
-                        if (!window.localStorage.getItem("uid")) {
-                            var login = document.createElement("i");
-                            login.className = "mdui-icon material-icons";
-                            login.innerText = "person";
-                            $("#user-avatar")[0].appendChild(login);
-                            $('#user-avatar')[0].onclick = () => {
-                                $('#dia-tab-l')[0].onclick();
-                                Body.login_register.object.open();
-                            };
-                            $("#user-avatar")[0].setAttribute('mdui-tooltip', "{content: '" + "登录" + "'}");
-                        } else {
-                            var avatar = document.createElement("img");
-                            avatar.style =
-                                "vertical-align:middle; margin-left: .4em; width: 35px; height: 35px; border-radius: 50%;";
-                            $("#user-avatar")[0].appendChild(avatar);
+                    );
+                    if (window.localStorage.getItem("time") + 7 * 24 * 60 * 60 * 1000 < (new Date).getTime()) {
+                        backend.logout();
+                    }
+                    if (!window.localStorage.getItem("uid")) {
+                        var login = document.createElement("i");
+                        login.className = "mdui-icon material-icons";
+                        login.innerText = "person";
+                        $("#user-avatar")[0].appendChild(login);
+                        $('#user-avatar')[0].onclick = () => {
+                            $('#dia-tab-l')[0].onclick();
+                            Body.login_register.object.open();
+                        };
+                        $("#user-avatar")[0].setAttribute('mdui-tooltip', "{content: '" + "登录" + "'}");
+                    } else {
+                        var avatar = document.createElement("img");
+                        avatar.style = "vertical-align:middle; margin-left: .4em; width: 35px; height: 35px; border-radius: 50%;";
+                        $("#user-avatar")[0].appendChild(avatar);
+                        backend.call("/get_user", {
+                            uid: window.localStorage.getItem("uid")
+                        }, (res) => {
+                            if (!res.data.avatar) avatar.src = "avatar.png";
+                            else avatar.src = res.data.avatar;
+                        });
+                        $('#user-avatar')[0].onclick = () => {
                             backend.call("/get_user", {
                                 uid: window.localStorage.getItem("uid")
                             }, (res) => {
-                                if (!res.data.avatar) avatar.src =
-                                    "https://gitee.com/oier-meet-dev-team/oier-meet/raw/master/avatar.png";
-                                else avatar.src = res.data.avatar;
+                                if (!res.data.province) res.data.province = "";
+                                if (!res.data.school) res.data.school = "";
+                                if (!res.data.avatar) res.data.avatar = "";
+                                if (!res.data.homepage) res.data.homepage = "";
+                                $('#setting-province')[0].value = res.data.province;
+                                $('#setting-school')[0].value = res.data.school;
+                                $('#setting-avatar')[0].value = res.data.avatar;
+                                Body.setting.editor.content = res.data.homepage;
                             });
-                            $('#user-avatar')[0].onclick = () => {
-                                backend.call("/get_user", {
-                                    uid: window.localStorage.getItem("uid")
-                                }, (res) => {
-                                    if (!res.data.province) res.data.province = "";
-                                    if (!res.data.school) res.data.school = "";
-                                    if (!res.data.avatar) res.data.avatar = "";
-                                    if (!res.data.homepage) res.data.homepage = "";
-                                    $('#setting-province')[0].value = res.data.province;
-                                    $('#setting-school')[0].value = res.data.school;
-                                    $('#setting-avatar')[0].value = res.data.avatar;
-                                    Body.setting.editor.content = res.data.homepage;
-                                });
-                                Body.setting.object.open();
-                            };
-                            $("#user-avatar")[0].setAttribute('mdui-tooltip', "{content: '" + "用户设置" + "'}");
+                            Body.setting.object.open();
+                        };
+                        $("#user-avatar")[0].setAttribute('mdui-tooltip', "{content: '" + "用户设置" + "'}");
+                    }
+                    Body.container.loadBackend();
+                    $("body").bind("keydown", function(event) {
+                        if (event.keyCode == 116) {
+                            event.preventDefault();
+                            build.refresh();
                         }
-                        Body.container.loadBackend();
-                        mdui.mutation();
-                        console.log("This app was loaded.");
                     });
+                    mdui.mutation();
+                    loading.close();
+                    console.log("This app was loaded.");
+                }
+                refresh(){
+                    console.log("Start refreshing...");
+                    if(this.lastRefresh - (new Date).getTime() < 60 * 1000){
+                        mdui.snackbar({message: "请间隔 1 分钟刷新！（还剩 " + Math.floor(60 - ((new Date).getTime() - this.lastRefresh) / 1000) +" 秒）"});
+                        console.log("Time too short!");
+                        return;
+                    }
+                    this.lastRefresh = (new Date).getTime();
+                    Body.container.userlist.updateUserlist(1);
+                    Body.container.discuss.renderPost(1);
+                    Body.container.log.updateLog(1);
+                    if(window.localStorage.getItem('operator')){
+                        Body.container.management.judge.updateJudge(1);
+                    }
+                    mdui.mutation();
+                    mdui.snackbar({message: "刷新成功"});
+                    console.log("This app was refreshed.");
                 }
             };
         }
