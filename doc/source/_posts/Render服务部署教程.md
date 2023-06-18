@@ -41,20 +41,6 @@ Github 仓库请设为私有！
 
 返回，验证域名生效即可。
 
-### 后端部署
-
-点击右上角的加号，选择 "Web Service"，还是选择 Fork 仓库。
-
-然后继续，按照图示配置：
-
-![](/image/server-1.png)
-
-![](/image/server-2.png)
-
-重复上述步骤，绑定域名即可。
-
-稍等 —— 我们需要部署数据库！
-
 ### 数据库部署
 
 首先打开 [mongodb](https://www.mongodb.com/atlas/database)：
@@ -89,20 +75,31 @@ Github 仓库请设为私有！
 
 复制显示的 URI，完成。
 
-将显示的 URI 放到 Fork 的仓库里的配置文件（server/config.json），如：
+### 后端部署
 
-```javascript
-"database": {
-    "url": "mongodb+srv://oiermeet:<password>@oier-meet.oysovax.mongodb.net/?retryWrites=true&w=majority",
-    "db": "oiermeet"
-},
-```
+点击右上角的加号，选择 "Web Service"，还是选择 Fork 仓库。
 
-克隆仓库到本地，提交更改即可。
+然后继续，按照图示配置：
+
+![](/image/server-1.png)
+
+![](/image/server-2.png)
+
+（更正：应为 `node server.js`）
+
+![](/image/server-3.png)
+
+环境变量填入数据库相关数据。
+
+若需要洛谷剪贴板反向代理（以绕过洛谷 Cloudflare），请自行配置并填入 `luogu_proxy`。
+
+反向代理相关请自行搜索。
+
+重复上述步骤，绑定域名即可。
 
 ### 前端服务器添加
 
-在 Fork 的 Github 仓库里打开 [web/js/css_style.js](web/js/css_style.js)：
+在导入的 Github 仓库里打开 [web/js/define.js](web/js/define.js)：
 
 更改服务器列表：
 
