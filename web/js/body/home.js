@@ -25,7 +25,7 @@ Body.home = new class {
             uid: uid
         }, (res) => {
             if (!res.data.homepage) res.data.homepage = "该用户未填写主页内容";
-            $("#home-dialog-content")[0].innerHTML = md.render(res.data.homepage);
+            $("#home-dialog-content")[0].innerHTML = window.md.render(res.data.homepage);
             renderMathInElement($("#home-dialog-content")[0], katex_config);
             this.object.handleUpdate();
         });

@@ -57,7 +57,7 @@ Body.container.management.judge = new class{
                         ], "备注").outerHTML
                     ).outerHTML
                 );
-                $('#log_body')[0].appendChild(line);
+                $('#judge_body')[0].appendChild(line);
             }
             $('#judge-page').jqPaginator('option', {
                 totalCounts: res.data.count,

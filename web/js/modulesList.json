@@ -1,4 +1,7 @@
 {
+    "js/define.js": {},
+    "js/Make.js": {},
+    "js/Backend.js": {},
     "js/body/body.js": {
         "js/body/editor.js": {},
         "js/body/home.js": {},

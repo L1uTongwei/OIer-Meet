@@ -96,7 +96,7 @@ Body.container.discuss.renderPostCode = (id, myid, msg, avatar, username, tag, s
         ).outerHTML
         + Make.element('div', [
             {"key": "class", "value": "mdui-card-content"}
-        ], md.render(msg) + extra3).outerHTML
+        ], window.md.render(msg) + extra3).outerHTML
         + extra2
     );
 };

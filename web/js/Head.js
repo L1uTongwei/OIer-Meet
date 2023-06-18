@@ -9,21 +9,21 @@ class Head { //标签 <head>
     ];
     #styleList = [ //需要加载的 CSS 文件
         "MarkdownPalettes.css",
-        "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/katex.css"
+        "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/katex.css",
+        "css/index.css"
     ];
     #total = 0;
     #loaded = 0;
     loadJS(url, doc) { //加载 JS 文件
         return new Promise((resolve) => {
-            var script = Make.element('script', [
-                { "key": "type", "value": "text/javascript" },
-                { "key": "src", "value": url }
-            ]);
+            var script = document.createElement('script');
+            script.type = "text/javascript";
+            script.src = url;
             script.onload = () => {
                 this.#loaded++;
                 console.log("Loaded: " + url);
                 document.getElementById("load").innerText = "当前正在加载：" + url;
-                document.getElementById("load-progress").style = "width: " + this.#loaded / this.#total;
+                document.getElementById("load-progress").style = "width: " + this.#loaded / this.#total * 100 + "%";
                 resolve();
             };
             doc.appendChild(script);
@@ -31,14 +31,13 @@ class Head { //标签 <head>
     }
     loadCSS(url, doc) {
         return new Promise((resolve) => {
-            var style = Make.element('link', [
-                { "key": "href", "value": url },
-                { "key": "rel", "value": "stylesheet" }
-            ]);
+            var style = document.createElement('link');
+            style.rel = "stylesheet";
+            style.href = url;
             style.onload = () => {
                 console.log("Loaded: " + url);
                 document.getElementById("load").innerText = "当前正在加载：" + url;
-                document.getElementById("load-progress").style = "width: " + this.#loaded / this.#total;
+                document.getElementById("load-progress").style = "width: " + this.#loaded / this.#total * 100 + "%";
                 resolve();
             };
             doc.appendChild(style);
@@ -62,15 +61,6 @@ class Head { //标签 <head>
         }
     }
     build() { //构建 <head> 标签
-        document.head.appendChild(Make.element('title', [], 'OIer Meet!')); //网站标题
-        document.head.appendChild(Make.element('meta', [ //IE 兼容设置
-            { "key": "http-equiv", "value": "X-UA-Compatible" },
-            { "key": "content", "value": "IE=edge,chrome=1" }
-        ]));
-        document.head.appendChild(Make.element('meta', [ //解除同源限制
-            { "key": "http-equiv", "value": "Access-Control-Allow-Origin" },
-            { "key": "content", "value": "*" }
-        ]));
         return this.loadFiles().then(() => {
             return $.get("js/modulesList.json").then((data) => {
                 this.#total = this.#moduleList.length + this.#styleList.length + data.total;
