@@ -19,14 +19,19 @@
 以下是在 Linux 服务器下部署的过程：
 
 ```bash
-$ npm install git+https://gitee.com/oier-meet-dev-team/oier-meet.git
-$ cd node_modules/oiermeet
+$ git clone https://gitee.com/oier-meet-dev-team/oier-meet.git
+$ cd oier-meet
+$ cd server # 部署后端
+$ npm install # 安装依赖
 # 修改目录下 config.json 来配置数据库和其他设置
 $ node initDatabase.js # 初始化数据库
 $ sudo node installService.js # 安装服务
 $ sudo systemctl start oiermeet # 运行服务器
 # 这是添加管理员的命令行方法
 $ node addOperator.js <用户名>
+$ cd ../web # 部署前端
+$ npm install
+# 当前目录即为网站目录，请妥善配置前端服务器
 ```
 
 ### 配置文件
