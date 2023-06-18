@@ -37,6 +37,9 @@
         </div>
     </div>
     <script>
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, location.href); 
+        });  
         var loading = new mdui.Dialog(document.getElementById('loading'));
         loading.open();
         window.onload = () => {
