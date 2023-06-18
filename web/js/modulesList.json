@@ -30,5 +30,6 @@
             "js/body/container/homepage.js": {},
             "js/body/container/log.js": {}
         }
-    }
+    },
+    "total": 25
 }

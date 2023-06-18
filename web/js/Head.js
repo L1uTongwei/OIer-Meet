@@ -1,6 +1,5 @@
 class Head { //标签 <head>
     #moduleList = [ //需要加载的 JS 文件
-        "https://cdn.bootcdn.net/ajax/libs/mdui/1.0.2/js/mdui.js",
         "https://cdn.bootcdn.net/ajax/libs/markdown-it/13.0.1/markdown-it.js",
         "https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.js",
         "markdown-palettes.js",
@@ -9,10 +8,11 @@ class Head { //标签 <head>
         "jqPaginator.min.js"
     ];
     #styleList = [ //需要加载的 CSS 文件
-        "https://cdn.bootcdn.net/ajax/libs/mdui/1.0.2/css/mdui.css",
         "MarkdownPalettes.css",
         "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/katex.css"
     ];
+    #total = 0;
+    #loaded = 0;
     loadJS(url, doc) { //加载 JS 文件
         return new Promise((resolve) => {
             var script = Make.element('script', [
@@ -20,7 +20,10 @@ class Head { //标签 <head>
                 { "key": "src", "value": url }
             ]);
             script.onload = () => {
+                this.#loaded++;
                 console.log("Loaded: " + url);
+                document.getElementById("load").innerText = "当前正在加载：" + url;
+                document.getElementById("load-progress").style = "width: " + this.#loaded / this.#total;
                 resolve();
             };
             doc.appendChild(script);
@@ -34,6 +37,8 @@ class Head { //标签 <head>
             ]);
             style.onload = () => {
                 console.log("Loaded: " + url);
+                document.getElementById("load").innerText = "当前正在加载：" + url;
+                document.getElementById("load-progress").style = "width: " + this.#loaded / this.#total;
                 resolve();
             };
             doc.appendChild(style);
@@ -49,6 +54,7 @@ class Head { //标签 <head>
     }
     async loadModules(data){
         for(var key in data){
+            if(key == "total") continue;
             await this.loadJS(key, document.head);
             if(typeof(data[key]) == "object"){
                 await this.loadModules(data[key]);
@@ -67,6 +73,7 @@ class Head { //标签 <head>
         ]));
         return this.loadFiles().then(() => {
             return $.get("js/modulesList.json").then((data) => {
+                this.#total = this.#moduleList.length + this.#styleList.length + data.total;
                 return this.loadModules(data);
             });
         });
