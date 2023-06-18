@@ -23,9 +23,9 @@ Body.toolbar = new class {
                     {"key": "class", "value": "mdui-toolbar-spacer"}
                 ]).outerHTML
             + Make.toolbarButton("javascript:Backend.tips({\"msg\": \"刷新成功\"});", "refresh", "刷新").outerHTML
-            + Make.toolbarButton("javascript:body.report.object.open();", "report", "举报").outerHTML
-            + Make.toolbarButton("javascript:body.UI.object.open();", "settings", "UI 设置").outerHTML
-            + Make.toolbarButton("javascript:body.servers.object.open();", "dns", "社区服务器浏览器").outerHTML
+            + Make.toolbarButton("javascript:Body.report.object.open();", "report", "举报").outerHTML
+            + Make.toolbarButton("javascript:Body.UI.object.open();", "settings", "UI 设置").outerHTML
+            + Make.toolbarButton("javascript:Body.servers.object.open();", "dns", "社区服务器浏览器").outerHTML
             + Make.toolbarButton("javascript:;", "", "", "user-avatar").outerHTML
             ).outerHTML
         );
