@@ -12,14 +12,9 @@ Body.home = new class {
             "home-dialog",
             "用户主页",
             "",
-            Make.element('button', [{
-                "key": "class",
-                "value": "mdui-btn mdui-ripple"
-            },
-            {
-                "key": "mdui-dialog-cancel",
-                "value": ""
-            }
+            Make.element('button', [
+                {"key": "class", "value": "mdui-btn mdui-ripple"},
+                {"key": "mdui-dialog-cancel", "value": ""}
             ], "关闭").outerHTML
         );
         this.father.appendChild(this.element);
@@ -35,4 +30,4 @@ Body.home = new class {
             this.object.handleUpdate();
         });
     }
-}(Body.element);
+}(document.body);

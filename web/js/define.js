@@ -31,4 +31,3 @@ const words = [
 ];
 var res = //服务器列表
     "OIer-Meet官方服务器 L1uTongwei https://gitee.com/oier-meet-dev-team https://api.oier-meet.cn";
-var md; //Markdown

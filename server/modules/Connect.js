@@ -1,5 +1,5 @@
 const { randomUUID } = require("crypto");
-const { sessionWrite, show } = require("../../functions");
+const { sessionWrite, show } = require("../functions");
 const captcha = require("svg-captcha");
 
 exports.generateKey = (database, token, post) => {

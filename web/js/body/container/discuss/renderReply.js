@@ -14,12 +14,12 @@ Body.container.discuss.renderReply = (id, page) => { //渲染帖子
                         res.data[i].sender.tag, res.data[i].send_time
                     )
                 );
-                this.#panels.set(res.data[i]._id, new mdui.Panel('#reply-panel-' + res.data[i]._id));
+                this.panels.set(res.data[i]._id, new mdui.Panel('#reply-panel-' + res.data[i]._id));
                 $('#reply-page-' + res.data[i]._id).jqPaginator(
                     Make.pageConfig(20, ((id, fid) => {return (num) => {
-                        if(this.#pages.get(id) == num) return;
+                        if(this.pages.get(id) == num) return;
                         this.renderReply2(fid, id, num);
-                        this.#pages.set(id, num);
+                        this.pages.set(id, num);
                     }})(res.data[i]._id, id))
                 );
             }
@@ -56,12 +56,12 @@ Body.container.discuss.renderReply = (id, page) => { //渲染帖子
             + Make.element('div', [
                     {"key": "id", "value": id + "-page"}
                 ]).outerHTML;
-            this.#pages.set(id, 1);
+            this.pages.set(id, 1);
             $('#' + id + '-page').jqPaginator(
                 Make.pageConfig(20, ((id) => {return (num) => {
-                    if(this.#pages.get(id) == num) return;
+                    if(this.pages.get(id) == num) return;
                     this.renderReply(id, num);
-                    this.#pages.get(id) = num;
+                    this.pages.get(id) = num;
                 }})(id))
             );
         }})(id));

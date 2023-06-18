@@ -1,5 +1,5 @@
-const { show } = require("../../functions");
-const { config } = require("../../readConfig");
+const { show } = require("../functions");
+const { config } = require("../readConfig");
 const ObjectId = require('mongodb').ObjectId;
 
 exports.banUser = (database, token, post) => {

@@ -7,7 +7,7 @@ Body.container = new class {
         console.log("Object Body.container has been built");
     }
     build() {
-        this.#element = Make.element('div', [
+        this.element = Make.element('div', [
             {"key": "id", "value": "container"},
             {"key": "class", "value": "mdui-container mdui-shadow-3"},
             {"key": "style", "value": "font-size: 18px; background-color: white; opacity: 0.9;"}
@@ -20,6 +20,13 @@ Body.container = new class {
         this.discuss.bind();
         //this.practice.bind();
         this.log.bind();
-        this.management.bind();
+        this.about.bind();
+        if(window.localStorage.getItem("operator")){
+            this.management.judge.build();
+            this.management.setUser.build();
+            this.management.setUser.bind();
+        }else{
+            $('#management')[0].style = "display: block";
+        }
     }
-}(Body.element);
+}(document.body);

@@ -1,5 +1,5 @@
-const { sha512, sessionRead, show, sessionWrite } = require("../../functions");
-const { config } = require("../../readConfig");
+const { sha512, sessionRead, show, sessionWrite } = require("../functions");
+const { config } = require("../readConfig");
 const crypto = require('crypto');
 const request = require('request');
 

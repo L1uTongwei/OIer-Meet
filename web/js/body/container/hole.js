@@ -8,7 +8,7 @@ Body.container.hole = new class {
         console.log("Object Body.container.hole has been built");
     }
     build() {
-        this.#element = Make.element('div', [
+        this.element = Make.element('div', [
             {"key": "id", "value": "hole"},
             {"key": "class", "value": "mdui-p-a-5"}
         ],  Make.element('textarea', [

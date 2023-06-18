@@ -1,6 +1,4 @@
 {
-    "js/css_style.js": {},
-    "js/Backend.js": {},
     "js/body/body.js": {
         "js/body/editor.js": {},
         "js/body/home.js": {},
@@ -21,12 +19,9 @@
             },
             "js/body/container/management/management.js": {
                 "js/body/container/management/judge.js": {},
-                "js/body/container/management/note.js": {},
                 "js/body/container/management/setUser.js": {}
             },
-            "js/body/container/userlist/userlist.js": {
-                "js/body/container/userlist/build.js": {}
-            },
+            "js/body/container/userlist.js": {},
             "js/body/container/practice/practice.js": {},
             "js/body/container/about.js": {},
             "js/body/container/hole.js": {},

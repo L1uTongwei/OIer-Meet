@@ -12,44 +12,24 @@ Body.UI = new class {
         this.element = Make.dialog(
             "ui-dialog",
             "UI 设置",
-            Make.element('div', [{
-                "key": "class",
-                "value": "mdui-textfield"
-            }], Make.element('label', [{
-                "key": "class",
-                "value": "mdui-textfield-label"
-            }], "背景图片 URL（默认留空）").outerHTML +
-            Make.element('input', [{
-                "key": "class",
-                "value": "mdui-textfield-input"
-            },
-            {
-                "key": "id",
-                "value": "background-url"
-            }
-            ]).outerHTML
+            Make.element('div', [
+                {"key": "class", "value": "mdui-textfield"}
+            ],  Make.element('label', [
+                    {"key": "class", "value": "mdui-textfield-label"}
+                ], "背景图片 URL（默认留空）").outerHTML 
+            + Make.element('input', [
+                    {"key": "class", "value": "mdui-textfield-input"},
+                    {"key": "id", "value": "background-url"}
+                ]).outerHTML
             ).outerHTML,
-            Make.element('button', [{
-                "key": "class",
-                "value": "mdui-btn mdui-ripple"
-            },
-            {
-                "key": "mdui-dialog-cancel",
-                "value": ""
-            }
+            Make.element('button', [
+                {"key": "class", "value": "mdui-btn mdui-ripple"},
+                {"key": "mdui-dialog-cancel", "value": ""}
             ], '关闭').outerHTML +
-            Make.element('button', [{
-                "key": "class",
-                "value": "mdui-btn mdui-ripple"
-            },
-            {
-                "key": "mdui-dialog-confirm",
-                "value": ""
-            },
-            {
-                "key": "id",
-                "value": "ui-submit"
-            }
+            Make.element('button', [
+                {"key": "class", "value": "mdui-btn mdui-ripple"},
+                {"key": "mdui-dialog-confirm", "value": ""},
+                {"key": "id", "value": "ui-submit"}
             ], '提交').outerHTML
         );
         this.father.appendChild(this.element);
@@ -65,4 +45,4 @@ Body.UI = new class {
             });
         };
     }
-}(Body.element);
+}(document.body);
