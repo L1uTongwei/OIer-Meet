@@ -15,9 +15,7 @@ author: 刘桐玮
 
 ![](/image/dashboard.png)
 
-为了可以部署服务，用户需要有 [Gitee](https://gitee.com/) 账户，并且将 [原仓库](https://gitee.com/oier-meet-dev-team/oier-meet) 导入到 Github/Gitlab。
-
-Github 仓库请设为私有！
+在 Git 地址输入 https://github.com/LiuTianyouOnLuogu/LiuTianyouOnLuogu.github.io.git
 
 ### 前端部署
 
