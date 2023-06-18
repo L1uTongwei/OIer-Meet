@@ -16,7 +16,7 @@ Body.toolbar.tab = new class {
             {"key": "mdui-tab", "value": ""}
         ], Make.tabButton("#homepage", "home", "首页").outerHTML
           + Make.tabButton("#userlist", "list", "用户列表").outerHTML
-          + Make.tabButton("#practice", "book", "Codeforces 练习").outerHTML
+          + Make.tabButton("#problem", "book", "题库").outerHTML
           + Make.tabButton("#discuss", "forum", "社区").outerHTML
           + Make.tabButton("#hole", "streetview", "无人树洞").outerHTML
           + Make.tabButton('#log', "content_paste", "管理日志").outerHTML
