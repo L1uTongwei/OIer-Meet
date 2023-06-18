@@ -6,7 +6,7 @@ class Head { //标签 <head>
         "markdown-palettes.js",
         "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/katex.js",
         "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/contrib/auto-render.js",
-        "https://unpkg.com/jqPaginator@1.2.0/dist/1.2.0/jqPaginator.min.js"
+        "jqPaginator.min.js"
     ];
     #styleList = [ //需要加载的 CSS 文件
         "https://cdn.bootcdn.net/ajax/libs/mdui/1.0.2/css/mdui.css",
