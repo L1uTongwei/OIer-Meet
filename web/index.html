@@ -65,7 +65,7 @@
                     backend = window.backend = new Backend;
                     body = window.body = new Body;
                     if(!window.localStorage.getItem('operator')){
-                        $('#management')[0].style = "display: none";
+                        $('#management')[0].outerHTML = "";
                     }
                     Body.toolbar.tab.object.show(0);
                     if (!backend.url) {
