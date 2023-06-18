@@ -25,8 +25,6 @@ Body.container = new class {
             this.management.judge.build();
             this.management.setUser.build();
             this.management.setUser.bind();
-        }else{
-            $('#management')[0].style = "display: none";
         }
     }
 }(document.body);
