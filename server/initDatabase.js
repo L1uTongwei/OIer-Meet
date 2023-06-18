@@ -3,7 +3,6 @@ const { config } = require("./readConfig");
 var MongoClient = require('mongodb').MongoClient;
 if(process.env["database_url"]) config.database.url = process.env["database_url"];
 if(process.env["database_db"]) config.database.db = process.env["database_db"];
-if(process.env["luogu_proxy"]) config.database.db = process.env["luogu_proxy"];
 MongoClient.connect(config.database.url).then((db) => {
     var database = db.db(config.database.db);
     return Promise.all([
