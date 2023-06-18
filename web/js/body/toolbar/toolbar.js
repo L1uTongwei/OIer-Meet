@@ -5,9 +5,10 @@ Body.toolbar = new class {
         this.father = fa;
         this.build();
         this.bind();
+        console.log("Object Body.toolbar has been built");
     }
     build() {
-        this.#element = Make.element('div', [
+        this.element = Make.element('div', [
             {"key": "id", "value": "bar"},
             {"key": "class", "value": "mdui-appbar"}
         ],  Make.element('div', [
@@ -28,9 +29,9 @@ Body.toolbar = new class {
             + Make.toolbarButton("javascript:;", "", "", "user-avatar").outerHTML
             ).outerHTML
         );
-        this.#father.appendChild(this.#element);
+        this.father.appendChild(this.element);
     }
     bind() {
         $('#user-avatar')[0].className = "mdui-btn mdui-btn-icon";
     }
-}(Body.element);
+}(document.body);

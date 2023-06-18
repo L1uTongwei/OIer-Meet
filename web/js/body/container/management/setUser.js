@@ -1,14 +1,11 @@
 Body.container.management.setUser = new class {
     element;
-    father;
     object;
     constructor(fa) {
         this.father = fa;
-        build();
-        bind();
     }
     build() {
-        this.#element = Make.dialog(
+        this.element = Make.dialog(
             "SetUser-dialog",
             "设置用户权限",
             Make.element('div', [
@@ -64,6 +61,16 @@ Body.container.management.setUser = new class {
                     {"key": "disabled", "value": ""},
                     {"key": "id", "value": "SetUser-tag"}
                 ]).outerHTML
+            ).outerHTML
+          + Make.element('div', [
+                {"key": "class", "value": "mdui-textfield mdui-textfield-floating-label"}
+            ],  Make.element('label', [
+                    {"key": "class", "value": "mdui-textfield-label"},
+                ], "备注").outerHTML
+            + Make.element('input', [
+                    {"key": "class", "value": "mdui-textfield-input"},
+                    {"key": "id", "value": "SetUser-note"}
+                ]).outerHTML
             ).outerHTML,
             Make.element('button', [
                 {"key": "class", "value": "mdui-btn mdui-ripple"},
@@ -74,21 +81,18 @@ Body.container.management.setUser = new class {
                 {"key": "mdui-dialog-confirm", "value": ""},
                 {"key": "id", "value": "SetUser-submit"}
             ], '提交').outerHTML
-          + Make.element('button', [
-                {"key": "class", "value": "mdui-btn mdui-ripple"},
-                {"key": "onclick", "value": "body.management.note.object.open();"}
-            ], '添加备注').outerHTML
         );
+        document.body.appendChild(this.element); //对话框不可以在底层
+        this.object = new mdui.Dialog(this.element);
     }
     bind() {
         $('#ban-check')[0].indeterminate = true;
         $('#operator-check')[0].indeterminate = true;
         $('#tag-check')[0].onchange = () => {
             if($('#tag-check')[0].checked){
-                $('#SetUser-tag')[0].removeAttr("disabled");
+                $('#SetUser-tag').removeAttr("disabled");
             }else{
                 $('#SetUser-tag')[0].setAttribute("disabled", "");
-                $('#SetUser-tag')[0].value = "";
             }
         };
         $('#SetUser-submit')[0].onclick = () => {
@@ -98,7 +102,7 @@ Body.container.management.setUser = new class {
             if(!$('#operator-check')[0].indeterminate) args.operator = $('#operator-check')[0].checked;
             if($('#tag-check').checked) args.tag = $('#SetUser-tag')[0].value;
             backend.call('/set_user', args, (res) => {
-                var note = $('#note')[0].value;
+                var note = $('#SetUser-note')[0].value;
                 $('#note')[0].value = "";
                 Backend.tips(res);
                 if(res.status == 200){
@@ -143,4 +147,4 @@ Body.container.management.setUser = new class {
             });
         };
     }
-}(Body.container.management.element);
+};

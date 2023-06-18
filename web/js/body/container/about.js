@@ -4,11 +4,10 @@ Body.container.about = new class {
     constructor(fa) {
         this.father = fa;
         this.build();
-        this.bind();
         console.log("Object Body.container.about has been built");
     }
     build() {
-        this.#element = Make.element('div', [
+        this.element = Make.element('div', [
             {"key": "id", "value": "about"},
             {"key": "class", "value": "mdui-p-a-5"}
         ]);

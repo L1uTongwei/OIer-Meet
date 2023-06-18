@@ -2,14 +2,14 @@ Body.container.discuss = new class {
     father;
     element;
     object;
-    #pages = new Map();
+    pages = new Map();
     #panels = new Map();
     constructor(fa) {
         this.father = fa;
         this.build();
     }
     build() {
-        this.#element = Make.element('div', [
+        this.element = Make.element('div', [
             {"key": "id", "value": "discuss"},
             {"key": "style", "value": "padding: 40px;"}
         ],  Make.element('br').outerHTML
@@ -38,7 +38,7 @@ Body.container.discuss = new class {
         + Make.element('br').outerHTML
         + Make.element('br').outerHTML
         );
-        this.#father.appendChild(this.#element);
+        this.father.appendChild(this.element);
         this.object = new mdui.Panel("#discuss_body");
     }
     bind() {

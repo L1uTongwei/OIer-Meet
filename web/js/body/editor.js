@@ -17,19 +17,20 @@ Body.editor = new class {
             }], Make.element('div', [
                     {"key": "style", "value": "height: 500px;"},
                     {"key": "id", "value": "editor-container"}
-                ]).outerHTML).outerHTML,
-                    Make.element('button', [
-                        {"key": "class", "value": "mdui-btn mdui-ripple"},
-                        {"key": "mdui-dialog-cancel", "value": ""}
-                    ], '关闭').outerHTML
-                  + Make.element('button', [
-                        {"key": "class", "value": "mdui-btn mdui-ripple"},
-                        {"key": "mdui-dialog-confirm", "value": ""},
-                        {"key": "id", "value": "editor-submit"}
-                    ], '提交').outerHTML
+                ]).outerHTML
+            ).outerHTML,
+            Make.element('button', [
+                {"key": "class", "value": "mdui-btn mdui-ripple"},
+                {"key": "mdui-dialog-cancel", "value": ""}
+            ], '关闭').outerHTML
+            + Make.element('button', [
+                {"key": "class", "value": "mdui-btn mdui-ripple"},
+                {"key": "mdui-dialog-confirm", "value": ""},
+                {"key": "id", "value": "editor-submit"}
+            ], '提交').outerHTML
         );
         this.father.appendChild(this.element);
         this.object = new mdui.Dialog(this.element);
         this.editor = new MarkdownPalettes("#editor-container");
     };
-}(Body.element);
+}(document.body);

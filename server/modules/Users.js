@@ -1,5 +1,5 @@
-const { sessionRead, show } = require("../../functions");
-const { config } = require("../../readConfig");
+const { sessionRead, show } = require("../functions");
+const { config } = require("../readConfig");
 const ObjectId = require('mongodb').ObjectId;
 
 exports.getUser = (database, token, post) => {

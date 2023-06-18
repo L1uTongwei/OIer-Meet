@@ -9,7 +9,7 @@ Body.report = new class {
         console.log("Object Body.report has been built");
     }
     build() {
-        this.#element = Make.dialog(
+        this.element = Make.dialog(
             "report-dialog",
             "举报",
             Make.element('label', [
@@ -79,4 +79,4 @@ Body.report = new class {
             }, Backend.tips);
         };
     }
-}(Body.element);
+}(document.body);

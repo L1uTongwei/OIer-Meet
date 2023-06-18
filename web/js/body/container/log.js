@@ -15,7 +15,7 @@ Body.container.log = new class {
         this.father.appendChild(this.element);
     }
     bind() {
-        this.#element.appendChild(Make.element('div', [
+        this.element.appendChild(Make.element('div', [
             {"key": "class", "value": "mdui-table-fluid"}
         ],  Make.element('table', [
                 {"key": "class", "value": "mdui-table"}
@@ -32,8 +32,8 @@ Body.container.log = new class {
                 ]).outerHTML
             ).outerHTML
         ));
-        this.#element.appendChild(Make.element('br'));
-        this.#element.appendChild(Make.element('div', [
+        this.element.appendChild(Make.element('br'));
+        this.element.appendChild(Make.element('div', [
             {"key": "id", "value": "log-page"}
         ]));
         $('#log-page').jqPaginator(Make.pageConfig(20, this.updateLog));

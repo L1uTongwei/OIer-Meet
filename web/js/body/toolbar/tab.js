@@ -5,7 +5,7 @@ Body.toolbar.tab = new class {
     constructor(fa) {
         this.father = fa;
         this.build();
-        console.log("Object Body.tab has been built");
+        console.log("Object Body.toolbar.tab has been built");
     }
     build() {
         var op = "";

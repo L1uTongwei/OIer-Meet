@@ -1,8 +1,7 @@
 class Body { //标签 <body>
     element;
-    promise;
     constructor() {
-        this.element = document.getElementsByTagName('body')[0];
+        this.element = document.body;
         this.element.className = "mdui-theme-primary-light-blue mdui-theme-accent-orange";
         this.refreshBackground();
     }

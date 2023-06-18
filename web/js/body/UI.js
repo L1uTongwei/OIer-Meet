@@ -9,7 +9,7 @@ Body.UI = new class {
         console.log("Object Body.UI has been built");
     }
     build() {
-        this.#element = Make.dialog(
+        this.element = Make.dialog(
             "ui-dialog",
             "UI 设置",
             Make.element('div', [
@@ -45,4 +45,4 @@ Body.UI = new class {
             });
         };
     }
-}(Body.element);
+}(document.body);

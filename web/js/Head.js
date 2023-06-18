@@ -49,11 +49,10 @@ class Head { //标签 <head>
         }
     }
     async loadModules(data){
-        for(var i = 0; i < data.length(); i++){
-            if(typeof(data[i]) == "object"){
-                await this.loadModules(data[i]);
-            }else{
-                await this.loadJS(data[i], this.element);
+        for(var key in data){
+            await this.loadJS(key, this.element);
+            if(typeof(data[key]) == "object"){
+                await this.loadModules(data[key]);
             }
         }
     }
@@ -73,8 +72,8 @@ class Head { //标签 <head>
             { "key": "type", "value": "image/x-icon" },
             { "key": "href", "value": "https://gitsr.cn/oier-meet/omweb/raw/branch/master/favicon.ico" }
         ]));
-        this.loadFiles().then(() => {
-            $.get("modulesList.json").then((data) => {
+        return this.loadFiles().then(() => {
+            return $.get("js/modulesList.json").then((data) => {
                 return this.loadModules(data);
             });
         });

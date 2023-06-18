@@ -1,4 +1,4 @@
-#page {
+.page {
     margin-right: .5em;
     padding: 0;
     cursor: pointer;
@@ -11,7 +11,7 @@
 }
 
 /*CSS 页码样式 */
-#page_img {
+.page_img {
     overflow-clip-margin: content-box;
     overflow: clip;
     border-style: none;
@@ -20,8 +20,7 @@
 }
 
 /* CSS 页码图片样式 */
-
-#avatar_css {
+.avatar {
     vertical-align: middle;
     margin-left: .4em;
     width: 35px;
@@ -29,6 +28,6 @@
     border-radius: 50%;
 }
 
-#editor_css {
+.editor {
     height: 0px;
 }

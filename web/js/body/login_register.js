@@ -11,7 +11,7 @@ Body.login_register = new class {
         console.log("Object Body.login_register has been built");
     }
     build() {
-        this.#element = Make.dialog(
+        this.element = Make.dialog(
             'lr-dialog',
             Make.element('span', [
                 {"key": "id", "value": "dialog-title-action"}
@@ -153,8 +153,8 @@ Body.login_register = new class {
                 {"key": "id", "value": "dialog-btn-ok"}
             ], '提交').outerHTML
         );
-        this.#father.appendChild(this.#element);
-        this.object = new mdui.Dialog(this.#element);
+        this.father.appendChild(this.element);
+        this.object = new mdui.Dialog(this.element);
         this.objectTAB = new mdui.Tab("#dialog-tab");
     }
     bind() {
@@ -210,4 +210,4 @@ Body.login_register = new class {
             }
         };
     }
-}(Body.element);
+}(document.body);

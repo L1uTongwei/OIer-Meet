@@ -30,4 +30,4 @@ Body.home = new class {
             this.object.handleUpdate();
         });
     }
-}(Body.element);
+}(document.body);

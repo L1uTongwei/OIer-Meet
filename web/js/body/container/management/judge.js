@@ -3,15 +3,14 @@ Body.container.management.judge = new class{
     element;
     constructor(fa){
         this.father = fa;
-        this.build();
-        this.bind();
     }
     build(){
-        this.#element.appendChild(Make.element('button', [
+        this.element = Make.element('button', [
             {"key": "class", "value": "mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"},
-            {"key": "onclick", "value": "body.management.setUser.object.open();"}
-        ], "设置用户权限"));
-        this.#element.appendChild(Make.element('div', [
+            {"key": "onclick", "value": "Body.container.management.setUser.object.open();"}
+        ], "设置用户权限");
+        this.father.appendChild(this.element);
+        this.father.appendChild(Make.element('div', [
             {"key": "class", "value": "mdui-table-fluid"}
         ],  Make.element('table', [
                 {"key": "class", "value": "mdui-table"}
@@ -29,7 +28,7 @@ Body.container.management.judge = new class{
                 ]).outerHTML
             ).outerHTML
         ));
-        this.#element.appendChild(Make.element('div', [
+        this.father.appendChild(Make.element('div', [
             {"key": "id", "value": "judge-page"}
         ]));
         $('#judge-page').jqPaginator(Make.pageConfig(20, this.updateJudge));
@@ -101,4 +100,4 @@ Body.container.management.judge = new class{
             "id": id
         }, Backend.tips);
     }
-}(Body.container.management.element);
+}($('#management')[0]);

@@ -110,4 +110,4 @@ Body.servers = new class {
             backend.changeAPI($('#input-API')[0].value);
         };
     }
-}(Body.element);
+}(document.body);

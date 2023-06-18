@@ -4,12 +4,12 @@ Body.setting = new class {
     object;
     editor;
     constructor(fa){
-        this.#father = fa;
+        this.father = fa;
         this.build();
         this.bind();
     }
     build(){
-        this.#element = Make.dialog(
+        this.element = Make.dialog(
             "setting-dialog",
             "用户设置",
             Make.element('div', [
@@ -46,7 +46,7 @@ Body.setting = new class {
                 {"key": "class", "value": "mdui-textfield-label"}
             ], "主页Markdown").outerHTML
         + Make.element('div', [
-                {"key": "style", "value": editor_css}
+                {"key": "class", "value": "editor"}
             ],  Make.element('div', [
                     {"key": "id", "value": "setting-editor-container"},
                 ]).outerHTML
@@ -65,8 +65,8 @@ Body.setting = new class {
                 {"key": "mdui-dialog-confirm", "value": ""}
             ], "提交").outerHTML
         );
-        this.#father.appendChild(this.#element);
-        this.object = new mdui.Dialog(this.#element);
+        this.father.appendChild(this.element);
+        this.object = new mdui.Dialog(this.element);
     }
     bind(){
         this.editor = new MarkdownPalettes("#setting-editor-container");
@@ -84,4 +84,4 @@ Body.setting = new class {
             }, Backend.tips);
         };
     }
-}(Body.element);
+}(document.body);
