@@ -39,7 +39,6 @@
                     body.servers.object.open();
                     throw new Error('用户没有加入服务器，终止加载。');
                 }
-                // window.call();
                 windows.call("/generate_key", {}, //获取 token
                     (dat) => {
                         $('#luogu-verify-id-display')[0].innerText = dat.data.key;
