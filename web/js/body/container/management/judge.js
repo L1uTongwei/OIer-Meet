@@ -28,6 +28,7 @@ Body.container.management.judge = new class{
                 ]).outerHTML
             ).outerHTML
         ));
+        this.father.appendChild(Make.element('br'));
         this.father.appendChild(Make.element('div', [
             {"key": "id", "value": "judge-page"}
         ]));

@@ -21,8 +21,10 @@
                 "js/body/container/management/judge.js": {},
                 "js/body/container/management/setUser.js": {}
             },
+            "js/body/container/problem/problem.js": {
+                
+            },
             "js/body/container/userlist.js": {},
-            "js/body/container/practice/practice.js": {},
             "js/body/container/about.js": {},
             "js/body/container/hole.js": {},
             "js/body/container/homepage.js": {},
