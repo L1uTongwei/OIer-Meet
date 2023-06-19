@@ -8,7 +8,8 @@
         ],
         "captcha_required": true,
         "login_required": false,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/register": {
         "code": "LogIO.register(database, token, post);",
@@ -20,14 +21,16 @@
         ],
         "captcha_required": true,
         "login_required": false,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/logout": {
         "code": "LogIO.logout(database, token, post);",
         "post": [],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/get_user": {
         "code": "Users.getUser(database, token, post);",
@@ -36,7 +39,8 @@
         ],
         "captcha_required": false,
         "login_required": false,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/get_userlist": {
         "code": "Users.getUserList(database, token, post);",
@@ -45,7 +49,8 @@
         ],
         "captcha_required": false,
         "login_required": false,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/user_setting": {
         "code": "Users.userSetting(database, token, post);",
@@ -58,7 +63,8 @@
         ],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/ban_user": {
         "code": "Operator.banUser(database, token, post);",
@@ -67,7 +73,8 @@
         ],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": true
+        "operator_required": true,
+        "speak_required": false
     },
     "/get_judgelist": {
         "code": "Operator.getJudgeList(database, token, post);",
@@ -76,7 +83,8 @@
         ],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": true
+        "operator_required": true,
+        "speak_required": false
     },
     "/log": {
         "code": "Operator.log(database, token, post);",
@@ -87,7 +95,8 @@
         ],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": true
+        "operator_required": true,
+        "speak_required": false
     },
     "/delete_judge": {
         "code": "Operator.deleteJudge(database, token, post);",
@@ -96,14 +105,16 @@
         ],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": true
+        "operator_required": true,
+        "speak_required": false
     },
     "/set_user": {
         "code": "Operator.deleteJudge(database, token, post);",
         "post": [],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": true
+        "operator_required": true,
+        "speak_required": false
     },
     "/report": {
         "code": "Post.report(database, token, post);",
@@ -114,7 +125,8 @@
         ],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/search": {
         "code": "Users.search(database, token, post);",
@@ -124,7 +136,8 @@
         ],
         "captcha_required": false,
         "login_required": false,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/send_post": {
         "code": "Post.sendPost(database, token, post);",
@@ -134,7 +147,8 @@
         ],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": true
     },
     "/get_post": {
         "code": "Post.getPost(database, token, post);",
@@ -143,7 +157,8 @@
         ],
         "captcha_required": false,
         "login_required": false,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/get_postlist": {
         "code": "Post.getpostlist(database, token, post);",
@@ -152,7 +167,8 @@
         ],
         "captcha_required": false,
         "login_required": false,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/delete_post": {
         "code": "Post.deletePost(database, token, post);",
@@ -161,7 +177,8 @@
         ],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/reply_post": {
         "code": "Reply.replyPost(database, token, post);",
@@ -171,7 +188,8 @@
         ],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": true
     },
     "/get_replieslist": {
         "code": "Reply.getReplieslist(database, token, post);",
@@ -181,7 +199,8 @@
         ],
         "captcha_required": false,
         "login_required": false,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/delete_replies": {
         "code": "Reply.deleteReplies(database, token, post);",
@@ -190,7 +209,8 @@
         ],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/get_loglist": {
         "code": "Post.getLoglist(database, token, post);",
@@ -199,7 +219,8 @@
         ],
         "captcha_required": false,
         "login_required": false,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/reply_reply2": {
         "code": "Replyson.replyReply2(database, token, post);",
@@ -209,7 +230,8 @@
         ],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": true
     },
     "/delete_reply": {
         "code": "Replyson.deleteReply(database, token, post);",
@@ -218,7 +240,8 @@
         ],
         "captcha_required": false,
         "login_required": true,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/get_reply2list": {
         "code": "Replyson.getReply2list(database, token, post);",
@@ -228,27 +251,59 @@
         ],
         "captcha_required": false,
         "login_required": false,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/intro": {
         "code": "Connect.intro(database, token, post);",
         "post": [],
         "captcha_required": false,
         "login_required": false,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/generate_key": {
         "code": "Connect.generateKey(database, token, post);",
         "post": [],
         "captcha_required": false,
         "login_required": false,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
     },
     "/captcha": {
         "code": "Connect.captcha(database, token, post);",
         "post": [],
         "captcha_required": false,
         "login_required": false,
-        "operator_required": false
+        "operator_required": false,
+        "speak_required": false
+    },
+    "/get_acProblem": {
+        "code": "acProblem.getAcProblem(database, token, post);",
+        "post": [],
+        "captcha_required": false,
+        "login_required": false,
+        "operator_required": false,
+        "speak_required": false
+    },
+    "/set_acProblem": {
+        "code": "acProblem.setAcProblem(database, token, post);",
+        "post": [
+            "data"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": true,
+        "speak_required": false
+    },
+    "/calc_points": {
+        "code": "acProblem.calcPoints(database, token, post);",
+        "post": [
+            "data"
+        ],
+        "captcha_required": false,
+        "login_required": true,
+        "operator_required": false,
+        "speak_required": false
     }
 }

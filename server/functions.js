@@ -50,6 +50,13 @@ exports.isOperator = (database, token) => {
         }
     });
 }
+exports.isSpeak = (database, token) => {
+    return this.sessionRead(database, token).then((res) => {
+        if(res.length == 0 || !res.get("speak")){
+            return Promise.reject(this.show(400, "用户没有发言权限"));
+        }
+    });
+}
 exports.captchaCheck = (database, token, verify) => {
     return this.sessionRead(database, token).then((err, res) => {
         if(res.length == 0 || res.get("authcode").toLowerCase() != verify.toLowerCase()){

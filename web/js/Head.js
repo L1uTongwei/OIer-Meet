@@ -1,16 +1,13 @@
 class Head { //标签 <head>
     #moduleList = [ //需要加载的 JS 文件
-        "https://cdn.bootcdn.net/ajax/libs/markdown-it/13.0.1/markdown-it.js",
         "https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.js",
-        "markdown-palettes.js",
-        "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/katex.js",
-        "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/contrib/auto-render.js",
-        "jqPaginator.min.js"
+        "https://cdn.bootcdn.net/ajax/libs/editor-md/1.5.0/editormd.min.js",
+        "jqPaginator.min.js",
+        "https://cdn.bootcdn.net/ajax/libs/marked/4.3.0/marked.min.js"
     ];
     #styleList = [ //需要加载的 CSS 文件
-        "MarkdownPalettes.css",
-        "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/katex.css",
-        "css/index.css"
+        "css/index.css",
+        "css/editormd.min.css"
     ];
     #total = 0;
     #loaded = 0;
@@ -19,11 +16,11 @@ class Head { //标签 <head>
             var script = document.createElement('script');
             script.type = "text/javascript";
             script.src = url;
+            document.getElementById("load").innerText = "当前正在加载：" + url;
+            document.getElementById("load-progress").style = "width: " + this.#loaded / this.#total * 100 + "%";
             script.onload = () => {
                 this.#loaded++;
                 console.log("Loaded: " + url);
-                document.getElementById("load").innerText = "当前正在加载：" + url;
-                document.getElementById("load-progress").style = "width: " + this.#loaded / this.#total * 100 + "%";
                 resolve();
             };
             doc.appendChild(script);
@@ -34,10 +31,10 @@ class Head { //标签 <head>
             var style = document.createElement('link');
             style.rel = "stylesheet";
             style.href = url;
+            document.getElementById("load").innerText = "当前正在加载：" + url;
+            document.getElementById("load-progress").style = "width: " + this.#loaded / this.#total * 100 + "%";
             style.onload = () => {
                 console.log("Loaded: " + url);
-                document.getElementById("load").innerText = "当前正在加载：" + url;
-                document.getElementById("load-progress").style = "width: " + this.#loaded / this.#total * 100 + "%";
                 resolve();
             };
             doc.appendChild(style);

@@ -22,7 +22,8 @@
             },
             "js/body/container/management/management.js": {
                 "js/body/container/management/judge.js": {},
-                "js/body/container/management/setUser.js": {}
+                "js/body/container/management/setUser.js": {},
+                "js/body/container/management/acProblem.js": {}
             },
             "js/body/container/problem/problem.js": {
                 
@@ -31,7 +32,8 @@
             "js/body/container/about.js": {},
             "js/body/container/hole.js": {},
             "js/body/container/homepage.js": {},
-            "js/body/container/log.js": {}
+            "js/body/container/log.js": {},
+            "js/body/container/acProblem.js": {}
         }
     },
     "total": 25

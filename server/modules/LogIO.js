@@ -17,7 +17,9 @@ exports.login = (database, token, post) => {
         return sessionWrite(database, token, "uid", res[0]._id).then(() => {
             return sessionWrite(database, token, "logined", true).then(() => {
                 return sessionWrite(database, token, "operator", res[0].operator).then(() => {
-                    return show(200, {"msg": "操作成功", "uid": res[0]._id, "operator": res[0].operator});
+                    return sessionWrite(database, token, "speak", res[0].speak).then(() => {
+                        return show(200, {"msg": "操作成功", "uid": res[0]._id, "operator": res[0].operator, "speak": res[0].speak});
+                    });
                 });
             });
         });
@@ -53,6 +55,7 @@ exports.register = (database, token, post) => {
                     "tag": "",
                     "homepage": "",
                     "operator": false,
+                    "speak": false,
                     "banned": false,
                     "register_time": (new Date).toLocaleString(config.time.lang, { timeZone: config.time.timezone }),
                     "stamp": (new Date).getTime()
@@ -61,7 +64,9 @@ exports.register = (database, token, post) => {
                         return sessionWrite(database, token, "uid", res[0]._id).then(() => {
                             return sessionWrite(database, token, "logined", true).then(() => {
                                 return sessionWrite(database, token, "operator", false).then(() => {
-                                    resolve(show(200, {"msg": "操作成功", "uid": res[0]._id, "operator": false}));
+                                    return sessionWrite(database, token, "speak", false).then(() => {
+                                        resolve(show(200, {"msg": "操作成功", "uid": res[0]._id, "operator": false, "speak": false}));
+                                    });
                                 });
                             });
                         });

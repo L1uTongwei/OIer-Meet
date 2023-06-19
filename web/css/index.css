@@ -1,3 +1,14 @@
+head, body, div {
+    -ms-text-size-adjust: 100% !important;
+    -webkit-text-size-adjust: 100% !important;
+    color: #333 !important;
+    overflow: hidden !important;
+    font-family: "Microsoft YaHei",Helvetica,"Meiryo UI","Malgun Gothic","Segoe UI","Trebuchet MS",Monaco,monospace,Tahoma,STXihei,"华文细黑",STHeiti,"Helvetica Neue","Droid Sans","wenquanyi micro hei",FreeSans,Arimo,Arial,SimSun,"宋体",Heiti,"黑体",sans-serif;
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    word-wrap: break-word !important;
+}
+
 .page {
     margin-right: .5em;
     padding: 0;

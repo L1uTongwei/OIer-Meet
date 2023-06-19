@@ -22,9 +22,16 @@ Body.container = new class {
         this.log.bind();
         this.about.bind();
         if(window.localStorage.getItem("operator")){
+            this.management.acProblem.build();
+            this.management.acProblem.bind();
+            this.management.element.innerHTML += " ";
             this.management.judge.build();
             this.management.setUser.build();
             this.management.setUser.bind();
+        }
+        if(!window.localStorage.getItem('speak')){
+            this.acProblem.build();
+            this.acProblem.bind();
         }
     }
 }(document.body);

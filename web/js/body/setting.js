@@ -66,10 +66,17 @@ Body.setting = new class {
             ], "提交").outerHTML
         );
         this.father.appendChild(this.element);
+        $('#setting-dialog').on('opened.mdui.dialog', () => {
+            this.editor = editormd("setting-container", {
+                height: "500px",
+                width: "100%",
+                path: "lib/"
+            });
+            Body.setting.object.handleUpdate();
+        });
         this.object = new mdui.Dialog(this.element);
     }
     bind(){
-        this.editor = new MarkdownPalettes("#setting-editor-container");
         $('#mylogout')[0].onclick = () => {
             backend.call("/logout");
             backend.logout();

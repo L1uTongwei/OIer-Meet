@@ -37,7 +37,7 @@ Body.container.discuss.renderReply = (id, page) => { //渲染帖子
                             $("#editor-submit")[0].onclick = () => {
                                 window.backend.call("/reply_contents", {
                                     "father": id,
-                                    "message": window.body.editor.editor.content
+                                    "message": window.body.editor.value()
                                 }, Backend.tips);
                             };
                             window.body.editor.object.open();

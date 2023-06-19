@@ -180,10 +180,13 @@ Body.login_register = new class {
                 if (res.status == 200) {
                     window.localStorage.setItem("uid", res.data.uid);
                     window.localStorage.setItem("operator", res.data.operator);
+                    window.localStorage.setItem("speak", res.data.speak);
                     window.localStorage.setItem("time", (new Date).getTime());
+                    if(!window.localStorage.getItem("speak")){
+                        res.data.msg = "用户还没有发言权限，请前往“入站答题”处获取。";
+                    }
                 }
-                var msg = res.msg;
-                if (!msg) msg = res.data.msg;
+                var msg = res.data.msg;
                 mdui.snackbar({
                     message: msg,
                     timeout: 500,
