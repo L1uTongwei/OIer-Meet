@@ -14,6 +14,6 @@ Body.container.about = new class {
         this.father.appendChild(this.element);
     }
     bind() {
-        $("#about")[0].innerHTML = window.md.render(about);
+        window.md_render("about", about);
     }
 }(Body.container.element);

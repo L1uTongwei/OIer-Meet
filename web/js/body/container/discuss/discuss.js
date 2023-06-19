@@ -45,14 +45,14 @@ Body.container.discuss = new class {
         $('#new-post')[0].onclick = () => { //发帖
             $('#editor-submit')[0].onclick = () => {
                 var topic = $("#topic")[0].value;
-                var content = body.editor.editor.content;
+                var content = body.editor.value();
                 if (!content) content = "（未填写帖子内容）";
                 backend.call("/send_post", {
                     topic: topic,
                     message: content
                 }, Backend.tips);
             }
-            body.editor.object.open();
+            Body.editor.object.open();
         };
         $('#discuss-page').jqPaginator(Make.pageConfig(20, this.renderPost));
         console.log("Object Body.container.discuss has been built");

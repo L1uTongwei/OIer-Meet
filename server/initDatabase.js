@@ -46,11 +46,11 @@ MongoClient.connect(config.database.url).then((db) => {
                 database.collection("reports").createIndex({"type": 1, "bid": 1}, {unique: true}),
                 database.collection("reports").createIndex({"stamp": 1})
             ]);
-        }) //举报集合
+        }), //举报集合
+        database.createCollection("acProblem").finally(() => {
+            console.log("Processing: acProblem");
+        })
     ]);
-}).then(() => {
-    process.exit(0);
-}).catch((err) => {
-    console.error(err);
+}).finally(() => {
     process.exit(0);
 });

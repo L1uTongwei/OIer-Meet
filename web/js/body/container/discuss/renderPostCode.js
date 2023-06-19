@@ -40,7 +40,7 @@ Body.container.discuss.renderPostCode = (id, myid, msg, avatar, username, tag, s
                     $("#editor-submit")[0].onclick = () => {
                         window.backend.call('/reply_replies', {
                             "father": id,
-                            "message": window.body.editor.editor.content
+                            "message": window.body.editor.value()
                         }, Backend.tips);
                     };
                     window.body.editor.object.open();
@@ -64,10 +64,10 @@ Body.container.discuss.renderPostCode = (id, myid, msg, avatar, username, tag, s
                     $("#editor-submit")[0].onclick = () => {
                         window.backend.call('/reply_replies', {
                             "father": id,
-                            "message": window.body.editor.editor.content
+                            "message": window.body.editor.value()
                         }, Backend.tips);
                     };
-                    window.body.editor.editor.content = "回复 **@" + username + "**：";
+                    window.body.editor.value() = "回复 **@" + username + "**：";
                     window.body.editor.object.open();
                 }).toString() + ")('" + id + "', '" + username + "')"}
             ], "回复二层评论").outerHTML
@@ -96,7 +96,7 @@ Body.container.discuss.renderPostCode = (id, myid, msg, avatar, username, tag, s
         ).outerHTML
         + Make.element('div', [
             {"key": "class", "value": "mdui-card-content"}
-        ], window.md.render(msg) + extra3).outerHTML
+        ], window.md_render("none", msg).getMarkdown() + extra3).outerHTML
         + extra2
     );
 };

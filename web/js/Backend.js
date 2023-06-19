@@ -9,7 +9,8 @@ class Backend { //后端设置
             timeout: 500,
             onClosed: () => {
                 setTimeout(() => {
-                    build.refresh();
+                    if(msg == "用户没有发言权限") Body.toolbar.tab.object(1);
+                    build.refresh(true);
                 }, 500);
             }
         });
@@ -31,7 +32,7 @@ class Backend { //后端设置
             timeout: 500,
             onClosed: () => {
                 setTimeout(() => {
-                    location.reload();
+                    location.reload(true);
                 }, 500);
             }
         });

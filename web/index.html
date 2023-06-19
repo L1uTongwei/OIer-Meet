@@ -25,6 +25,7 @@
     <link href="https://cdn.bootcdn.net/ajax/libs/mdui/1.0.2/css/mdui.min.css" rel="stylesheet">
     <script src="https://cdn.bootcdn.net/ajax/libs/mdui/1.0.2/js/mdui.min.js"></script>
     <script src="js/Head.js" async> </script>
+    <div id="none" style="display: none;"></div>
     <div class="mdui-dialog" id="loading">
         <div class="mdui-dialog-title">正在加载中</div>
         <div class="mdui-dialog-content">
@@ -40,7 +41,7 @@
         window.addEventListener('popstate', function () {
             history.pushState(null, null, location.href); 
         });  
-        var loading = new mdui.Dialog(document.getElementById('loading'));
+        var loading = new mdui.Dialog(document.getElementById('loading'), {modal: true});
         loading.open();
         window.onload = () => {
             var md, head, body;
@@ -59,9 +60,9 @@
                     console.log("Start building...");
                     $("#load")[0].innerText = "正在生成页面";
                     document.getElementById("load-progress").style = "width: 100%";
-                    window.md = new window.markdownit({
-                        html: true
-                    }); //初始化 md
+                    window.md_render = (id, markdown) => {
+                        $("#" + id)[0].innerHTML = marked.parse(markdown);
+                    };
                     backend = window.backend = new Backend;
                     body = window.body = new Body;
                     if(!window.localStorage.getItem('operator')){
@@ -131,12 +132,13 @@
                     });
                     mdui.mutation();
                     loading.close();
+                    Body.toolbar.tab.object.show(0);
                     console.log("This app was loaded.");
                 }
-                refresh(){
+                refresh(must = false){
                     console.log("Start refreshing...");
-                    if(this.lastRefresh - (new Date).getTime() < 60 * 1000){
-                        mdui.snackbar({message: "请间隔 1 分钟刷新！（还剩 " + Math.floor(60 - ((new Date).getTime() - this.lastRefresh) / 1000) +" 秒）"});
+                    if(!must && (new Date).getTime() - this.lastRefresh < 60 * 1000){
+                        mdui.snackbar({msg: "请间隔 1 分钟刷新！（还剩 " + Math.floor(60 - ((new Date).getTime() - this.lastRefresh) / 1000) +" 秒）"});
                         console.log("Time too short!");
                         return;
                     }
@@ -146,6 +148,9 @@
                     Body.container.log.updateLog(1);
                     if(window.localStorage.getItem('operator')){
                         Body.container.management.judge.updateJudge(1);
+                    }
+                    if(window.localStorage.getItem('speak')){
+                        this.acProblem.bind();
                     }
                     mdui.mutation();
                     mdui.snackbar({message: "刷新成功"});

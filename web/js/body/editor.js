@@ -12,13 +12,9 @@ Body.editor = new class {
         this.element = Make.dialog(
             "editor-dialog",
             "编辑",
-            Make.element('div', [{
-                "key": "style", "value": "height: 500px;"
-            }], Make.element('div', [
-                    {"key": "style", "value": "height: 500px;"},
-                    {"key": "id", "value": "editor-container"}
-                ]).outerHTML
-            ).outerHTML,
+            Make.element('div', [
+                {"key": "id", "value": "editor-container"}
+            ]).outerHTML,
             Make.element('button', [
                 {"key": "class", "value": "mdui-btn mdui-ripple"},
                 {"key": "mdui-dialog-cancel", "value": ""}
@@ -30,7 +26,17 @@ Body.editor = new class {
             ], '提交').outerHTML
         );
         this.father.appendChild(this.element);
+        $('#editor-dialog').on('opened.mdui.dialog', () => {
+            this.editor = editormd("editor-container", {
+                height: "500px",
+                width: "100%",
+                path: "lib/"
+            });
+            Body.editor.object.handleUpdate();
+        });
         this.object = new mdui.Dialog(this.element);
-        this.editor = new MarkdownPalettes("#editor-container");
     };
+    value(){
+        return this.editor.getMarkdown();
+    }
 }(document.body);
