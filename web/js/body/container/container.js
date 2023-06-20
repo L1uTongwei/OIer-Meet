@@ -29,7 +29,7 @@ Body.container = new class {
             this.management.setUser.build();
             this.management.setUser.bind();
         }
-        if(!window.localStorage.getItem('speak')){
+        if(window.localStorage.getItem('speak') === false){
             this.acProblem.build();
             this.acProblem.bind();
         }

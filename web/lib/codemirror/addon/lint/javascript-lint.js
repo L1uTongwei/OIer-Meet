@@ -126,7 +126,7 @@
         error = cleanup(error);
 
         if (error)
-          output.push({message: error.description,
+          output.push({msg: error.description,
                        severity: error.severity,
                        from: CodeMirror.Pos(error.line - 1, start),
                        to: CodeMirror.Pos(error.line - 1, end)});

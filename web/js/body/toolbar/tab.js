@@ -13,7 +13,7 @@ Body.toolbar.tab = new class {
             {"key": "style", "value": "opacity: 0.9"},
             {"key": "mdui-tab", "value": ""}
         ], Make.tabButton("#homepage", "home", "首页").outerHTML
-          + (!window.localStorage.getItem('speak') ? Make.tabButton('#accessProblem', "access_time", "入站答题").outerHTML : "")
+          + (window.localStorage.getItem('speak') === false ? Make.tabButton('#accessProblem', "access_time", "入站答题").outerHTML : "")
           + Make.tabButton("#userlist", "list", "用户列表").outerHTML
           + Make.tabButton("#problem", "book", "题库").outerHTML
           + Make.tabButton("#discuss", "forum", "社区").outerHTML
