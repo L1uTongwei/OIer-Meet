@@ -91,7 +91,7 @@ Body.container.acProblem = new class{
                                 }
                             }
                             if(!ans){
-                                mdui.snackbar({msg: "请填写所有问题！"});
+                                mdui.snackbar({message: "请填写所有问题！"});
                                 return;
                             }
                         break;
@@ -105,7 +105,7 @@ Body.container.acProblem = new class{
                                 }
                             }
                             if(!ans.length){
-                                mdui.snackbar({msg: "请填写所有问题！"});
+                                mdui.snackbar({message: "请填写所有问题！"});
                                 return;
                             }
                         break;

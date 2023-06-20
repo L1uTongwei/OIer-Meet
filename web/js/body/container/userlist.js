@@ -96,7 +96,7 @@ Body.container.userlist = new class {
             for(var i = 0; i < res.data.length; i++){
                 if(!res.data[i].province) res.data[i].province = "";
                 if(!res.data[i].school) res.data[i].school = "";
-                if(!res.data[i].avatar) res.data[i].avatar = "https://gitsr.cn/oier-meet/omweb/raw/branch/master/avatar.png";
+                if(!res.data[i].avatar) res.data[i].avatar = "/avatar.png";
                 $('#userlist_body')[0].appendChild(((data) => {
                     return Make.element('tr', [],
                         Make.element('td', [], data._id).outerHTML

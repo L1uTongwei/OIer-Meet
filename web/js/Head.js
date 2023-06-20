@@ -16,7 +16,7 @@ class Head { //标签 <head>
             var script = document.createElement('script');
             script.type = "text/javascript";
             script.src = url;
-            document.getElementById("load").innerText = "当前正在加载：" + url;
+            document.getElementById("load").innerText = "当前已加载：" + url;
             document.getElementById("load-progress").style = "width: " + this.#loaded / this.#total * 100 + "%";
             script.onload = () => {
                 this.#loaded++;
@@ -31,7 +31,7 @@ class Head { //标签 <head>
             var style = document.createElement('link');
             style.rel = "stylesheet";
             style.href = url;
-            document.getElementById("load").innerText = "当前正在加载：" + url;
+            document.getElementById("load").innerText = "当前已加载：" + url;
             document.getElementById("load-progress").style = "width: " + this.#loaded / this.#total * 100 + "%";
             style.onload = () => {
                 console.log("Loaded: " + url);

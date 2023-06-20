@@ -51,7 +51,7 @@ class Make { //构造器
     }
     static name(uid, username, avatar, tag) { //渲染名字
         var Name = this.element('div');
-        if (!avatar) avatar = "https://gitsr.cn/oier-meet/omweb/raw/branch/master/avatar.png";
+        if (!avatar) avatar = "/avatar.png";
         Name.appendChild(this.element('img', [
             { "key": "src", "value": avatar },
             { "key": "alt", "value": "" },
