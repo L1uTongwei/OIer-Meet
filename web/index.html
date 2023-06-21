@@ -138,7 +138,7 @@
                 refresh(must = false){
                     console.log("Start refreshing...");
                     if(!must && (new Date).getTime() - this.lastRefresh < 60 * 1000){
-                        mdui.snackbar({msg: "请间隔 1 分钟刷新！（还剩 " + Math.floor(60 - ((new Date).getTime() - this.lastRefresh) / 1000) +" 秒）"});
+                        mdui.snackbar({message: "请间隔 1 分钟刷新！（还剩 " + Math.floor(60 - ((new Date).getTime() - this.lastRefresh) / 1000) +" 秒）"});
                         console.log("Time too short!");
                         return;
                     }
@@ -149,11 +149,11 @@
                     if(window.localStorage.getItem('operator')){
                         Body.container.management.judge.updateJudge(1);
                     }
-                    if(window.localStorage.getItem('speak')){
-                        this.acProblem.bind();
+                    if(window.localStorage.getItem('speak') === false){
+                        Body.container.acProblem.bind();
                     }
                     mdui.mutation();
-                    mdui.snackbar({msg: "刷新成功"});
+                    mdui.snackbar({message: "刷新成功"});
                     console.log("This app was refreshed.");
                 }
             };
