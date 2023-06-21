@@ -11,12 +11,12 @@ exports.handler = (database, request, response) => {
     request.on("error", (err) => { //底层错误处理 - 请求出错
         console.error(err);
         response.statusCode = 500;
-        response.end("应用程序内部错误：请检查请求是否正常");
+        response.end("{msg: \"应用程序内部错误：请检查请求是否正常\"}");
     });
     response.on("error", (err) => { //底层错误处理 - 响应出错
         console.error(err);
         response.statusCode = 500;
-        response.end("应用程序内部错误：请检查请求是否正常");
+        response.end("{msg: \"应用程序内部错误：请检查请求是否正常\"}");
     });
     request.on("data", (chunk) => {
         body += chunk;
@@ -28,7 +28,7 @@ exports.handler = (database, request, response) => {
         }).catch((err) => { //终极错误处理 - 用来捕获未捕获的异常
             console.error(err);
             response.statusCode = 500;
-            response.end("应用程序内部错误：请检查请求是否正常");
+            response.end("{msg: \"应用程序内部错误：请检查请求是否正常\"}");
         });
     });
 };
