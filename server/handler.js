@@ -1,5 +1,8 @@
 const url = require('url');
 const { route } = require('./route');
+const { config } = require("./readConfig");
+const { readFileSync} = require('fs');
+const crypto = require ("crypto");
 var querystring = require('querystring');
 
 exports.handler = (database, request, response) => {
@@ -21,8 +24,16 @@ exports.handler = (database, request, response) => {
     request.on("data", (chunk) => {
         body += chunk;
     }).on('end', () => {
+        if(config.encrypt){
+            const privatekey = readFileSync(config.privatekey);
+            crypto.publicDecrypt(privatekey, body);
+        }
         post = querystring.parse(body);
         route(database, path, token, post).then((result) => {
+            if(config.encrypt){
+                const publickey = readFileSync(config.publickey);
+                result = crypto.publicEncrypt(publickey, Buffer.from(result));
+            }
             response.write(result);
             response.end();
         }).catch((err) => { //终极错误处理 - 用来捕获未捕获的异常
