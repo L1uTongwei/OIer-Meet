@@ -3,11 +3,14 @@ class Head { //标签 <head>
         "https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.js",
         "https://cdn.bootcdn.net/ajax/libs/editor-md/1.5.0/editormd.min.js",
         "jqPaginator.min.js",
-        "https://cdn.bootcdn.net/ajax/libs/marked/4.3.0/marked.min.js"
+        "https://cdn.bootcdn.net/ajax/libs/marked/4.3.0/marked.min.js",
+        "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/katex.min.js",
+        "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/contrib/auto-render.min.js"
     ];
     #styleList = [ //需要加载的 CSS 文件
         "css/index.css",
-        "css/editormd.min.css"
+        "css/editormd.min.css",
+        "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.6/katex.min.css"
     ];
     #total = 0;
     #loaded = 0;

@@ -85,7 +85,7 @@ exports.getPostlist = (database, token, post) => {
 exports.getLoglist = (database, token, post) => {
     var page = post.page;
     var start = (page - 1) * config.length.post_length;
-    return database.collection("operator_logs").find({}).limit(config.length.post_length).skip(start).sort({"stamp": 1}).toArray().then((res) => {
+    return database.collection("operator_logs").find({}).limit(config.length.post_length).skip(start).sort({"stamp": -1}).toArray().then((res) => {
         return show(200, res);
     });
 };

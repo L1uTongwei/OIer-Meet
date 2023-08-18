@@ -21,8 +21,7 @@ Body.container.log = new class {
                 {"key": "class", "value": "mdui-table"}
             ],  Make.element('thead', [],
                 Make.element('tr', [],
-                    Make.element('th', [], "操作者").outerHTML
-                    + Make.element('th', [], "操作类型").outerHTML
+                    Make.element('th', [], "操作类型").outerHTML
                     + Make.element('th', [], "操作详情").outerHTML
                     + Make.element('th', [], "备注").outerHTML
                     ).outerHTML
@@ -40,11 +39,11 @@ Body.container.log = new class {
         console.log("Object Body.container.log has been built");
     }
     updateLog(page = 1) {
+        $('#log_body')[0].innerHTML = "";
         backend.call("/get_loglist", {page: page}, (res) => {
             for(var i = 0; i < res.data.length; i++){
                 var line = Make.element('tr', [],
-                    Make.element('td', [], res.data[i].operator).outerHTML
-                  + Make.element('td', [], res.data[i].type).outerHTML
+                  Make.element('td', [], res.data[i].type).outerHTML
                   + Make.element('td', [], res.data[i].content).outerHTML
                   + Make.element('td', [], res.data[i].note).outerHTML
                 );

@@ -21,6 +21,7 @@ exports.getJudgeList = (database, token, post) => {
 
 exports.log = (database, token, post) => {
     return database.collection("operator_logs").insertOne({
+        "judger": post.judger,
         "type": post.type,
         "content": post.content,
         "note": post.note,
@@ -38,10 +39,9 @@ exports.deleteJudge = (database, token, post) => {
 
 exports.setUser = (database, token, post) => {
     var Promises = new Array();
-    var user = post.username;
-    if(post.ban) Promises.push(database.collection("users").updateOne({"username": user}, {$set: {"banned": true}}));
-    if(config.operator.super && post.operator) Promises.push(database.collection("users").updateOne({"username": user}, {$set: {"operator": true}}));
-    if(post.tag) Promises.push(database.collection("users").updateOne({"username": user}, {$set: {"tag": post.tag}}));
+    if(post.ban) Promises.push(database.collection("users").updateOne({"username": post.username}, {$set: {"banned": true}}));
+    if(config.operator.super && post.operator) Promises.push(database.collection("users").updateOne({"username": post.username}, {$set: {"operator": true}}));
+    if(post.tag) Promises.push(database.collection("users").updateOne({"username": post.username}, {$set: {"tag": post.tag}}));
     return Promise.all(Promises).then(() => {
         return show(200, {"msg": "操作成功"});
     });

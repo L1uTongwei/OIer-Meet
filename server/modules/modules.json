@@ -89,6 +89,7 @@
     "/log": {
         "code": "Operator.log(database, token, post);",
         "post": [
+            "judger",
             "type",
             "content",
             "note"
@@ -109,7 +110,7 @@
         "speak_required": false
     },
     "/set_user": {
-        "code": "Operator.deleteJudge(database, token, post);",
+        "code": "Operator.setUser(database, token, post);",
         "post": [],
         "captcha_required": false,
         "login_required": true,

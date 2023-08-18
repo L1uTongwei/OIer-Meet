@@ -137,9 +137,8 @@
                 }
                 refresh(must = false){
                     console.log("Start refreshing...");
-                    if(!must && (new Date).getTime() - this.lastRefresh < 60 * 1000){
-                        mdui.snackbar({message: "请间隔 1 分钟刷新！（还剩 " + Math.floor(60 - ((new Date).getTime() - this.lastRefresh) / 1000) +" 秒）"});
-                        console.log("Time too short!");
+                    if(!must && (new Date).getTime() - this.lastRefresh < 30 * 1000){
+                        mdui.snackbar({message: "请间隔 30 秒刷新！（还剩 " + Math.floor(30 - ((new Date).getTime() - this.lastRefresh) / 1000) +" 秒）"});
                         return;
                     }
                     this.lastRefresh = (new Date).getTime();

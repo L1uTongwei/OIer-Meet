@@ -97,13 +97,14 @@ Body.container.management.setUser = new class {
         };
         $('#SetUser-submit')[0].onclick = () => {
             var args = new Object();
+            args.judger = window.localStorage.getItem("uid");
             args.username = $('#SetUser-username')[0].value;
             if(!$('#ban-check')[0].indeterminate) args.ban = $('#ban-check')[0].checked;
             if(!$('#operator-check')[0].indeterminate) args.operator = $('#operator-check')[0].checked;
-            if($('#tag-check').checked) args.tag = $('#SetUser-tag')[0].value;
-            backend.call('/set_user', args, (res) => {
+            if($('#tag-check')[0].checked) args.tag = $('#SetUser-tag')[0].value;
+            backend.call('/set_user', args, ((args) => { return ((res) => {
                 var note = $('#SetUser-note')[0].value;
-                $('#note')[0].value = "";
+                $('#SetUser-note')[0].value = "";
                 Backend.tips(res);
                 if(res.status == 200){
                     if(!$('#ban-check')[0].indeterminate){
@@ -144,7 +145,7 @@ Body.container.management.setUser = new class {
                         });
                     }
                 }
-            });
+            });})(args));
         };
     }
 };

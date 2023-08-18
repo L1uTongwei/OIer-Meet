@@ -58,7 +58,7 @@ class Make { //构造器
             { "key": "class", "value": "avatar" }
         ]));
         Name.appendChild(this.element('a', [
-            { "key": "href", "value": "javascript:body.home.draw('" + uid + "'); body.home.object.open();" }
+            { "key": "href", "value": "javascript:Body.home.draw('" + uid + "'); Body.home.object.open();" }
         ], username));
         if (tag) Name.appendChild(this.element('span', [
             { "key": "style", "value": tag }
